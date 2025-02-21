@@ -1,0 +1,10 @@
+title: service-example
+executor:
+  name: nodejs
+  entry: ./index.ts
+  function: default
+blocks:
+  - name: app
+    outputs_def:
+      - handle: one
+        type: number

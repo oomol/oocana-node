@@ -1,0 +1,37 @@
+{
+  "packages": {
+    "packages/executor": {
+      "component": "@oomol/executor"
+    },
+    "packages/oocana": {
+      "component": "@oomol/oocana"
+    },
+    "packages/oocana-sdk": {
+      "component": "@oomol/oocana-sdk"
+    },
+    "packages/oocana-types": {
+      "component": "@oomol/oocana-types"
+    }
+  },
+  "changelog-sections": [
+    { "type": "feat", "section": "Features" },
+    { "type": "feature", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "perf", "section": "Performance Improvements" },
+    { "type": "revert", "section": "Reverts" },
+    { "type": "refactor", "section": "Code Refactoring" },
+    { "type": "deps", "section": "Update dependencies" }
+  ],
+  "bump-minor-pre-major": true,
+  "bump-patch-for-minor-pre-major": true,
+  "draft": false,
+  "prerelease": false,
+  "release-type": "node",
+  "plugins": [
+    {
+      "type": "node-workspace",
+      "updatePeerDependencies": true
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
+}

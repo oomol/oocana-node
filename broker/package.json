@@ -1,0 +1,28 @@
+{
+  "name": "@oomol/broker",
+  "version": "0.1.0",
+  "private": true,
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "description": "Start a MQTT broker",
+  "license": "MIT",
+  "repository": "oomol/oocana-node",
+  "sideEffects": false,
+  "type": "module",
+  "module": "./src/main.mjs",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "start": "node src/main.mjs",
+    "lint": "eslint --ext .ts,.tsx . && prettier --check ."
+  },
+  "dependencies": {
+    "aedes": "^0.50.0",
+    "winston": "^3.13.1"
+  },
+  "devDependencies": {
+    "minimist": "^1.2.7"
+  }
+}

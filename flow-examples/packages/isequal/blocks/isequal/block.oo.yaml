@@ -1,0 +1,8 @@
+type: task_block
+executor:
+  name: nodejs
+  options:
+    entry: "main.ts"
+    function: main
+inputs_def:
+  - handle: one

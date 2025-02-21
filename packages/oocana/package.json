@@ -1,0 +1,45 @@
+{
+  "name": "@oomol/oocana",
+  "version": "0.21.23",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "description": "Oocana Node binding",
+  "license": "MIT",
+  "repository": "oomol/oocana-node",
+  "sideEffects": false,
+  "main": "./dist/main.js",
+  "module": "./dist/main.mjs",
+  "types": "./dist/main.d.ts",
+  "files": [
+    "src",
+    "scripts",
+    "dist"
+  ],
+  "scripts": {
+    "prepublishOnly": "pnpm run build",
+    "install": "node scripts/install.js",
+    "ts-check": "tsc --noEmit",
+    "build-dts": "dts src/main.ts",
+    "lint": "eslint --ext .ts,.tsx . && prettier --check .",
+    "types": "cross-env NODE_ENV=production tsc --declaration --emitDeclarationOnly --jsx react --esModuleInterop --outDir dist",
+    "build": "cross-env NODE_ENV=production tsup-node src/main.ts && npm run build-dts",
+    "build:min": "cross-env NODE_ENV=production tsup-node src/main.ts && npm run build-dts",
+    "build:dev": "cross-env NODE_ENV=development tsup-node src/main.ts && npm run build-dts"
+  },
+  "optionalDependencies": {
+    "@oomol/oocana-cli-aarch64-apple-darwin": "0.22.4",
+    "@oomol/oocana-cli-aarch64-unknown-linux-gnu": "0.22.4",
+    "@oomol/oocana-cli-x86_64-apple-darwin": "0.22.4",
+    "@oomol/oocana-cli-x86_64-unknown-linux-gnu": "0.22.4"
+  },
+  "dependencies": {
+    "@wopjs/disposable": "^0.1.11",
+    "mqtt": "^5.7.0",
+    "remitter": "^0.4.6"
+  },
+  "devDependencies": {
+    "@oomol/oocana-types": "workspace:*",
+    "tslib": "^2.6.2"
+  }
+}

@@ -1,0 +1,9 @@
+dist/*
+coverage/*
+docs/*
+examples/**/*/dist/
+packages/*/dist/
+packages/*/coverage/
+CHANGELOG.md
+pnpm-lock.yaml
+*.json5

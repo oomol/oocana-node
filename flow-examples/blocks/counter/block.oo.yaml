@@ -1,0 +1,15 @@
+type: task_block
+executor:
+  name: nodejs
+  options:
+    entry: "src/main.js"
+    function: main
+inputs_def:
+  - handle: default_count
+    optional: true
+    cache:
+      initiate_value: 0
+  - handle: count
+    optional: true
+outputs_def:
+  - handle: output-1

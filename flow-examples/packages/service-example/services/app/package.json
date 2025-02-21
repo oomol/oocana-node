@@ -1,0 +1,11 @@
+{
+  "name": "app",
+  "version": "0.0.1",
+  "private": true,
+  "description": "A Demo",
+  "license": "MIT",
+  "sideEffects": false,
+  "dependencies": {
+    "@oomol/oocana-types": "workspace:*"
+  }
+}

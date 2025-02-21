@@ -1,0 +1,5 @@
+title: Sharp
+version: 0.0.1
+icon: ./asset/sharp.png
+scripts:
+  bootstrap: pnpm i lodash.merge

@@ -1,0 +1,32 @@
+nodes:
+  - task:
+      ui:
+        default_width: 530
+      icon: ":skill-icons:typescript:"
+      inputs_def:
+        - handle: in
+          ignoreNull: true
+          value: input value
+          description: Input
+          json_schema:
+            type: string
+      outputs_def:
+        - handle: out
+          description: Output
+          json_schema:
+            type: string
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+typescript#1.ts
+    node_injection:
+      package: "sharp"
+      script: pnpm install lodash.isplainobject
+    extend_package: "sharp"
+    title: "TypeScript #1"
+    node_id: +typescript#1
+    inputs_from:
+      - handle: in
+        value: input value
+injection:
+  sharp: pnpm install lodash.isequal

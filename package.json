@@ -1,0 +1,30 @@
+{
+  "name": "@oomol/oocana-node",
+  "private": true,
+  "description": "everything about oocana on nodejs",
+  "license": "MIT",
+  "scripts": {
+    "broker": "pnpm -F @oomol/broker run start",
+    "test": "pnpm -F @oomol/node-executor run test && pnpm -F @oomol/oocana-test run test",
+    "build": "pnpm -r build",
+    "executor": "pnpm -F @oomol/node-executor run start",
+    "lint": "eslint --ext .ts,.tsx,.js,.mjs,.json,.json5 . && prettier --check . && cspell --no-progress --show-context --dot --show-suggestions '**/*.{md,ts,tsx,cjs,mjs,js,vue,svelte,scss,css,less,json,yml,yaml,toml,html,sh,go,rs}' && pnpm ts-check",
+    "ts-check": "pnpm -r ts-check"
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.2",
+    "@types/node": ">=20",
+    "@typescript-eslint/eslint-plugin": "^7.9.0",
+    "@typescript-eslint/parser": "^7.9.0",
+    "cross-env": "^7.0.3",
+    "cspell": "^6.30.2",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "^2.4.0",
+    "release-please": "16.10.0",
+    "tsup": "^8.1.0",
+    "typescript": "^5.4.5",
+    "@hyrious/dts": "^0.3.0"
+  },
+  "packageManager": "pnpm@9.12.3"
+}

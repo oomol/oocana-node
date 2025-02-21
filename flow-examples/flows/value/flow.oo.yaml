@@ -1,0 +1,16 @@
+nodes:
+  - task:
+      inputs_def:
+        - handle: in
+          value: aaaaaaa
+          nullable: true
+      outputs_def:
+        - handle: out
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+typescript#1.ts
+    node_id: node-1
+    inputs_from:
+      - handle: in
+        value:

@@ -1,0 +1,36 @@
+{
+  "name": "@oomol/oocana-sdk",
+  "version": "0.18.30",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "description": "a implementation of oocana sdk for node.js",
+  "license": "MIT",
+  "repository": "oomol/oocana-node",
+  "sideEffects": false,
+  "main": "./dist/main.js",
+  "module": "./dist/main.mjs",
+  "types": "./dist/main.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "prepublishOnly": "pnpm run build",
+    "lint": "eslint --ext .ts,.tsx . && prettier --check .",
+    "ts-check": "tsc --noEmit",
+    "types": "cross-env NODE_ENV=production tsc --declaration --emitDeclarationOnly --jsx react --esModuleInterop --outDir dist",
+    "build-dts": "dts src/main.ts",
+    "build": "cross-env NODE_ENV=production tsup src/main.ts && npm run build-dts",
+    "build:min": "cross-env NODE_ENV=production tsup src/main.ts && npm run build-dts",
+    "build:dev": "cross-env NODE_ENV=development tsup src/main.ts && npm run build-dts"
+  },
+  "dependencies": {
+    "mqtt": "^5.7.0"
+  },
+  "devDependencies": {
+    "lodash.throttle": "^4.1.1",
+    "@oomol/oocana-types": "workspace:*",
+    "@types/lodash.throttle": "^4.1.9"
+  }
+}

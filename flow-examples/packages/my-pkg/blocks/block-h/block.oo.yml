@@ -1,0 +1,9 @@
+executor:
+  name: nodejs
+  options:
+    entry: "index.js"
+inputs_def:
+  - handle: count
+    value: 0
+outputs_def:
+  - handle: count

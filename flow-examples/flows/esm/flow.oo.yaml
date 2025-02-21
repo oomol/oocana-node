@@ -1,0 +1,47 @@
+nodes:
+  - task:
+      ui:
+        default_width: 450
+      inputs_def:
+        - handle: in
+          value: input value
+          description: Input
+          json_schema:
+            type: string
+      outputs_def:
+        - handle: out
+          description: Output
+          json_schema:
+            contentMediaType: oomol/var
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+javascript#1.js
+    title: esm
+    node_id: esm
+    inputs_from:
+      - handle: in
+        value: input value
+  - task:
+      ui:
+        default_width: 450
+      inputs_def:
+        - handle: in
+          value: input value
+          description: Input
+          json_schema:
+            type: string
+      outputs_def:
+        - handle: out
+          description: Output
+          json_schema:
+            contentMediaType: oomol/var
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+javascript#2.js
+    title: commonjs
+    node_id: commonjs
+    inputs_from:
+      - handle: in
+        value: input value

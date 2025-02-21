@@ -1,0 +1,27 @@
+nodes:
+  - node_id: a
+    task: my-pkg::block-a
+    inputs_from:
+      - handle: in-a
+        value: "aaa"
+  - node_id: b
+    task: my-pkg::block-b
+    inputs_from:
+      - handle: in-b
+        from_node:
+          - node_id: a
+            output_handle: output-a-1
+  - node_id: c
+    task: my-pkg::block-b
+    inputs_from:
+      - handle: in-b
+        from_node:
+          - node_id: a
+            output_handle: output-a-2
+  - node_id: d
+    task: my-pkg::block-b
+    inputs_from:
+      - handle: in-b
+        from_node:
+          - node_id: a
+            output_handle: output-a-3

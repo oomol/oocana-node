@@ -1,0 +1,10 @@
+type: task_block
+executor:
+  name: nodejs
+  options:
+    entry: "main.ts"
+    function: main
+inputs_def:
+  - handle: in-b
+outputs_def:
+  - handle: output-b-1

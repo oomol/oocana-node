@@ -1,0 +1,28 @@
+nodes:
+  - task:
+      inputs_def:
+        - handle: in
+      outputs_def:
+        - handle: out
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+typescript#1.ts
+    node_id: node-1
+    inputs_from:
+      - handle: in
+        value: aaaaaaa
+  - task: merge::merge
+    node_id: node-3
+    inputs_from:
+      - handle: one
+        from_node:
+          - node_id: node-1
+            output_handle: out
+  - task: isequal::isequal
+    node_id: node-2
+    inputs_from:
+      - handle: one
+        from_node:
+          - node_id: node-1
+            output_handle: out

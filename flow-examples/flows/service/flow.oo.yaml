@@ -1,0 +1,6 @@
+nodes:
+  - node_id: a
+    service: service-example::app::app
+    inputs_from:
+      - handle: in-a
+        value: "aaa"

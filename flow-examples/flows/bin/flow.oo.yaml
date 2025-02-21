@@ -1,0 +1,52 @@
+nodes:
+  - task:
+      ui:
+        default_width: 450
+      inputs_def:
+        - handle: in
+          ignoreNull: true
+          value: input value
+          description: Input
+          json_schema:
+            type: string
+      outputs_def:
+        - handle: out
+          description: Output
+          json_schema:
+            contentMediaType: oomol/bin
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+typescript#1.ts
+    title: "TypeScript #1"
+    icon: ":skill-icons:typescript:"
+    node_id: +typescript#1
+    inputs_from:
+      - handle: in
+        value: aaaa
+  - task:
+      ui:
+        default_width: 450
+      inputs_def:
+        - handle: a
+          description: Input
+          json_schema:
+            contentMediaType: oomol/bin
+          value: input value
+      outputs_def:
+        - handle: out
+          description: Output
+          json_schema:
+            type: string
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+typescript#2.ts
+    title: "TypeScript #2"
+    icon: ":skill-icons:typescript:"
+    node_id: +typescript#2
+    inputs_from:
+      - handle: a
+        from_node:
+          - node_id: +typescript#1
+            output_handle: out

@@ -1,0 +1,36 @@
+{
+  "name": "@oomol/node-executor",
+  "version": "0.19.50",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "description": "a client subscribe mqtt topic to executor oocana's block",
+  "license": "MIT",
+  "repository": "oomol/oocana-node",
+  "sideEffects": true,
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "nodejs-executor": "./dist/bin.js"
+  },
+  "scripts": {
+    "prepublishOnly": "pnpm run build",
+    "lint": "eslint --ext .ts,.tsx . && prettier --check .",
+    "ts-check": "tsc --noEmit",
+    "build": "cross-env NODE_ENV=production tsup && cp nodejs-executor ./dist",
+    "start": "node dist/bin.js --address 127.0.0.1:47688",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@oomol/oocana-sdk": "workspace:*",
+    "@oomol/oocana-types": "workspace:*",
+    "vitest": "^2.0.5"
+  },
+  "dependencies": {
+    "winston": "^3.13.1",
+    "@hyrious/esbuild-dev": "^0.10.10",
+    "minimist": "^1.2.7",
+    "remitter": "^0.4.6"
+  }
+}

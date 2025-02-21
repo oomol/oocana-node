@@ -1,0 +1,90 @@
+{
+  "name": "oocana-runtime",
+  "image": "mcr.microsoft.com/devcontainers/base:noble",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "nodeGypDependencies": true,
+      "installYarnUsingApt": false,
+      "version": "lts",
+      "pnpmVersion": "latest",
+      "nvmVersion": "latest"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/sshd:1": {},
+    "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {},
+    "./ovmlayer": {}
+  },
+  "mounts": [
+    {
+      "source": "${localEnv:HOME}/oomol/ovmlayer",
+      "target": "/workspaces/ovmlayer",
+      "type": "bind"
+    },
+    {
+      "source": "${localEnv:HOME}/oomol/layer_blocker",
+      "target": "/workspaces/layer",
+      "type": "bind"
+    },
+    {
+      "source": "devcontainer-ssh",
+      "target": "/root/.ssh",
+      "type": "volume"
+    },
+    {
+      "source": "devcontainer-npm-cache",
+      "target": "/root/.pnpm-store",
+      "type": "volume"
+    },
+    {
+      "source": "${localEnv:HOME}/.oh-my-zsh",
+      "target": "/root/.oh-my-zsh",
+      "type": "bind"
+    },
+    {
+      "source": "${localEnv:HOME}/.zshrc",
+      "target": "/root/.zshrc",
+      "type": "bind"
+    },
+    {
+      "source": "${localEnv:HOME}/.npmrc",
+      "target": "/root/.npmrc",
+      "type": "bind"
+    },
+    {
+      "source": "${localEnv:HOME}/.config/gh/hosts.yml",
+      "target": "/root/.config/gh/hosts.yml",
+      "type": "bind"
+    }
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": { "path": "/bin/zsh" }
+        }
+      },
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "streetsidesoftware.code-spell-checker"
+      ]
+    }
+  },
+  "runArgs": [
+    "--privileged",
+    "--device=/dev/loop0",
+    "--device=/dev/loop1",
+    "--device=/dev/loop2",
+    "--device=/dev/loop3",
+    "--device=/dev/loop4",
+    "--device=/dev/loop5",
+    "--device=/dev/loop6",
+    "--device=/dev/loop-control"
+  ],
+  "remoteUser": "root",
+  "onCreateCommand": "corepack enable && sudo ln -sf /workspaces/ovmlayer/ovmlayer /usr/local/bin/ovmlayer",
+  "postCreateCommand": "(test -e /dev/loop0 || sudo mknod /dev/loop0 b 7 0) && ovmlayer setup dev --base-rootfs='/workspaces/layer/base-rootfs.tar' --layer-disk=/root/tmp_overlay_desk",
+  "postStartCommand": "test -e /dev/loop0 || sudo mknod /dev/loop0 b 7 0"
+}

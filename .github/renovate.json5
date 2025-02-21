@@ -1,0 +1,43 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:recommended"],
+  schedule: ["* 0-17 * * 1-5", "* 0,4,12 * * 6,7"],
+  packageRules: [
+    {
+      enabled: false,
+      matchDepNames: ["/.*/"],
+    },
+    {
+      groupName: "@oomol packages",
+      labels: ["oomol packages"],
+      semanticCommitType: "deps",
+      enabled: true,
+      matchDepNames: ["@oomol{/,}**"],
+    },
+    {
+      groupName: "@wopjs packages",
+      labels: ["wopjs packages"],
+      reviewers: ["CRIMX"],
+      enabled: true,
+      matchDepNames: ["@wopjs{/,}**"],
+    },
+    {
+      matchDepNames: [
+        "value-enhancer",
+        "use-value-enhancer",
+        "val-i18n",
+        "val-i18n-react",
+        "remitter",
+      ],
+      groupName: "Val packages",
+      labels: ["val packages"],
+      reviewers: ["CRIMX"],
+      enabled: true,
+    },
+    {
+      enabled: false,
+      matchDepTypes: ["peerDependencies"],
+    },
+  ],
+  npmrc: "@oomol:registry=https://npm.pkg.github.com/",
+}

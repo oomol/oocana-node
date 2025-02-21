@@ -1,0 +1,28 @@
+name: Renovate
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/renovate-action.js"
+      - ".github/renovate-action-config.json"
+      - ".github/workflows/renovate.yml"
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v41.0.7
+        with:
+          configurationFile: .github/renovate-action.js
+          token: ${{ secrets.ACCESS_REPO }}
+          env-regex: "^(?:RENOVATE_\\w+|LOG_LEVEL|GITHUB_COM_TOKEN|NODE_OPTIONS|AWS_TOKEN|NPM_\\w+)$"
+        env:
+          LOG_LEVEL: debug
+          RENOVATE_DETECT_HOST_RULES_FROM_ENV: "true"
+          NPM_NPM_PKG_GITHUB_COM_TOKEN: ${{ secrets.GITHUB_TOKEN }}

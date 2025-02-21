@@ -1,0 +1,31 @@
+{
+  "name": "@oomol/oocana-types",
+  "version": "0.20.25",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "types": "./dist/index.d.ts"
+  },
+  "keywords": [
+    "oocana",
+    "types"
+  ],
+  "description": "Oocana types",
+  "license": "MIT",
+  "repository": "oomol/oocana-node",
+  "sideEffects": false,
+  "types": "./src/index.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "lint": "eslint --ext .ts,.tsx . && prettier --check .",
+    "build": "rollup --config rollup.config.ts --configPlugin typescript",
+    "ts-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.6",
+    "rollup": "^4.17.2",
+    "rollup-plugin-dts": "^6.1.0"
+  }
+}
