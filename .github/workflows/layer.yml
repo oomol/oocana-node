@@ -30,7 +30,7 @@ jobs:
   linux:
     strategy:
       matrix:
-        os: [ubuntu-latest, linux-arm64]
+        os: [ubuntu-latest, ubuntu-24.04-arm]
     runs-on: ${{ matrix.os }}
     needs: [skip]
     if: ${{ needs.skip.outputs.should_skip != 'true' }}
