@@ -19,10 +19,6 @@ export class Cli implements IDisposable {
   }
 
   public kill = (): void => {
-    this.#process.removeAllListeners();
-    this.#process.stderr?.removeAllListeners();
-    this.#process.stdout?.removeAllListeners();
-
     if (!this.#process.killed) {
       this.#process.kill();
     }
@@ -46,6 +42,10 @@ export class Cli implements IDisposable {
   public wait = async (): Promise<number> => {
     if (this.#exitCode !== null) {
       return this.#exitCode;
+    }
+
+    if (this.#process.killed) {
+      return -1;
     }
     return new Promise(resolve => {
       this.#process.on("close", resolve);

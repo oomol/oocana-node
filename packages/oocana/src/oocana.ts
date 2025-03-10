@@ -60,6 +60,9 @@ export class Oocana implements IDisposable, OocanaInterface {
   #bin: string;
   #address?: string;
 
+  #sessionTask: Record<string, Cli> = {};
+  #randTasks: Cli[] = [];
+
   public constructor(oocanaPath?: string) {
     this.events = new Remitter();
     this.#bin = oocanaPath || join(__dirname, "..", "oocana");
@@ -174,6 +177,17 @@ export class Oocana implements IDisposable, OocanaInterface {
           env: executorEnvs,
         });
     const flowTask = new Cli(spawnedProcess);
+    if (sessionId) {
+      this.#sessionTask[sessionId] = flowTask;
+      flowTask.wait().then(() => {
+        delete this.#sessionTask[sessionId];
+      });
+    } else {
+      this.#randTasks.push(flowTask);
+      flowTask.wait().then(() => {
+        this.#randTasks = this.#randTasks.filter(task => task !== flowTask);
+      });
+    }
 
     const sendOocanaLog = (
       data: string,
@@ -198,8 +212,22 @@ export class Oocana implements IDisposable, OocanaInterface {
     return flowTask;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async stop(_sessionId: string): Promise<void> {
-    // TODO: implement stop flow
+  /** Stops the active flow task associated with the given session ID or all tasks if no ID is provided. */
+  public async stop(sessionId?: string): Promise<void> {
+    if (sessionId) {
+      const task = this.#sessionTask[sessionId];
+      if (task) {
+        task.kill();
+      }
+    } else {
+      for (const sessionId of Object.keys(this.#sessionTask)) {
+        const task = this.#sessionTask[sessionId];
+        task.kill();
+      }
+      for (const task of this.#randTasks) {
+        task.kill();
+      }
+      this.#randTasks = [];
+    }
   }
 }
