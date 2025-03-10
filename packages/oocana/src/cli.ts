@@ -43,6 +43,10 @@ export class Cli implements IDisposable {
     if (this.#exitCode !== null) {
       return this.#exitCode;
     }
+
+    if (this.#process.killed) {
+      return -1;
+    }
     return new Promise(resolve => {
       this.#process.on("close", resolve);
     });
