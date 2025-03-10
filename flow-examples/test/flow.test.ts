@@ -103,6 +103,39 @@ describe(
   }
 );
 
+describe("stop flow", () => {
+  it("stop running flow", async () => {
+    const cli = new Oocana();
+    await cli.connect();
+
+    const task = await cli.runFlow({
+      flowPath: path.join(__dirname, "flows", "progress", "flow.oo.yaml"),
+      blockSearchPaths: [
+        path.join(__dirname, "blocks"),
+        path.join(__dirname, "packages"),
+      ].join(","),
+      extraBindPaths: [`${homedir()}/.oocana:/root/.oocana`],
+      sessionId: "stop",
+      oomolEnvs: {
+        VAR: "1",
+      },
+      envs: {
+        VAR: "1",
+      },
+    });
+
+    task.kill();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const isRunning = task.isRunning();
+    expect(isRunning).toBe(false);
+
+    const code = await task.wait();
+    expect(code).toBe(1);
+
+    cli.dispose();
+  });
+});
+
 async function run(
   flow: string
 ): Promise<{ code: number; events: AnyEventData<OocanaEventConfig>[] }> {
