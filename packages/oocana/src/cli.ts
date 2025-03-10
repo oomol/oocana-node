@@ -19,10 +19,6 @@ export class Cli implements IDisposable {
   }
 
   public kill = (): void => {
-    this.#process.removeAllListeners();
-    this.#process.stderr?.removeAllListeners();
-    this.#process.stdout?.removeAllListeners();
-
     if (!this.#process.killed) {
       this.#process.kill();
     }
