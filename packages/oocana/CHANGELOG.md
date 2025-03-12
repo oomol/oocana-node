@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.21.27](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.21.26...@oomol/oocana-v0.21.27) (2025-03-12)
+
+
+### Features
+
+* remove sendSessionEnd ([0ac3278](https://github.com/oomol/oocana-node/commit/0ac32785279d8fa753c0d24ed3dda6fe8d25f241))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.23.4 ([#9](https://github.com/oomol/oocana-node/issues/9)) ([6315f93](https://github.com/oomol/oocana-node/commit/6315f93b510bf1c2140af4fbb2567dd817f86892))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.20.26
+
 ## [0.21.26](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.21.25...@oomol/oocana-v0.21.26) (2025-03-11)
 
 
