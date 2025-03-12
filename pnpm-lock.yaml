@@ -121,17 +121,17 @@ importers:
         version: 0.4.6
     optionalDependencies:
       '@oomol/oocana-cli-aarch64-apple-darwin':
-        specifier: 0.23.3
-        version: 0.23.3
+        specifier: 0.23.4
+        version: 0.23.4
       '@oomol/oocana-cli-aarch64-unknown-linux-gnu':
-        specifier: 0.23.3
-        version: 0.23.3
+        specifier: 0.23.4
+        version: 0.23.4
       '@oomol/oocana-cli-x86_64-apple-darwin':
-        specifier: 0.23.3
-        version: 0.23.3
+        specifier: 0.23.4
+        version: 0.23.4
       '@oomol/oocana-cli-x86_64-unknown-linux-gnu':
-        specifier: 0.23.3
-        version: 0.23.3
+        specifier: 0.23.4
+        version: 0.23.4
     devDependencies:
       '@oomol/oocana-types':
         specifier: workspace:*
@@ -788,29 +788,29 @@ packages:
   '@octokit/types@9.3.2':
     resolution: {integrity: sha512-D4iHGTdAnEEVsB8fl95m1hiz7D5YiRdQ9b/OEb3BYRVwbLsGHcRVPz+u+BgRLNk0Q0/4iZCBqDN96j2XNxfXrA==}
 
-  '@oomol/oocana-cli-aarch64-apple-darwin@0.23.3':
-    resolution: {integrity: sha512-jEfIsBNDm2Kx02z855bXwpaqhy1Y1ZOnEaxieOvE60MROyITsO/K5wt0SXG+U8PxZPHeZz+IIC6gi3ifr9RgrA==, tarball: https://npm.pkg.github.com/download/@oomol/oocana-cli-aarch64-apple-darwin/0.23.3/334780bccef34608ba2167ae064341ca0439194d}
+  '@oomol/oocana-cli-aarch64-apple-darwin@0.23.4':
+    resolution: {integrity: sha512-WG1RGGqkvVMLkDSyQDEZNJ9EDLudPR4XAqeDpPeo4ln5+zeGgVzMZ2CCgGwz8kzwOD6pFI/BTwIMovKYhzyisw==, tarball: https://npm.pkg.github.com/download/@oomol/oocana-cli-aarch64-apple-darwin/0.23.4/6585de9a47e1b91ada229721c8c0f20efb18f74b}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [darwin]
     hasBin: true
 
-  '@oomol/oocana-cli-aarch64-unknown-linux-gnu@0.23.3':
-    resolution: {integrity: sha512-iFf4pUu5V3+3xm80pGf3Kt1+2FVYLmJG0rxdYXvz8sQNIBfsoV9n0MBFdTzLhAIZgpP3uprEB7vckTddz5xr2g==, tarball: https://npm.pkg.github.com/download/@oomol/oocana-cli-aarch64-unknown-linux-gnu/0.23.3/4a32fdb34441d443b7e1a2c8166687f8cfb73bb5}
+  '@oomol/oocana-cli-aarch64-unknown-linux-gnu@0.23.4':
+    resolution: {integrity: sha512-BUMKYUFU/HPRSHRI5B1spTnr2ZzkqXDl1tiYzxRksv7p2gvepl9na95TiXF5eXLDTaOU2oOyHynnLoNzStaMUQ==, tarball: https://npm.pkg.github.com/download/@oomol/oocana-cli-aarch64-unknown-linux-gnu/0.23.4/d107b847ce2f6eccdf9d5a10717122962823ec39}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [linux]
     hasBin: true
 
-  '@oomol/oocana-cli-x86_64-apple-darwin@0.23.3':
-    resolution: {integrity: sha512-eeMzae1g8Z/z2vAKgrK+gifhuLhapr0fhSsLxRyU/qDrpHjOIctMfGxBIyc4o1lGy/+beNSPQJZoDg9UiRxUfw==, tarball: https://npm.pkg.github.com/download/@oomol/oocana-cli-x86_64-apple-darwin/0.23.3/841d505851f5dd0755fd211914fece1796ad6be0}
+  '@oomol/oocana-cli-x86_64-apple-darwin@0.23.4':
+    resolution: {integrity: sha512-F01unQUnykqBK67B9L8g+CHeyWXC6s7CFyVG+mZFl27O/C6Mhp6ZWeJCWogRgQ/JFSfQKMeWV4SLhrwpN88GIA==, tarball: https://npm.pkg.github.com/download/@oomol/oocana-cli-x86_64-apple-darwin/0.23.4/f080cb863220ab1d39cd4f2e024837ae1a0d13ca}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [darwin]
     hasBin: true
 
-  '@oomol/oocana-cli-x86_64-unknown-linux-gnu@0.23.3':
-    resolution: {integrity: sha512-5tBbMm4RGlNV4aoxpji5CeC4VSPr+KhIpQKp9cUC8whNsbl3VVfXRJ7xgLZvHQHf8VOr1A547lm+IY6G2YCmMQ==, tarball: https://npm.pkg.github.com/download/@oomol/oocana-cli-x86_64-unknown-linux-gnu/0.23.3/0a0784a6a4c57eb49ebc81ba1b1e4c5cfcb314f1}
+  '@oomol/oocana-cli-x86_64-unknown-linux-gnu@0.23.4':
+    resolution: {integrity: sha512-XNR5rOkfS//sB9rAs6gWNlzhAA6vHkUhgdydV2/RClmD/HVeWWph70KPwTNz5l0DU0wqEVSqtytgmLWBEAUqYA==, tarball: https://npm.pkg.github.com/download/@oomol/oocana-cli-x86_64-unknown-linux-gnu/0.23.4/ff35eb3ed2dcd9cf6ed5c996a73b8869eec3d0a6}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [linux]
@@ -3396,16 +3396,16 @@ snapshots:
     dependencies:
       '@octokit/openapi-types': 18.1.1
 
-  '@oomol/oocana-cli-aarch64-apple-darwin@0.23.3':
+  '@oomol/oocana-cli-aarch64-apple-darwin@0.23.4':
     optional: true
 
-  '@oomol/oocana-cli-aarch64-unknown-linux-gnu@0.23.3':
+  '@oomol/oocana-cli-aarch64-unknown-linux-gnu@0.23.4':
     optional: true
 
-  '@oomol/oocana-cli-x86_64-apple-darwin@0.23.3':
+  '@oomol/oocana-cli-x86_64-apple-darwin@0.23.4':
     optional: true
 
-  '@oomol/oocana-cli-x86_64-unknown-linux-gnu@0.23.3':
+  '@oomol/oocana-cli-x86_64-unknown-linux-gnu@0.23.4':
     optional: true
 
   '@pkgjs/parseargs@0.11.0':
