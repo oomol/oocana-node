@@ -25,6 +25,7 @@
     "preinstall",
     "rootfs",
     "stuartleeks",
+    "Subflow",
     "treeshake",
     "tsup",
     "typedoc",

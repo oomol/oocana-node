@@ -1,6 +1,6 @@
 import { BlockJobStackLevel, BlockInfo } from "./block";
 
-// session
+// region Session
 export interface SessionStarted {
   readonly type: "SessionStarted";
   readonly session_id: string;
@@ -16,8 +16,9 @@ export interface SessionFinished {
   readonly path: string;
   readonly error?: string;
 }
+// endregion
 
-// flow
+// region Flow
 export interface FlowStarted {
   readonly type: "FlowStarted";
   readonly session_id: string;
@@ -46,24 +47,29 @@ export interface FlowFinished {
   readonly error?: string;
   readonly finish_at: number;
 }
+// endregion
 
-export interface FlowOutput {
-  readonly type: "FlowOutput";
-  readonly session_id: string;
-  readonly job_id: string;
-  readonly flow_path: string;
-  readonly stacks: readonly BlockJobStackLevel[];
-  readonly handle: string;
-  readonly output: any;
-}
-
-// block
-export interface FlowBlockStarted extends BlockInfo {
-  readonly type: "FlowBlockStarted";
+// region SubflowBlock
+export interface SubflowBlockStarted extends BlockInfo {
+  readonly type: "SubflowBlockStarted";
   readonly inputs?: Record<string, any>;
   readonly create_at: number;
 }
 
+export interface SubflowBlockFinished extends BlockInfo {
+  readonly type: "SubflowBlockFinished";
+  readonly error?: string;
+  readonly finish_at: number;
+}
+
+export interface SubflowBlockOutput extends BlockInfo {
+  readonly type: "SubflowBlockOutput";
+  readonly handle: string;
+  readonly output: any;
+}
+// endregion
+
+// region Block
 export interface BlockStarted extends BlockInfo {
   readonly type: "BlockStarted";
   readonly inputs?: Record<string, any>;
@@ -76,23 +82,11 @@ export interface BlockFinished extends BlockInfo {
   readonly finish_at: number;
 }
 
-export interface FlowBlockFinished extends BlockInfo {
-  readonly type: "FlowBlockFinished";
-  readonly error?: string;
-  readonly finish_at: number;
-}
-
 export interface BlockOutput extends BlockInfo {
   readonly type: "BlockOutput";
   readonly handle: string;
   readonly output: any;
   readonly done: boolean;
-}
-
-export interface FlowBlockOutput extends BlockInfo {
-  readonly type: "FlowBlockOutput";
-  readonly handle: string;
-  readonly output: any;
 }
 
 export interface BlockLog extends BlockInfo {
@@ -131,6 +125,7 @@ export interface BlockLogJSON extends BlockInfo {
   readonly type: "BlockLogJSON";
   readonly json: unknown;
 }
+// endregion
 
 export type ReporterMessageKeys = Extract<keyof JobEventMap, string>;
 
@@ -146,11 +141,10 @@ export interface JobEventMap {
   BlockError: BlockError;
   FlowStarted: FlowStarted;
   FlowNodesWillRun: FlowNodesWillRun;
-  FlowBlockStarted: FlowBlockStarted;
-  FlowBlockOutput: FlowBlockOutput;
-  FlowBlockFinished: FlowBlockFinished;
   FlowFinished: FlowFinished;
-  FlowOutput: FlowOutput;
+  SubflowBlockStarted: SubflowBlockStarted;
+  SubflowBlockOutput: SubflowBlockOutput;
+  SubflowBlockFinished: SubflowBlockFinished;
   BlockWarning: BlockWarning;
   BlockMessage: BlockMessage;
   BlockPreview: BlockPreview;
