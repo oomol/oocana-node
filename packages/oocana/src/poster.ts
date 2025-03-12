@@ -38,24 +38,4 @@ export class Poster {
       JSON.stringify({ session_id, job_id, payload, node_id, flow_path })
     );
   }
-
-  public sendSessionEnd({
-    session_id,
-    flow_path,
-  }: {
-    session_id: string;
-    flow_path: string;
-  }): void {
-    // TODO: 使用 oocana-cli 终止
-    // 伪造 report 让 executor 知道 session 结束。oocana cli 还是被动被杀掉的。
-    this.mqtt.publish(
-      `report`,
-      JSON.stringify({
-        session_id,
-        path: flow_path,
-        type: "SessionFinished",
-        finish_at: new Date().getTime(),
-      })
-    );
-  }
 }
