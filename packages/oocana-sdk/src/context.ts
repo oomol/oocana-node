@@ -49,6 +49,7 @@ export class ContextImpl implements Context {
     store = {},
     storeKey = "store",
     sessionDir,
+    contextEnv,
   }: {
     blockInfo: BlockInfo;
     mainframe: Mainframe;
@@ -57,6 +58,7 @@ export class ContextImpl implements Context {
     store: { [index: string]: any };
     storeKey: string;
     sessionDir: string;
+    contextEnv: { [name: string]: any };
   }) {
     const { session_id, job_id, block_path, stacks } = blockInfo;
     this.mainframe = mainframe;

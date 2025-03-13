@@ -1,6 +1,20 @@
 import { writeFile, stat, mkdir, unlink, rmdir } from "fs/promises";
 import { dirname, join } from "node:path";
 import { logger } from "./logger";
+import { readFile } from "node:fs/promises";
+
+export async function loadEnvFile(file: string): Promise<any> {
+  if (file.endsWith(".json")) {
+    const content = await readFile(file, "utf-8");
+    try {
+      return JSON.parse(content);
+    } catch (error) {
+      return {};
+    }
+  }
+  // TODO: add warning logger
+  return {};
+}
 
 async function isDirectory(path: string): Promise<boolean> {
   try {
