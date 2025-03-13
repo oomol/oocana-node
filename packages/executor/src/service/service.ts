@@ -148,6 +148,7 @@ class ServiceRuntime implements ServiceContext {
       store: varStore,
       storeKey: "store",
       sessionDir: this.#sessionDir,
+      contextEnv: {}, // TODO: support contextEnv
     });
 
     const originalDone = context.done;
