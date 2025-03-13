@@ -42,6 +42,8 @@ export interface RunFlowConfig {
   /** Environment variables passed to all executors. All variable names will be converted to uppercase; then if the variable name does not start with OOMOL_, the OOMOL_ prefix will be added automatically. */
   oomolEnvs?: Record<string, string>;
   envs?: Record<string, string>;
+  /** only json file will parsed, other file will be ignored */
+  envFiles?: string[];
 }
 
 export const DEFAULT_PORT = 47688;
@@ -95,6 +97,7 @@ export class Oocana implements IDisposable, OocanaInterface {
     remote,
     oomolEnvs,
     envs,
+    envFiles,
   }: RunFlowConfig): Promise<Cli> {
     if (!this.#address) {
       throw new Error("Cannot run flow without connecting to a broker");
@@ -140,6 +143,17 @@ export class Oocana implements IDisposable, OocanaInterface {
           throw new Error(`Invalid extra bind path: ${path}`);
         }
         args.push("--extra-bind-paths", path);
+      }
+    }
+
+    if (envFiles) {
+      for (const file of envFiles) {
+        if (!file.endsWith(".json")) {
+          throw new Error(
+            `Only JSON files are supported for env files: ${file}`
+          );
+        }
+        args.push("--env-files", file);
       }
     }
 
