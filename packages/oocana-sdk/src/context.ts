@@ -73,12 +73,11 @@ export class ContextImpl implements Context {
     this.#store = store;
     this.sessionDir = sessionDir;
 
+    const OOMOL_LLM = contextEnv["OOMOL_LLM"] || {};
     this.OOMOL_LLM_ENV = Object.freeze({
-      baseUrl: process.env.OOMOL_LLM_BASE_URL || "",
-      apiKey: process.env.OOMOL_LLM_API_KEY || "",
-      models: process.env.OOMOL_LLM_MODELS
-        ? process.env.OOMOL_LLM_MODELS.split(",")
-        : [],
+      baseUrl: OOMOL_LLM["base_url"] || "",
+      apiKey: OOMOL_LLM["api_key"] || "",
+      models: Array.isArray(OOMOL_LLM["models"]) ? OOMOL_LLM["models"] : [],
     });
 
     this.hostInfo = Object.freeze({
