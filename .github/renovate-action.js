@@ -1,8 +1,9 @@
 module.exports = {
   branchPrefix: "renovate/",
-  gitAuthor: "Renovate Bot <bot@renovateapp.com>",
+  gitAuthor: "OOMOL Bot <122335590+oomol-bot@users.noreply.github.com>",
   platform: "github",
   ignorePrAuthor: true,
+  gitIgnoredAuthors: ["122335590+oomol-bot@users.noreply.github.com"],
   dependencyDashboardTitle: "Action Dependency Dashboard",
   repositories: ["oomol/oocana-node"],
   packageRules: [
