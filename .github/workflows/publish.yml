@@ -49,18 +49,28 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
           registry-url: https://npm.pkg.github.com/
           cache: pnpm
       - name: install
         run: pnpm install --frozen-lockfile
       - name: build
         run: pnpm run build
-      - name: publish
+      - name: publish to github registry
         run: |
           pnpm publish -F ${{ needs.vars.outputs.command }} --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+      - name: publish to npm
+        if: github.repository_owner == 'oomol'
+        run: |
+          npm pkg set publishConfig.registry=https://registry.npmjs.org
+          pnpm publish -F ${{ needs.vars.outputs.command }} --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}} # expire at 2026-03-13
   trigger:
     runs-on: ubuntu-latest
     needs: publish
