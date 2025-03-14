@@ -79,9 +79,9 @@ describe(
       );
     });
 
-    it("run extend flow", async () => {
+    it("run inject flow", async () => {
       if (await isPackageLayerEnable()) {
-        const { code } = await run("extend");
+        const { code } = await run("inject");
         expect(code).toBe(0);
       }
     });
@@ -99,6 +99,11 @@ describe(
       const output = events.findLast(e => e.event === "BlockOutput")?.data
         ?.output;
       expect(output).toEqual(null);
+    });
+
+    it("run spawn flow", async () => {
+      const { code } = await run("spawn");
+      expect(code).toBe(0);
     });
   }
 );
