@@ -19,7 +19,8 @@ import {
 } from "./service/topic";
 import { setupSessionLog, logger } from "./logger";
 import { EventEmitter } from "node:events";
-import { isServicePayload } from "./utils";
+import { ExecutorArgs, isServicePayload } from "./utils";
+import { loadEnvFile } from "./file";
 
 export const valStore: { [index: string]: any } = {};
 
@@ -37,13 +38,8 @@ export async function runExecutor({
   suffix,
   sessionDir,
   package: packagePath,
-}: {
-  address?: string;
-  sessionId: string;
-  suffix?: string;
-  sessionDir: string;
-  package?: string;
-}): Promise<() => void> {
+  envFiles,
+}: ExecutorArgs): Promise<() => void> {
   setupSessionLog({ sessionId, suffix });
 
   logger.info(
@@ -53,6 +49,14 @@ export async function runExecutor({
   );
 
   const mainframe = new Mainframe(`mqtt://${address}`, suffix);
+
+  const contextEnv: { [name: string]: any } = {};
+  for (const envFile of envFiles || []) {
+    const env = await loadEnvFile(envFile);
+    for (const key in env) {
+      contextEnv[key.toUpperCase()] = env[key];
+    }
+  }
 
   const isCurrentSession = (payload: any) => payload.session_id == sessionId;
   const isCurrentPackage = (payload: any) => {
@@ -77,7 +81,7 @@ export async function runExecutor({
       }
       jobSet.add(payload.job_id);
 
-      runBlock(mainframe, payload, sessionDir);
+      runBlock(mainframe, payload, sessionDir, contextEnv);
     }
   );
 

@@ -7,12 +7,13 @@ import { importFile } from "@hyrious/esbuild-dev";
 import type { ServiceExecutePayload } from "@oomol/oocana-types";
 import { pathToFileURL } from "node:url";
 
-interface ExecutorArgs {
+export interface ExecutorArgs {
   readonly sessionId: string;
   readonly sessionDir: string;
   readonly address?: string;
   readonly suffix?: string;
   readonly package?: string;
+  readonly envFiles?: string[];
 }
 
 export function getExecutorArgs(): ExecutorArgs {
@@ -20,6 +21,7 @@ export function getExecutorArgs(): ExecutorArgs {
     alias: {
       sessionId: "session-id",
       sessionDir: "session-dir",
+      envFiles: "env-files",
     },
   });
 
@@ -39,6 +41,7 @@ interface ServiceArgs {
   readonly sessionId?: string;
   readonly serviceHash: string;
   readonly sessionDir: string;
+  readonly envFiles?: string[]; // TODO: support envFiles
 }
 
 export function getServiceArgs(): ServiceArgs {
@@ -47,6 +50,7 @@ export function getServiceArgs(): ServiceArgs {
       sessionId: "session-id",
       serviceHash: "service-hash",
       sessionDir: "session-dir",
+      envFiles: "env-files",
     },
   });
 

@@ -1,7 +1,27 @@
 import { it, expect } from "vitest";
-import { getServiceArgs } from "../src/utils";
+import { getExecutorArgs, getServiceArgs } from "../src/utils";
 
-it("should return getArgv", () => {
+it("executor getArgv", () => {
+  process.argv = [
+    "node",
+    "executor.js",
+    "--session-id",
+    "123",
+    "--session-dir",
+    "/tmp/123",
+    "--env-files",
+    "1.json",
+    "--env-files",
+    "2.json",
+  ];
+  const argv = getExecutorArgs();
+  console.log(argv);
+  expect(argv.sessionId).toBe("123");
+  expect(argv.sessionDir).toBe("/tmp/123");
+  expect(argv.envFiles).toEqual(["1.json", "2.json"]);
+});
+
+it("service getArgv", () => {
   process.argv = [
     "node",
     "executor.js",
