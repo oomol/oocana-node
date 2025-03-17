@@ -73,6 +73,7 @@ export class ContextImpl implements Context {
 
     this.OOMOL_LLM_ENV = Object.freeze({
       baseUrl: process.env.OOMOL_LLM_BASE_URL || "",
+      baseUrlV1: process.env.OOMOL_LLM_BASE_URL_V1 || "",
       apiKey: process.env.OOMOL_LLM_API_KEY || "",
       models: process.env.OOMOL_LLM_MODELS
         ? process.env.OOMOL_LLM_MODELS.split(",")

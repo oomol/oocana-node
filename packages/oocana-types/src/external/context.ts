@@ -46,6 +46,8 @@ export type MainFunction<
 
 export type OOMOL_LLM_ENV = {
   readonly baseUrl: string;
+  /** {basUrl}/v1 openai compatible endpoint */
+  readonly baseUrlV1: string;
   readonly apiKey: string;
   readonly models: string[];
 };
