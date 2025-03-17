@@ -67,8 +67,9 @@ jobs:
       - name: publish to npm
         if: github.repository_owner == 'oomol'
         run: |
+          rm .npmrc # remove github registry config
           npm pkg set publishConfig.registry=https://registry.npmjs.org
-          pnpm publish -F ${{ needs.vars.outputs.command }} --no-git-checks
+          pnpm publish -F ${{ needs.vars.outputs.command }} --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}} # expire at 2026-03-13
   trigger:
