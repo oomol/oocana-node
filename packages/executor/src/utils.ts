@@ -15,6 +15,8 @@ interface ExecutorArgs {
   readonly package?: string;
 }
 
+export const ExecutorName = "nodejs";
+
 export function getExecutorArgs(): ExecutorArgs {
   const argv = minimist(process.argv.slice(2), {
     alias: {

@@ -7,6 +7,7 @@ import {
   getEntryPath,
   getModule,
   outputWithReturnObject,
+  ExecutorName,
 } from "./utils";
 import { asyncLocalStorage } from "./hook";
 import "./hook";
@@ -37,7 +38,7 @@ export async function runBlock(
       jobInfo,
       outputsDef: outputs,
       store: valStore,
-      storeKey: "store",
+      storeKey: ExecutorName,
       sessionDir,
     });
   } catch (err) {

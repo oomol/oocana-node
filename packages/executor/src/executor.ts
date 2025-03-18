@@ -19,7 +19,7 @@ import {
 } from "./service/topic";
 import { setupSessionLog, logger } from "./logger";
 import { EventEmitter } from "node:events";
-import { isServicePayload } from "./utils";
+import { isServicePayload, ExecutorName } from "./utils";
 
 export const valStore: { [index: string]: any } = {};
 
@@ -27,7 +27,6 @@ const jobSet = new Set<string>();
 
 type ServiceStatus = "running" | "launching";
 
-const ExecutorName = "nodejs";
 const emitter = new EventEmitter();
 const serviceStore: Map<string, ServiceStatus> = new Map();
 
