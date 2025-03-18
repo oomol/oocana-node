@@ -47,7 +47,7 @@ export class ContextImpl implements Context {
     inputs,
     outputsDef,
     store = {},
-    storeKey = "store",
+    storeKey,
     sessionDir,
   }: {
     blockInfo: BlockInfo;

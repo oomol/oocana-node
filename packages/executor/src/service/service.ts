@@ -26,6 +26,7 @@ import {
   getModule,
   getServiceArgs,
   outputWithReturnObject,
+  ExecutorName,
 } from "../utils";
 import { exit } from "process";
 import { EventReceiver, Remitter } from "remitter";
@@ -146,7 +147,7 @@ class ServiceRuntime implements ServiceContext {
       jobInfo,
       outputsDef: outputs,
       store: varStore,
-      storeKey: "store",
+      storeKey: ExecutorName,
       sessionDir: this.#sessionDir,
     });
 
