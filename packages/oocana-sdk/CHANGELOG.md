@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.33](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.18.32...@oomol/oocana-sdk-v0.18.33) (2025-03-18)
+
+
+### Code Refactoring
+
+* use executor name as store key ([#21](https://github.com/oomol/oocana-node/issues/21)) ([d3f6e10](https://github.com/oomol/oocana-node/commit/d3f6e10b949f2c2854021259aa9ac0877d75558f))
+
 ## [0.18.32](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.18.31...@oomol/oocana-sdk-v0.18.32) (2025-03-17)
 
 
