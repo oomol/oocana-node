@@ -1,16 +1,6 @@
 nodes:
-  - task:
-      inputs_def:
-        - handle: in
-          value: aaaaaaa
-          nullable: true
-      outputs_def:
-        - handle: out
-      executor:
-        name: nodejs
-        options:
-          entry: scriptlets/+typescript#1.ts
+  - task: check::check
     node_id: node-1
     inputs_from:
-      - handle: in
-        value:
+      - handle: one
+        value: aaa

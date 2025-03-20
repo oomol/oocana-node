@@ -9,7 +9,7 @@ type Outputs = Readonly<{ out: unknown }>;
 export default async function (
   _inputs: Inputs,
   _context: Context<Inputs, Outputs>
-): Promise<Outputs> {
+): Promise<void> {
   const bindPath = `/root/oocana/bind`;
 
   const s = await stat(bindPath);
@@ -18,6 +18,4 @@ export default async function (
   } else {
     throw new Error("bind path is not a file, get " + s);
   }
-
-  return { out: bindPath };
 }
