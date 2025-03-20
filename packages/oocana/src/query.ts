@@ -1,6 +1,5 @@
 import { spawn } from "child_process";
 import { join } from "path";
-import { sshSpawn } from "./ssh";
 import { Cli } from "./cli";
 
 export type UpstreamQueryParams = {
@@ -9,7 +8,6 @@ export type UpstreamQueryParams = {
   blockSearchPaths?: string;
   useCache?: boolean;
   oocanaBin?: string;
-  remote?: boolean;
 };
 
 export type UpstreamResponse = {
@@ -22,7 +20,6 @@ export type UpstreamResponse = {
 export type ServiceQueryParams = {
   flowPath: string;
   blockSearchPaths?: string;
-  remote?: boolean;
 };
 
 export type ServiceQueryResponse = {
@@ -37,14 +34,15 @@ export type PackageQueryParams = {
   flowPath: string;
   blockSearchPaths?: string;
   oocanaBin?: string;
-  remote?: boolean;
-}
+};
 
 export type PackageQueryResponse = {
   [name: string]: boolean;
-}
+};
 
-export async function queryPackage(params: PackageQueryParams): Promise<PackageQueryResponse> {
+export async function queryPackage(
+  params: PackageQueryParams
+): Promise<PackageQueryResponse> {
   const bin = params.oocanaBin || join(__dirname, "..", "oocana");
   const args = [
     "query",
@@ -54,9 +52,7 @@ export async function queryPackage(params: PackageQueryParams): Promise<PackageQ
     params.blockSearchPaths || "",
   ];
 
-  const spawnedProcess = params.remote
-    ? sshSpawn(bin, args)
-    : await spawn(bin, args);
+  const spawnedProcess = await spawn(bin, args);
 
   const cli = new Cli(spawnedProcess);
 
@@ -96,9 +92,7 @@ export async function queryService(params: ServiceQueryParams) {
     args.push("--block-search-paths", params.blockSearchPaths);
   }
 
-  const spawnedProcess = params.remote
-    ? sshSpawn(bin, args)
-    : await spawn(bin, args);
+  const spawnedProcess = await spawn(bin, args);
 
   const cli = new Cli(spawnedProcess);
 
@@ -153,9 +147,7 @@ export async function queryUpstream(
   if (params.useCache) {
     args.push("--use-cache");
   }
-  const spawnedProcess = params.remote
-    ? sshSpawn(bin, args)
-    : await spawn(bin, args);
+  const spawnedProcess = await spawn(bin, args);
 
   const cli = new Cli(spawnedProcess);
 
