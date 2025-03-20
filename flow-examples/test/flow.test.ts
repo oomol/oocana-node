@@ -3,12 +3,18 @@ import { Oocana, isPackageLayerEnable } from "@oomol/oocana";
 import type { OocanaEventConfig } from "@oomol/oocana-types";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { readdir } from "node:fs/promises";
-import { homedir } from "node:os";
+import { readdir, writeFile } from "node:fs/promises";
+import { homedir, tmpdir } from "node:os";
 import type { AnyEventData } from "remitter";
 
-const __dirname = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const executorBin = path.join(__dirname, "..", "packages", "executor", "dist");
+const flow_example = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const executorBin = path.join(
+  flow_example,
+  "..",
+  "packages",
+  "executor",
+  "dist"
+);
 process.env["PATH"] = `${executorBin}:${process.env["PATH"]}}`;
 
 describe(
@@ -20,7 +26,7 @@ describe(
     let files: string[] = [];
 
     beforeAll(async () => {
-      files = await readdir(path.join(__dirname, "flows"));
+      files = await readdir(path.join(flow_example, "flows"));
       console.log("files", files);
     });
 
@@ -105,6 +111,13 @@ describe(
       const { code } = await run("spawn");
       expect(code).toBe(0);
     });
+
+    it("run bind flow", async () => {
+      if (await isPackageLayerEnable()) {
+        const { code } = await run("bind");
+        expect(code).toBe(0);
+      }
+    });
   }
 );
 
@@ -114,10 +127,10 @@ describe("stop flow", () => {
     await cli.connect();
 
     const task = await cli.runFlow({
-      flowPath: path.join(__dirname, "flows", "progress", "flow.oo.yaml"),
+      flowPath: path.join(flow_example, "flows", "progress", "flow.oo.yaml"),
       blockSearchPaths: [
-        path.join(__dirname, "blocks"),
-        path.join(__dirname, "packages"),
+        path.join(flow_example, "blocks"),
+        path.join(flow_example, "packages"),
       ].join(","),
       extraBindPaths: [`${homedir()}/.oocana:/root/.oocana`],
       sessionId: "stop",
@@ -157,12 +170,13 @@ async function run(
   });
 
   const task = await cli.runFlow({
-    flowPath: path.join(__dirname, "flows", flow, "flow.oo.yaml"),
+    flowPath: path.join(flow_example, "flows", flow, "flow.oo.yaml"),
     blockSearchPaths: [
-      path.join(__dirname, "blocks"),
-      path.join(__dirname, "packages"),
+      path.join(flow_example, "blocks"),
+      path.join(flow_example, "packages"),
     ].join(","),
-    extraBindPaths: [`${homedir()}/.oocana:/root/.oocana`],
+    bindPaths: [`${homedir()}/.oocana:/root/.oocana`],
+    bindPathFile: await bindFile(),
     sessionId: flow,
     oomolEnvs: {
       VAR: "1",
@@ -170,6 +184,7 @@ async function run(
     envs: {
       VAR: "1",
     },
+    envFile: path.join(flow_example, "executor.env"),
   });
 
   cli.events.on("BlockFinished", event => {
@@ -192,4 +207,12 @@ async function run(
   cli.dispose();
 
   return { code, events };
+}
+
+async function bindFile() {
+  const content = `${flow_example}/executor.env:/root/oocana/bind`;
+
+  const p = `${tmpdir()}/bind.txt`;
+  await writeFile(p, content);
+  return p;
 }

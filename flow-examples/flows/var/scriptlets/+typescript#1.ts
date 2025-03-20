@@ -20,7 +20,9 @@ export default async function (
     throw new Error("VAR not set");
   }
 
-  // your code
+  if (process.env["KKK"] != "VVV") {
+    throw new Error("KKK not set");
+  }
 
   return { out: new Date() };
 }
