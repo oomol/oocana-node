@@ -35,8 +35,10 @@ export interface RunFlowConfig {
   excludePackages?: string[];
   /** format <source>:<target>, oocana will mount source to target in layer. if target not exist, oocana will create it. */
   sessionPath?: string;
-  /** format <source>:<target>, oocana will mount source to target in layer. if pass invalid string, will throw error. if target path not exist, oocana will ignore this bind path. */
+  /** @deprecated use BindPaths instead. */
   extraBindPaths?: string[];
+  /** bind paths, format <source>:<target>, oocana will mount source to target in layer. if target not exist, oocana will create it. */
+  bindPaths?: string[];
   /** TODO: 只在 linux 下进行过较为简单的手动测试。 */
   remote?: boolean;
   /** Environment variables passed to all executors. All variable names will be converted to uppercase; then if the variable name does not start with OOMOL_, the OOMOL_ prefix will be added automatically. */
@@ -92,6 +94,7 @@ export class Oocana implements IDisposable, OocanaInterface {
     excludePackages,
     sessionPath,
     extraBindPaths,
+    bindPaths,
     remote,
     oomolEnvs,
     envs,
@@ -139,7 +142,16 @@ export class Oocana implements IDisposable, OocanaInterface {
         if (!path.includes(":")) {
           throw new Error(`Invalid extra bind path: ${path}`);
         }
-        args.push("--extra-bind-paths", path);
+        args.push("--bind-paths", path);
+      }
+    }
+
+    if (bindPaths) {
+      for (const path of bindPaths) {
+        if (!path.includes(":")) {
+          throw new Error(`Invalid bind path: ${path}`);
+        }
+        args.push("--bind-paths", path);
       }
     }
 
