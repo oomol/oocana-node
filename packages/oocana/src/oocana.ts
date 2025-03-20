@@ -40,6 +40,7 @@ export interface RunFlowConfig {
   bindPaths?: string[];
   /** Environment variables passed to all executors. All variable names will be converted to uppercase; then if the variable name does not start with OOMOL_, the OOMOL_ prefix will be added automatically. */
   oomolEnvs?: Record<string, string>;
+  /** when spawn executor, oocana will only retain envs start with OOMOL_ by design. Other env variables need to be explicitly added in this parameters otherwise they will be ignored. */
   envs?: Record<string, string>;
 }
 
@@ -155,7 +156,7 @@ export class Oocana implements IDisposable, OocanaInterface {
       PATH: process.env.PATH || "",
     };
 
-    // CI env 会影响 oocana 是否使用 sudo。如果有 CI 环境变量，需要传递给 oocana。
+    // oocana need spawn layer with sudo when in GitHub Actions CI
     if (process.env.CI) {
       executorEnvs.CI = process.env.CI;
     }
