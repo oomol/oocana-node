@@ -38,10 +38,14 @@ export interface RunFlowConfig {
   extraBindPaths?: string[];
   /** bind paths, format <source>:<target>, oocana will mount source to target in layer. if target not exist, oocana will create it. */
   bindPaths?: string[];
+  /** a file path contains multiple bind paths, better use absolute path. The file format is <source_path>:<target_path> line by line, if not provided, it will be found in OOCANA_BIND_PATH_FILE env variable */
+  bindPathFile?: string;
   /** Environment variables passed to all executors. All variable names will be converted to uppercase; then if the variable name does not start with OOMOL_, the OOMOL_ prefix will be added automatically. */
   oomolEnvs?: Record<string, string>;
   /** when spawn executor, oocana will only retain envs start with OOMOL_ by design. Other env variables need to be explicitly added in this parameters otherwise they will be ignored. */
   envs?: Record<string, string>;
+  /** .env file path, better use absolute path, format should be <key>=<value> line by line. These variables will pass to executor when oocana spawn. If not given oocana will search OOCANA_BIND_PATH_FILE to see if it has one. */
+  envFile?: string;
 }
 
 export const DEFAULT_PORT = 47688;
@@ -93,7 +97,9 @@ export class Oocana implements IDisposable, OocanaInterface {
     sessionPath,
     extraBindPaths,
     bindPaths,
+    bindPathFile,
     oomolEnvs,
+    envFile,
     envs,
   }: RunFlowConfig): Promise<Cli> {
     if (!this.#address) {
@@ -175,6 +181,14 @@ export class Oocana implements IDisposable, OocanaInterface {
         executorEnvs[key] = value;
         args.push("--retain-env-keys", key);
       }
+    }
+
+    if (envFile) {
+      args.push("--env-file", envFile);
+    }
+
+    if (bindPathFile) {
+      args.push("--bind-path-file", bindPathFile);
     }
 
     const spawnedProcess = spawn(this.#bin, args, {
