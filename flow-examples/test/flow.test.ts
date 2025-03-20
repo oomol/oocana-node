@@ -210,7 +210,7 @@ async function run(
 }
 
 async function bindFile() {
-  const content = `${flow_example}/executor.env:/root/bind`;
+  const content = `${flow_example}/executor.env:/root/oocana/bind`;
 
   const p = `${tmpdir()}/bind.txt`;
   await writeFile(p, content);

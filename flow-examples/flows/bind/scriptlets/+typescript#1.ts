@@ -10,7 +10,7 @@ export default async function (
   _inputs: Inputs,
   _context: Context<Inputs, Outputs>
 ): Promise<Outputs> {
-  const bindPath = `/root/bind`;
+  const bindPath = `/root/oocana/bind`;
 
   const s = await stat(bindPath);
   if (s.isFile()) {
