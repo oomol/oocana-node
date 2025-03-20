@@ -50,12 +50,16 @@ async function importPackageLayer(params: ImportParams) {
 
 type CreateParams = {
   bind_paths?: string[];
+  bindPathFile?: string;
+  envFile?: string;
 } & CommonParams;
 
 async function createPackageLayer({
   bin,
   packagePath,
   bind_paths,
+  bindPathFile,
+  envFile,
 }: CreateParams) {
   const oocanaPath = bin ?? join(__dirname, "..", "oocana");
 
@@ -66,6 +70,14 @@ async function createPackageLayer({
     }
 
     args.push("--bind-paths", path);
+  }
+
+  if (bindPathFile) {
+    args.push("--bind-path-file", bindPathFile);
+  }
+
+  if (envFile) {
+    args.push("--env-file", envFile);
   }
 
   const cli = new Cli(spawn(oocanaPath, args));
