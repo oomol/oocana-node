@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.21.30](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.21.29...@oomol/oocana-v0.21.30) (2025-03-20)
+
+
+### Features
+
+* add env file and bind path file for run flow and create layer api ([#26](https://github.com/oomol/oocana-node/issues/26)) ([aec4ebe](https://github.com/oomol/oocana-node/commit/aec4ebee1756d1fc78be8543d654d75e8d28fedd))
+* remove remote option ([#25](https://github.com/oomol/oocana-node/issues/25)) ([2a68eaa](https://github.com/oomol/oocana-node/commit/2a68eaa01872c13ff0e7e32ec698392a0056b7ff))
+* update [@oomol](https://github.com/oomol) packages to v0.25.0 and rename run flow parameters ([#23](https://github.com/oomol/oocana-node/issues/23)) ([83f2a5b](https://github.com/oomol/oocana-node/commit/83f2a5b2a52d17706b4b5b36f1bb17fd52f8b2db))
+
 ## [0.21.29](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.21.28...@oomol/oocana-v0.21.29) (2025-03-17)
 
 
