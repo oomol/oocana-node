@@ -176,6 +176,7 @@ async function run(
     envs: {
       VAR: "1",
     },
+    envFile: path.join(flow_example, "executor.env"),
   });
 
   cli.events.on("BlockFinished", event => {
