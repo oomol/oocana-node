@@ -3,8 +3,8 @@ import { Oocana, isPackageLayerEnable } from "@oomol/oocana";
 import type { OocanaEventConfig } from "@oomol/oocana-types";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { readdir } from "node:fs/promises";
-import { homedir } from "node:os";
+import { readdir, writeFile } from "node:fs/promises";
+import { homedir, tmpdir } from "node:os";
 import type { AnyEventData } from "remitter";
 
 const flow_example = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -111,6 +111,13 @@ describe(
       const { code } = await run("spawn");
       expect(code).toBe(0);
     });
+
+    it("run bind flow", async () => {
+      if (await isPackageLayerEnable()) {
+        const { code } = await run("bind");
+        expect(code).toBe(0);
+      }
+    });
   }
 );
 
@@ -169,6 +176,7 @@ async function run(
       path.join(flow_example, "packages"),
     ].join(","),
     bindPaths: [`${homedir()}/.oocana:/root/.oocana`],
+    bindPathFile: await bindFile(),
     sessionId: flow,
     oomolEnvs: {
       VAR: "1",
@@ -199,4 +207,12 @@ async function run(
   cli.dispose();
 
   return { code, events };
+}
+
+async function bindFile() {
+  const content = `${flow_example}/executor.env:/root/bind`;
+
+  const p = `${tmpdir()}/bind.txt`;
+  await writeFile(p, content);
+  return p;
 }
