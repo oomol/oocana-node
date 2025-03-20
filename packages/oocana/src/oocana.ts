@@ -6,7 +6,6 @@ import { Reporter } from "./reporter";
 import type { IDisposable } from "@wopjs/disposable";
 import { disposableStore } from "@wopjs/disposable";
 import { Cli } from "./cli";
-import { sshSpawn } from "./ssh";
 
 export type JobEvent = Remitter<OocanaEventConfig>;
 
@@ -39,8 +38,6 @@ export interface RunFlowConfig {
   extraBindPaths?: string[];
   /** bind paths, format <source>:<target>, oocana will mount source to target in layer. if target not exist, oocana will create it. */
   bindPaths?: string[];
-  /** TODO: 只在 linux 下进行过较为简单的手动测试。 */
-  remote?: boolean;
   /** Environment variables passed to all executors. All variable names will be converted to uppercase; then if the variable name does not start with OOMOL_, the OOMOL_ prefix will be added automatically. */
   oomolEnvs?: Record<string, string>;
   envs?: Record<string, string>;
@@ -95,7 +92,6 @@ export class Oocana implements IDisposable, OocanaInterface {
     sessionPath,
     extraBindPaths,
     bindPaths,
-    remote,
     oomolEnvs,
     envs,
   }: RunFlowConfig): Promise<Cli> {
@@ -180,14 +176,9 @@ export class Oocana implements IDisposable, OocanaInterface {
       }
     }
 
-    const spawnedProcess = remote
-      ? sshSpawn(this.#bin, args, {
-          env: executorEnvs,
-          stdio: "pipe",
-        })
-      : spawn(this.#bin, args, {
-          env: executorEnvs,
-        });
+    const spawnedProcess = spawn(this.#bin, args, {
+      env: executorEnvs,
+    });
     const flowTask = new Cli(spawnedProcess);
     if (sessionId) {
       this.#sessionTask[sessionId] = flowTask;
