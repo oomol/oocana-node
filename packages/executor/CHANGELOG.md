@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.19.55](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.19.54...@oomol/executor-v0.19.55) (2025-03-21)
+
+
+### Features
+
+* use identifier instead of suffix ([#29](https://github.com/oomol/oocana-node/issues/29)) ([59f3d7e](https://github.com/oomol/oocana-node/commit/59f3d7e8fa2f1b02129159b6a77baaa6171c2eac))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-sdk bumped to 0.18.35
+
 ## [0.19.54](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.19.53...@oomol/executor-v0.19.54) (2025-03-21)
 
 

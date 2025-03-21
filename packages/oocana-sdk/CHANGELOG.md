@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.35](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.18.34...@oomol/oocana-sdk-v0.18.35) (2025-03-21)
+
+
+### Features
+
+* use identifier instead of suffix ([#29](https://github.com/oomol/oocana-node/issues/29)) ([59f3d7e](https://github.com/oomol/oocana-node/commit/59f3d7e8fa2f1b02129159b6a77baaa6171c2eac))
+
 ## [0.18.34](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.18.33...@oomol/oocana-sdk-v0.18.34) (2025-03-21)
 
 
