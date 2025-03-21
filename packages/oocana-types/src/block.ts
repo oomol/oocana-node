@@ -19,6 +19,7 @@ export interface IMainframeExecutorReady {
   executor_name: string;
   session_id: string;
   package?: string;
+  identifier?: string;
 }
 
 export interface IMainframeBlockOutput<TOutput = any> extends JobInfo {

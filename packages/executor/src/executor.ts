@@ -19,7 +19,7 @@ import {
 } from "./service/topic";
 import { setupSessionLog, logger } from "./logger";
 import { EventEmitter } from "node:events";
-import { isServicePayload, ExecutorName } from "./utils";
+import { isServicePayload, ExecutorName, ExecutorArgs } from "./utils";
 
 export const valStore: { [index: string]: any } = {};
 
@@ -36,13 +36,8 @@ export async function runExecutor({
   suffix,
   sessionDir,
   package: packagePath,
-}: {
-  address?: string;
-  sessionId: string;
-  suffix?: string;
-  sessionDir: string;
-  package?: string;
-}): Promise<() => void> {
+  identifier,
+}: ExecutorArgs): Promise<() => void> {
   setupSessionLog({ sessionId, suffix });
 
   logger.info(
@@ -175,6 +170,7 @@ export async function runExecutor({
     executor_name: ExecutorName,
     session_id: sessionId,
     package: packagePath,
+    identifier,
   });
 
   return () => {

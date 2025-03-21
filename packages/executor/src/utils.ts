@@ -7,12 +7,13 @@ import { importFile } from "@hyrious/esbuild-dev";
 import type { ServiceExecutePayload } from "@oomol/oocana-types";
 import { pathToFileURL } from "node:url";
 
-interface ExecutorArgs {
+export interface ExecutorArgs {
   readonly sessionId: string;
   readonly sessionDir: string;
   readonly address?: string;
   readonly suffix?: string;
   readonly package?: string;
+  readonly identifier?: string;
 }
 
 export const ExecutorName = "nodejs";
