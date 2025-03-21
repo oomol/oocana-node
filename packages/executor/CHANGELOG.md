@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.19.54](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.19.53...@oomol/executor-v0.19.54) (2025-03-21)
+
+
+### Features
+
+* add identifier parameter ([d167bd8](https://github.com/oomol/oocana-node/commit/d167bd888f7ed11c20fbe368f32395aac5438c3e))
+* use identifier to distinguish job not package ([9ddac96](https://github.com/oomol/oocana-node/commit/9ddac96fd166f23c049087d89364ee8fdc011f45))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-sdk bumped to 0.18.34
+    * @oomol/oocana-types bumped to 0.20.28
+
 ## [0.19.53](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.19.52...@oomol/executor-v0.19.53) (2025-03-18)
 
 
