@@ -33,12 +33,11 @@ const serviceStore: Map<string, ServiceStatus> = new Map();
 export async function runExecutor({
   address = "127.0.0.1:47688",
   sessionId,
-  suffix,
   sessionDir,
   package: packagePath,
   identifier,
 }: ExecutorArgs): Promise<() => void> {
-  setupSessionLog({ sessionId, suffix });
+  setupSessionLog({ sessionId, identifier });
 
   logger.info(
     `executor ${ExecutorName} start, session ${sessionId} for ${
@@ -46,7 +45,10 @@ export async function runExecutor({
     }`
   );
 
-  const mainframe = new Mainframe(`mqtt://${address}`, suffix);
+  const mainframe = new Mainframe(
+    `mqtt://${address}`,
+    `nodejs-executor-` + (identifier || sessionId)
+  );
 
   const isCurrentSession = (payload: any) => payload.session_id == sessionId;
   const isCurrentJob = (payload: any) => {

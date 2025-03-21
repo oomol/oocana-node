@@ -26,7 +26,8 @@ export class Mainframe {
     const mqttAddress = address.includes("://") ? address : `mqtt://${address}`;
     this.mqtt = mqtt.connect(mqttAddress, {
       clientId:
-        clientId ?? `node-executor-${Math.random().toString(36).slice(2, 10)}`,
+        clientId ??
+        `nodejs-executor-${Math.random().toString(36).slice(2, 10)}`,
     });
 
     this.connectingPromise = new Promise<void>((resolve, reject) => {

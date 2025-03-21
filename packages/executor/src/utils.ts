@@ -11,7 +11,6 @@ export interface ExecutorArgs {
   readonly sessionId: string;
   readonly sessionDir: string;
   readonly address?: string;
-  readonly suffix?: string;
   readonly package?: string;
   readonly identifier?: string;
 }
