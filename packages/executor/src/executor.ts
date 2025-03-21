@@ -49,8 +49,8 @@ export async function runExecutor({
   const mainframe = new Mainframe(`mqtt://${address}`, suffix);
 
   const isCurrentSession = (payload: any) => payload.session_id == sessionId;
-  const isCurrentPackage = (payload: any) => {
-    return packagePath == payload.package;
+  const isCurrentJob = (payload: any) => {
+    return identifier == payload.identifier;
   };
 
   mainframe.subscribe(
@@ -60,7 +60,7 @@ export async function runExecutor({
         return;
       }
 
-      if (!isCurrentPackage(payload)) {
+      if (!isCurrentJob(payload)) {
         return;
       }
 
@@ -90,7 +90,7 @@ export async function runExecutor({
         return;
       }
 
-      if (!isCurrentPackage(payload)) {
+      if (!isCurrentJob(payload)) {
         return;
       }
 
