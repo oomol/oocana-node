@@ -22,7 +22,7 @@ type ServiceLogParams = {
 
 type ExecutorLogParams = {
   sessionId: string;
-  suffix?: string;
+  identifier?: string;
 };
 
 export const setupSessionLog = (
@@ -35,15 +35,15 @@ export const setupSessionLog = (
 
   let filename: string;
   // executor 的进程日志
-  // ~/.oocana/sessions/${sessionId}/nodejs-{suffix}.log
+  // ~/.oocana/sessions/${sessionId}/nodejs-{identifier}.log
   // ~/.oocana/sessions/${sessionId}/nodejs.log
   // service in session 的进程日志
   //  ~/.oocana/sessions/nodejs-${serviceHash}.log
   if ("sessionId" in params) {
     const dir = join(homedir(), ".oocana", "sessions", `${params.sessionId}`);
     // undefined 也可以满足 in
-    if ("suffix" in params && params.suffix) {
-      filename = join(dir, `nodejs-${params.suffix}.log`);
+    if ("identifier" in params && params.identifier) {
+      filename = join(dir, `nodejs-${params.identifier}.log`);
     } else if ("serviceHash" in params && params.serviceHash) {
       filename = join(dir, `nodejs-${params.serviceHash}.log`);
     } else {
