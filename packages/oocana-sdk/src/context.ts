@@ -38,6 +38,7 @@ export class ContextImpl implements Context {
   public readonly inputs: Record<string, any>;
   public readonly OOMOL_LLM_ENV: OOMOL_LLM_ENV;
   public readonly hostInfo: HostInfo;
+  public readonly tmpDir: string;
 
   public node_id: string;
 
@@ -49,6 +50,7 @@ export class ContextImpl implements Context {
     store = {},
     storeKey,
     sessionDir,
+    tmpDir,
   }: {
     blockInfo: BlockInfo;
     mainframe: Mainframe;
@@ -57,6 +59,7 @@ export class ContextImpl implements Context {
     store: { [index: string]: any };
     storeKey: string;
     sessionDir: string;
+    tmpDir: string;
   }) {
     const { session_id, job_id, block_path, stacks } = blockInfo;
     this.mainframe = mainframe;
@@ -70,6 +73,7 @@ export class ContextImpl implements Context {
     this.node_id = stacks[stacks.length - 1]?.node_id;
     this.#store = store;
     this.sessionDir = sessionDir;
+    this.tmpDir = tmpDir;
 
     this.OOMOL_LLM_ENV = Object.freeze({
       baseUrl: process.env.OOMOL_LLM_BASE_URL || "",

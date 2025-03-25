@@ -13,6 +13,7 @@ import { asyncLocalStorage } from "./hook";
 import "./hook";
 import { createModuleFile } from "./file";
 import { logger } from "./logger";
+import { tmpdir } from "node:os";
 
 async function runFunction(
   func: MainFunction<any, any>,
@@ -24,7 +25,8 @@ async function runFunction(
 export async function runBlock(
   mainframe: Mainframe,
   payload: ExecutorPayload,
-  sessionDir: string
+  sessionDir: string,
+  tmpDir: string
 ): Promise<void> {
   const { session_id, job_id, executor, dir, outputs } = payload;
   const jobInfo = { session_id, job_id };
@@ -40,6 +42,7 @@ export async function runBlock(
       store: valStore,
       storeKey: ExecutorName,
       sessionDir,
+      tmpDir,
     });
   } catch (err) {
     logger.error(`create context error`, err);
