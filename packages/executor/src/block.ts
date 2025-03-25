@@ -13,7 +13,6 @@ import { asyncLocalStorage } from "./hook";
 import "./hook";
 import { createModuleFile } from "./file";
 import { logger } from "./logger";
-import { tmpdir } from "node:os";
 
 async function runFunction(
   func: MainFunction<any, any>,
