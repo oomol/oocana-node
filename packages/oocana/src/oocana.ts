@@ -32,7 +32,7 @@ export interface RunFlowConfig {
   toNode?: string;
   /** exclude packages, these package will not use ovm layer feature if the feature is enabled */
   excludePackages?: string[];
-  /** format <source>:<target>, oocana will mount source to target in layer. if target not exist, oocana will create it. */
+  /** a path for session storage. this path will shared by all block by context.sessionDir or context.session_dir */
   sessionPath?: string;
   /** @deprecated use BindPaths instead. */
   extraBindPaths?: string[];
