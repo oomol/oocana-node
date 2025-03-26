@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.21.33](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.21.32...@oomol/oocana-v0.21.33) (2025-03-26)
+
+
+### Features
+
+* add cli argument ([#36](https://github.com/oomol/oocana-node/issues/36)) ([b417e22](https://github.com/oomol/oocana-node/commit/b417e2260ead5ee875c49b49cd749aa7f3b92fcc))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.26.0 ([#34](https://github.com/oomol/oocana-node/issues/34)) ([591c1e4](https://github.com/oomol/oocana-node/commit/591c1e49305f72661cbda7bb551c044ccf20ba7e))
+
 ## [0.21.32](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.21.31...@oomol/oocana-v0.21.32) (2025-03-21)
 
 
