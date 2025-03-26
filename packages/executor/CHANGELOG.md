@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.20.0](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.19.55...@oomol/executor-v0.20.0) (2025-03-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* add tmp dir ([#32](https://github.com/oomol/oocana-node/issues/32))
+
+### Features
+
+* add tmp dir ([#32](https://github.com/oomol/oocana-node/issues/32)) ([ed4f32d](https://github.com/oomol/oocana-node/commit/ed4f32d4456ff316af9845552a10e41dc87334d0))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-sdk bumped to 0.19.0
+
 ## [0.19.55](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.19.54...@oomol/executor-v0.19.55) (2025-03-21)
 
 
