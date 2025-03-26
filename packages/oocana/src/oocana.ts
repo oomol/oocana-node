@@ -187,6 +187,12 @@ export class Oocana implements IDisposable, OocanaInterface {
       }
     }
 
+    for (const key of Object.keys(process.env)) {
+      if (key.startsWith("OOCANA_")) {
+        executorEnvs[key] = process.env[key] || "";
+      }
+    }
+
     if (tempRoot) {
       args.push("--temp-root", tempRoot);
     }
