@@ -37,7 +37,7 @@ export interface RunFlowConfig {
   /** a path for session storage. this path will shared by all block by context.sessionDir or context.session_dir */
   sessionPath?: string;
   /** a temporary root directory for session storage. oocana will create a subdirectory for each flowPath (one flow path always has the same subdirectory name). oocana will clean this subdirectory after flow session finish success but retain if the session is not successful. every block can get this subdirectory from context.tmpDir or context.tmp_dir. */
-  tmpRoot?: string;
+  tempRoot?: string;
   /** @deprecated use BindPaths instead. */
   extraBindPaths?: string[];
   /** bind paths, format <source>:<target>, oocana will mount source to target in layer. if target not exist, oocana will create it. */
@@ -100,7 +100,7 @@ export class Oocana implements IDisposable, OocanaInterface {
     inputValues,
     excludePackages,
     sessionPath,
-    tmpRoot,
+    tempRoot,
     extraBindPaths,
     bindPaths,
     bindPathFile,
@@ -187,8 +187,8 @@ export class Oocana implements IDisposable, OocanaInterface {
       }
     }
 
-    if (tmpRoot) {
-      args.push("--tmp-root", tmpRoot);
+    if (tempRoot) {
+      args.push("--temp-root", tempRoot);
     }
 
     if (envs) {
