@@ -20,6 +20,8 @@ export interface RunFlowConfig {
   address?: string;
   /** will use previous run's last input value, but only json value can be reused */
   useCache?: boolean;
+  /** Debug mode. If enable, when oocana spawn executor it will give some debugging message to every executor to make they support debugging. Only support in python-executor and nodejs-executor now */
+  debug?: boolean;
   /** only run these nodes */
   nodes?: string[];
   /** fake data override last value save */
@@ -32,8 +34,10 @@ export interface RunFlowConfig {
   toNode?: string;
   /** exclude packages, these package will not use ovm layer feature if the feature is enabled */
   excludePackages?: string[];
-  /** format <source>:<target>, oocana will mount source to target in layer. if target not exist, oocana will create it. */
+  /** a path for session storage. this path will shared by all block by context.sessionDir or context.session_dir */
   sessionPath?: string;
+  /** a temporary root directory for session storage. oocana will create a subdirectory for each flowPath (one flow path always has the same subdirectory name). oocana will clean this subdirectory after flow session finish success but retain if the session is not successful. every block can get this subdirectory from context.tmpDir or context.tmp_dir. */
+  tempRoot?: string;
   /** @deprecated use BindPaths instead. */
   extraBindPaths?: string[];
   /** bind paths, format <source>:<target>, oocana will mount source to target in layer. if target not exist, oocana will create it. */
@@ -92,9 +96,11 @@ export class Oocana implements IDisposable, OocanaInterface {
     nodes,
     toNode,
     useCache,
+    debug,
     inputValues,
     excludePackages,
     sessionPath,
+    tempRoot,
     extraBindPaths,
     bindPaths,
     bindPathFile,
@@ -140,6 +146,10 @@ export class Oocana implements IDisposable, OocanaInterface {
       args.push("--session-dir", sessionPath);
     }
 
+    if (debug) {
+      args.push("--debug");
+    }
+
     if (extraBindPaths) {
       for (const path of extraBindPaths) {
         if (!path.includes(":")) {
@@ -176,6 +186,11 @@ export class Oocana implements IDisposable, OocanaInterface {
         executorEnvs[envKey] = value;
       }
     }
+
+    if (tempRoot) {
+      args.push("--temp-root", tempRoot);
+    }
+
     if (envs) {
       for (const [key, value] of Object.entries(envs)) {
         executorEnvs[key] = value;
