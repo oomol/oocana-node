@@ -20,6 +20,8 @@ export interface RunFlowConfig {
   address?: string;
   /** will use previous run's last input value, but only json value can be reused */
   useCache?: boolean;
+  /** Debug mode. If enable, when oocana spawn executor it will give some debugging message to every executor to make they support debugging. Only support in python-executor and nodejs-executor now */
+  debug?: boolean;
   /** only run these nodes */
   nodes?: string[];
   /** fake data override last value save */
@@ -94,6 +96,7 @@ export class Oocana implements IDisposable, OocanaInterface {
     nodes,
     toNode,
     useCache,
+    debug,
     inputValues,
     excludePackages,
     sessionPath,
@@ -141,6 +144,10 @@ export class Oocana implements IDisposable, OocanaInterface {
 
     if (sessionPath) {
       args.push("--session-dir", sessionPath);
+    }
+
+    if (debug) {
+      args.push("--debug");
     }
 
     if (extraBindPaths) {
