@@ -121,4 +121,6 @@ export interface Context<
   readonly hostInfo: HostInfo;
 
   readonly keepAlive: KeepAlive;
+
+  readonly tmpDir: string;
 }
