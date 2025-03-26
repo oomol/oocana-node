@@ -1,6 +1,6 @@
 {
   "name": "@oomol/oocana-types",
-  "version": "0.20.28",
+  "version": "0.20.29",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
     "types": "./dist/index.d.ts"

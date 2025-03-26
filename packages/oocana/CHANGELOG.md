@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.21.34](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.21.33...@oomol/oocana-v0.21.34) (2025-03-26)
+
+
+### Features
+
+* pass OOCANA env ([#39](https://github.com/oomol/oocana-node/issues/39)) ([49519f5](https://github.com/oomol/oocana-node/commit/49519f5821e937b35382737172af23883d923aeb))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.20.29
+
 ## [0.21.33](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.21.32...@oomol/oocana-v0.21.33) (2025-03-26)
 
 

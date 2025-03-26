@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.29](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.28...@oomol/oocana-types-v0.20.29) (2025-03-26)
+
+
+### Features
+
+* add tmpDir context api ([#38](https://github.com/oomol/oocana-node/issues/38)) ([30ebd22](https://github.com/oomol/oocana-node/commit/30ebd220b27df8108156f12c24151c5f2e7d1e34))
+
 ## [0.20.28](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.27...@oomol/oocana-types-v0.20.28) (2025-03-21)
 
 
