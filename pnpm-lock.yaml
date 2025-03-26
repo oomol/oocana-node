@@ -112,7 +112,7 @@ importers:
     dependencies:
       '@wopjs/disposable':
         specifier: ^0.1.11
-        version: 0.1.18
+        version: 0.1.19
       mqtt:
         specifier: ^5.7.0
         version: 5.10.3
@@ -1066,8 +1066,8 @@ packages:
   '@wopjs/disposable@0.1.12':
     resolution: {integrity: sha512-WA4LKN+DInW65WVI9PuOyCadqzlssYFoM3Mds85ZHpLWM/tMD5/0wG4FlKiX6NqsmR9Dioq2YV01sncFNrdu8A==}
 
-  '@wopjs/disposable@0.1.18':
-    resolution: {integrity: sha512-v+AWOidYKQdZkKxV1K2Uc/uK5egktkr5CDh5DTKVRddnI3qKwkyV+L2wgwyp9/4udg7rdcVCmcluQ63byaT2Ww==}
+  '@wopjs/disposable@0.1.19':
+    resolution: {integrity: sha512-0vFOH+ltWFrP9yF8I+8CWUJstl2/b0dPFsEAeTK4UGsSgXhsECT2uPszsUfJSZqwhS2YVaMuYhB3rB2pIsU3HA==}
 
   '@xmldom/xmldom@0.8.10':
     resolution: {integrity: sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==}
@@ -3645,7 +3645,7 @@ snapshots:
 
   '@wopjs/disposable@0.1.12': {}
 
-  '@wopjs/disposable@0.1.18': {}
+  '@wopjs/disposable@0.1.19': {}
 
   '@xmldom/xmldom@0.8.10': {}
 
