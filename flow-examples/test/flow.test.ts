@@ -177,6 +177,8 @@ async function run(
     ].join(","),
     bindPaths: [`${homedir()}/.oocana:/root/.oocana`],
     bindPathFile: await bindFile(),
+    tmpRoot: tmpdir(),
+    debug: true,
     sessionId: flow,
     oomolEnvs: {
       VAR: "1",
