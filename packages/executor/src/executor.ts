@@ -36,6 +36,7 @@ export async function runExecutor({
   sessionDir,
   package: packagePath,
   identifier,
+  tmpDir,
 }: ExecutorArgs): Promise<() => void> {
   setupSessionLog({ sessionId, identifier });
 
@@ -73,7 +74,7 @@ export async function runExecutor({
       }
       jobSet.add(payload.job_id);
 
-      runBlock(mainframe, payload, sessionDir);
+      runBlock(mainframe, payload, sessionDir, tmpDir);
     }
   );
 

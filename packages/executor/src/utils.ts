@@ -10,6 +10,7 @@ import { pathToFileURL } from "node:url";
 export interface ExecutorArgs {
   readonly sessionId: string;
   readonly sessionDir: string;
+  readonly tmpDir: string;
   readonly address?: string;
   readonly package?: string;
   readonly identifier?: string;
@@ -22,10 +23,11 @@ export function getExecutorArgs(): ExecutorArgs {
     alias: {
       sessionId: "session-id",
       sessionDir: "session-dir",
+      tmpDir: "tmp-dir",
     },
   });
 
-  const keys = ["sessionId", "sessionDir"];
+  const keys = ["sessionId", "sessionDir", "tmpDir"];
   for (const key of keys) {
     if (argv[key] == null) {
       throw new Error(`Missing required argument ${key}`);

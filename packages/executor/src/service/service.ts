@@ -149,6 +149,7 @@ class ServiceRuntime implements ServiceContext {
       store: varStore,
       storeKey: ExecutorName,
       sessionDir: this.#sessionDir,
+      tmpDir: this.#sessionDir, // TODO: use tmpDir and need consider global service
     });
 
     const originalDone = context.done;
