@@ -25,7 +25,7 @@
   "devDependencies": {
     "@oomol/oocana-sdk": "workspace:*",
     "@oomol/oocana-types": "workspace:*",
-    "vitest": "^2.0.5"
+    "vitest": "^2.1.9"
   },
   "dependencies": {
     "winston": "^3.13.1",
