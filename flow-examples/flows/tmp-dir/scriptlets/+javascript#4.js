@@ -9,7 +9,7 @@
  */
 //#endregion
 
-import { fstat } from "fs";
+import fs from "fs/promises";
 
 /**
  * @param {Inputs} params
