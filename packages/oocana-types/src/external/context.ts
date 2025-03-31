@@ -122,9 +122,9 @@ export interface Context<
 
   readonly keepAlive: KeepAlive;
 
-  /** a temporary directory for the current follow, all blocks in the this flow will share the same directory. this directory will be cleaned if this session finish successfully, otherwise it will be kept for debugging or other purpose. */
+  /** a temporary directory for the current flow, all blocks in this flow will share the same directory. This directory will be cleaned if this session finishes successfully; otherwise, it will be kept for debugging or other purposes. */
   readonly tmpDir: string;
 
-  /** a temporary directory for the current package, all blocks in the this package will share the same directory. this directory will be cleaned if this session finish successfully, otherwise it will be kept for debugging or other purpose. */
+  /** a temporary directory for the current package, all blocks in this package will share the same directory. This directory will be cleaned if this session finishes successfully; otherwise, it will be kept for debugging or other purposes. */
   readonly tmpPkgDir: string;
 }
