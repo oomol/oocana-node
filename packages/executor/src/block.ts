@@ -25,7 +25,8 @@ export async function runBlock(
   mainframe: Mainframe,
   payload: ExecutorPayload,
   sessionDir: string,
-  tmpDir: string
+  tmpDir: string,
+  packageName: string
 ): Promise<void> {
   const { session_id, job_id, executor, dir, outputs } = payload;
   const jobInfo = { session_id, job_id };
@@ -42,6 +43,7 @@ export async function runBlock(
       storeKey: ExecutorName,
       sessionDir,
       tmpDir,
+      packageName,
     });
   } catch (err) {
     logger.error(`create context error`, err);
