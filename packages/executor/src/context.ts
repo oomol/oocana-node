@@ -25,6 +25,7 @@ export async function createContext({
   storeKey,
   sessionDir,
   tmpDir,
+  packageName,
 }: {
   mainframe: Mainframe;
   jobInfo: JobInfo;
@@ -33,6 +34,7 @@ export async function createContext({
   storeKey: string;
   sessionDir: string;
   tmpDir: string;
+  packageName: string;
 }) {
   const { session_id, job_id } = jobInfo;
 
@@ -88,5 +90,6 @@ export async function createContext({
     storeKey,
     sessionDir,
     tmpDir,
+    packageName,
   });
 }

@@ -20,6 +20,7 @@ import {
 import { setupSessionLog, logger } from "./logger";
 import { EventEmitter } from "node:events";
 import { isServicePayload, ExecutorName, ExecutorArgs } from "./utils";
+import path from "node:path";
 
 export const valStore: { [index: string]: any } = {};
 
@@ -39,6 +40,8 @@ export async function runExecutor({
   tmpDir,
 }: ExecutorArgs): Promise<() => void> {
   setupSessionLog({ sessionId, identifier });
+
+  let packageName = packagePath ? path.basename(packagePath) : "workspace";
 
   logger.info(
     `executor ${ExecutorName} start, session ${sessionId} for ${
@@ -74,7 +77,7 @@ export async function runExecutor({
       }
       jobSet.add(payload.job_id);
 
-      runBlock(mainframe, payload, sessionDir, tmpDir);
+      runBlock(mainframe, payload, sessionDir, tmpDir, packageName);
     }
   );
 

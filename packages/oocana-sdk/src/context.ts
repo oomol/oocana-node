@@ -15,7 +15,7 @@ import { isBinHandle, isValHandle, outputRefKey } from "./utils";
 import throttle from "lodash.throttle";
 import { writeFile } from "node:fs/promises";
 import { mkdirSync } from "node:fs";
-import { dirname } from "node:path";
+import path, { dirname } from "node:path";
 
 interface ThrottleFunction<T extends (...args: any[]) => any> {
   (...args: Parameters<T>): ReturnType<T>;
@@ -39,6 +39,7 @@ export class ContextImpl implements Context {
   public readonly OOMOL_LLM_ENV: OOMOL_LLM_ENV;
   public readonly hostInfo: HostInfo;
   public readonly tmpDir: string;
+  public readonly packageName: string;
 
   public node_id: string;
 
@@ -51,6 +52,7 @@ export class ContextImpl implements Context {
     storeKey,
     sessionDir,
     tmpDir,
+    packageName,
   }: {
     blockInfo: BlockInfo;
     mainframe: Mainframe;
@@ -60,6 +62,7 @@ export class ContextImpl implements Context {
     storeKey: string;
     sessionDir: string;
     tmpDir: string;
+    packageName: string;
   }) {
     const { session_id, job_id, block_path, stacks } = blockInfo;
     this.mainframe = mainframe;
@@ -74,6 +77,8 @@ export class ContextImpl implements Context {
     this.#store = store;
     this.sessionDir = sessionDir;
     this.tmpDir = tmpDir;
+    this.packageName = packageName;
+    this.tmpPkgDir = path.join(this.tmpDir, this.packageName);
 
     this.OOMOL_LLM_ENV = Object.freeze({
       baseUrl: process.env.OOMOL_LLM_BASE_URL || "",
@@ -89,6 +94,7 @@ export class ContextImpl implements Context {
       gpuRenderer: process.env.OOMOL_HOST_GPU_RENDERER || "unknown",
     });
   }
+  tmpPkgDir: string;
 
   private createObjectRef = (handle: string): StoreKeyRef => {
     return {

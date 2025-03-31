@@ -118,6 +118,11 @@ describe(
         expect(code).toBe(0);
       }
     });
+
+    it("run tmp-dir flow", async () => {
+      const { code } = await run("tmp-dir");
+      expect(code).toBe(0);
+    });
   }
 );
 
