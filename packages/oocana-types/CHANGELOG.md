@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.30](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.29...@oomol/oocana-types-v0.20.30) (2025-03-31)
+
+
+### Features
+
+* add tmp pkg dir ([#45](https://github.com/oomol/oocana-node/issues/45)) ([fc6fe5d](https://github.com/oomol/oocana-node/commit/fc6fe5d487dad30fd0a1f23979ca27d388b6815d))
+
 ## [0.20.29](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.28...@oomol/oocana-types-v0.20.29) (2025-03-26)
 
 
