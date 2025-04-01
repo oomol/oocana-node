@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.31](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.30...@oomol/oocana-types-v0.20.31) (2025-04-01)
+
+
+### Features
+
+* add debug info on executor ready message ([#49](https://github.com/oomol/oocana-node/issues/49)) ([cb0d120](https://github.com/oomol/oocana-node/commit/cb0d12069e1904cb2dc7a95da2bda08702af9792))
+
 ## [0.20.30](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.29...@oomol/oocana-types-v0.20.30) (2025-03-31)
 
 
