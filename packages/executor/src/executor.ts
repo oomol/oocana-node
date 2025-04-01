@@ -19,7 +19,12 @@ import {
 } from "./service/topic";
 import { setupSessionLog, logger } from "./logger";
 import { EventEmitter } from "node:events";
-import { isServicePayload, ExecutorName, ExecutorArgs } from "./utils";
+import {
+  isServicePayload,
+  ExecutorName,
+  ExecutorArgs,
+  cleanupTmpFile,
+} from "./utils";
 import path from "node:path";
 
 export const valStore: { [index: string]: any } = {};
@@ -155,11 +160,12 @@ export async function runExecutor({
     }
   );
 
-  mainframe.subscribe(`report`, (payload: ReporterMessage) => {
+  mainframe.subscribe(`report`, async (payload: ReporterMessage) => {
     switch (payload.type) {
       case "SessionFinished":
         if (isCurrentSession(payload)) {
           logger.info(`session ${sessionId} finished, executor exit`);
+          await cleanupTmpFile();
           process.exit(0);
         }
         break;
