@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.20.3](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.2...@oomol/executor-v0.20.3) (2025-04-01)
+
+
+### Features
+
+* add debug info on executor ready message ([#49](https://github.com/oomol/oocana-node/issues/49)) ([cb0d120](https://github.com/oomol/oocana-node/commit/cb0d12069e1904cb2dc7a95da2bda08702af9792))
+* when run with debugger, move typescript outfile beside original file and remove after session finish ([#46](https://github.com/oomol/oocana-node/issues/46)) ([6938f14](https://github.com/oomol/oocana-node/commit/6938f14723649df2348f3c73a003a302dd4fb58e))
+
+
+### Code Refactoring
+
+* improve clean log ([#48](https://github.com/oomol/oocana-node/issues/48)) ([746ba09](https://github.com/oomol/oocana-node/commit/746ba09149215ff6c4f40ec387f260ca622b5449))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-sdk bumped to 0.19.3
+    * @oomol/oocana-types bumped to 0.20.31
+
 ## [0.20.2](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.1...@oomol/executor-v0.20.2) (2025-03-31)
 
 
