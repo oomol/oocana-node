@@ -132,6 +132,9 @@ export async function cleanupTmpFile() {
       logger.error(`cleanup tmp file ${tmpFile} failed`, error);
     }
   }
+
+  debugTmpFile.clear();
+  logger.debug(`cleanup tmp file ${debugTmpFile.size} files`);
 }
 
 const debugTmpFile = new Set<string>();
