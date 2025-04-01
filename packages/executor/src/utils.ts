@@ -14,6 +14,7 @@ export interface ExecutorArgs {
   readonly address?: string;
   readonly package?: string;
   readonly identifier?: string;
+  readonly inspectWait?: number;
 }
 
 export const ExecutorName = "nodejs";
@@ -24,8 +25,11 @@ export function getExecutorArgs(): ExecutorArgs {
       sessionId: "session-id",
       sessionDir: "session-dir",
       tmpDir: "tmp-dir",
+      inspectWait: "inspect-wait",
     },
   });
+
+  console.log("argv: ", argv);
 
   const keys = ["sessionId", "sessionDir", "tmpDir"];
   for (const key of keys) {
@@ -142,7 +146,7 @@ export async function cleanupTmpFile() {
 }
 
 const debugTmpFile = new Set<string>();
-const isDebug = () => {
+export const isDebug = () => {
   const env = process.env.NODE_ENV;
   let isDebug = env === "development" || env === "dev";
   if (isDebug) {

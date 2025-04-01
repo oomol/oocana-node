@@ -2,6 +2,7 @@ import type {
   ServiceExecutePayload,
   ExecutorPayload,
   ReporterMessage,
+  IMainframeExecutorReady,
 } from "@oomol/oocana-types";
 import { Mainframe } from "@oomol/oocana-sdk";
 import { runBlock } from "./block";
@@ -24,8 +25,10 @@ import {
   ExecutorName,
   ExecutorArgs,
   cleanupTmpFile,
+  isDebug,
 } from "./utils";
 import path from "node:path";
+import { debug } from "node:console";
 
 export const valStore: { [index: string]: any } = {};
 
@@ -43,6 +46,7 @@ export async function runExecutor({
   package: packagePath,
   identifier,
   tmpDir,
+  inspectWait,
 }: ExecutorArgs): Promise<() => void> {
   setupSessionLog({ sessionId, identifier });
 
@@ -177,12 +181,19 @@ export async function runExecutor({
   await mainframe.connectingPromise;
   logger.info(`connecting to broker ${address} success`);
 
+  const debugInfo: Partial<IMainframeExecutorReady> = {};
+  if (isDebug()) {
+    debugInfo["inspect_wait"] = inspectWait;
+    debugInfo["process_id"] = process.pid;
+  }
+
   mainframe.sendExecutorReady({
     type: "ExecutorReady",
     executor_name: ExecutorName,
     session_id: sessionId,
     package: packagePath,
     identifier,
+    ...debugInfo,
   });
 
   return () => {
