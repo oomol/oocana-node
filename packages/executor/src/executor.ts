@@ -28,7 +28,6 @@ import {
   isDebug,
 } from "./utils";
 import path from "node:path";
-import { debug } from "node:console";
 
 export const valStore: { [index: string]: any } = {};
 
