@@ -121,20 +121,24 @@ export function updateImportSuffix() {
 }
 
 export async function cleanupTmpFile() {
+  let ignoreFiles = new Set<string>();
   for (const tmpFile of debugTmpFile) {
     try {
       await unlink(tmpFile);
     } catch (error) {
       if ((error as any).code == "ENOENT") {
-        // file not found, ignore
+        ignoreFiles.add(tmpFile);
         continue;
       }
       logger.error(`cleanup tmp file ${tmpFile} failed`, error);
     }
   }
 
+  logger.info(
+    `cleanup tmp file: ${debugTmpFile.size} files, ${ignoreFiles.size} ignored`
+  );
+
   debugTmpFile.clear();
-  logger.debug(`cleanup tmp file ${debugTmpFile.size} files`);
 }
 
 const debugTmpFile = new Set<string>();
