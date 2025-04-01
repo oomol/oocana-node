@@ -1,6 +1,6 @@
 import { ContextImpl } from "@oomol/oocana-sdk";
 import minimist from "minimist";
-import { stat, realpath } from "node:fs/promises";
+import { stat, realpath, unlink } from "node:fs/promises";
 import path from "node:path";
 import { logger } from "./logger";
 import { importFile } from "@hyrious/esbuild-dev";
@@ -120,16 +120,64 @@ export function updateImportSuffix() {
   esmHash++;
 }
 
-// 传递的 path 并不一定就是最终在 cache 里面的 require.cache 的 key。比如 /tmp 下的文件，会增加 /private 路径。
+export async function cleanupTmpFile() {
+  for (const tmpFile of debugTmpFile) {
+    try {
+      await unlink(tmpFile);
+    } catch (error) {
+      if ((error as any).code == "ENOENT") {
+        // file not found, ignore
+        continue;
+      }
+      logger.error(`cleanup tmp file ${tmpFile} failed`, error);
+    }
+  }
+}
+
+const debugTmpFile = new Set<string>();
+const isDebug = () => {
+  const env = process.env.NODE_ENV;
+  let isDebug = env === "development" || env === "dev";
+  if (isDebug) {
+    return isDebug;
+  }
+
+  const args = process.argv.slice(2);
+  if (args.includes("--enable-source-maps")) {
+    isDebug = true;
+  }
+  logger.debug(`isDebug: ${isDebug}`);
+  return isDebug;
+};
+
 export async function getModule(file: string): Promise<any> {
   const realModulePath = await realpath(file);
   logger.debug(`real module path: ${realModulePath}`);
 
   if (realModulePath.endsWith(".ts")) {
-    return importFile(realModulePath + `?t=${esmHash}`, void 0, void 0, {
+    const importOptions = {
       cwd: path.dirname(realModulePath),
       shims: true,
-    });
+    };
+
+    const fileWithHash = `${realModulePath}?t=${esmHash}`;
+
+    if (isDebug()) {
+      // It's the developer's duty to make sure ts files don't mix with js files of the same name
+      const jsFile = realModulePath.replace(/\.ts$/, ".js");
+      const tsMapFile = jsFile + ".map";
+      debugTmpFile.add(jsFile);
+      debugTmpFile.add(tsMapFile);
+
+      return importFile(
+        fileWithHash,
+        { outfile: jsFile },
+        undefined,
+        importOptions
+      );
+    }
+
+    return importFile(fileWithHash, undefined, undefined, importOptions);
   }
   return import(pathToFileURL(realModulePath).href);
 }
