@@ -20,6 +20,8 @@ export interface IMainframeExecutorReady {
   session_id: string;
   package?: string;
   identifier?: string;
+  inspect_wait?: number;
+  process_id?: number;
 }
 
 export interface IMainframeBlockOutput<TOutput = any> extends JobInfo {
