@@ -26,7 +26,8 @@ export async function runBlock(
   payload: ExecutorPayload,
   sessionDir: string,
   tmpDir: string,
-  packageName: string
+  packageName: string,
+  pkgDir: string
 ): Promise<void> {
   const { session_id, job_id, executor, dir, outputs } = payload;
   const jobInfo = { session_id, job_id };
@@ -44,6 +45,7 @@ export async function runBlock(
       sessionDir,
       tmpDir,
       packageName,
+      pkgDir,
     });
   } catch (err) {
     logger.error(`create context error`, err);
