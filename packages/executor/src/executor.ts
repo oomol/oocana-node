@@ -50,6 +50,7 @@ export async function runExecutor({
   setupSessionLog({ sessionId, identifier });
 
   let packageName = packagePath ? path.basename(packagePath) : "workspace";
+  const pkgDir = process.env["OOCANA_PKG_DIR"] || "";
 
   logger.info(
     `executor ${ExecutorName} start, session ${sessionId} for ${
@@ -85,7 +86,7 @@ export async function runExecutor({
       }
       jobSet.add(payload.job_id);
 
-      runBlock(mainframe, payload, sessionDir, tmpDir, packageName);
+      runBlock(mainframe, payload, sessionDir, tmpDir, packageName, pkgDir);
     }
   );
 

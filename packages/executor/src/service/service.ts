@@ -55,6 +55,7 @@ class ServiceRuntime implements ServiceContext {
   #sessionId?: string;
   #mainframe: Mainframe;
   #config: ServiceExecutePayload;
+  #pkgDir: string;
 
   constructor({
     config,
@@ -94,6 +95,8 @@ class ServiceRuntime implements ServiceContext {
     mainframe.subscribe(shutdownActionTopic(topicParams), () => {
       this.dispose();
     });
+
+    this.#pkgDir = process.env["OOCANA_PKG_DIR"] || "";
 
     // report message for every 5 seconds
     // TODO: 可以考虑性能以及开销
@@ -151,6 +154,7 @@ class ServiceRuntime implements ServiceContext {
       sessionDir: this.#sessionDir,
       tmpDir: this.#sessionDir, // TODO: use tmpDir and need consider global service
       packageName: this.#serviceHash,
+      pkgDir: this.#pkgDir,
     });
 
     const originalDone = context.done;
