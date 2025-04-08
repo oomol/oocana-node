@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.19.4](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.3...@oomol/oocana-sdk-v0.19.4) (2025-04-08)
+
+
+### Features
+
+* add pkg dir ([#51](https://github.com/oomol/oocana-node/issues/51)) ([31d1f12](https://github.com/oomol/oocana-node/commit/31d1f12e15bc1d496ec2687a38d147f09fc69529))
+
 ## [0.19.3](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.2...@oomol/oocana-sdk-v0.19.3) (2025-04-01)
 
 
