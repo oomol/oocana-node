@@ -185,7 +185,7 @@ async function run(
       path.join(flow_example, "blocks"),
       path.join(flow_example, "packages"),
     ].join(","),
-    bindPaths: [`${homedir()}/.oocana:/root/.oocana`],
+    bindPaths: [`src=${homedir()}/.oocana,dst=/root/.oocana`],
     bindPathFile: await bindFile(),
     tempRoot: tmpdir(),
     debug: true,
@@ -222,7 +222,7 @@ async function run(
 }
 
 async function bindFile() {
-  const content = `${flow_example}/executor.env:/root/oocana/bind`;
+  const content = `src=${flow_example}/executor.env,dst=/root/oocana/bind`;
 
   const p = `${tmpdir()}/bind.txt`;
   await writeFile(p, content);
