@@ -5,7 +5,7 @@ import { Cli } from "./cli";
 export type UpstreamQueryParams = {
   flowPath: string;
   nodes: string[];
-  blockSearchPaths?: string;
+  searchPaths?: string;
   useCache?: boolean;
   oocanaBin?: string;
 };
@@ -19,7 +19,7 @@ export type UpstreamResponse = {
 
 export type ServiceQueryParams = {
   flowPath: string;
-  blockSearchPaths?: string;
+  searchPaths?: string;
 };
 
 export type ServiceQueryResponse = {
@@ -32,7 +32,7 @@ export type ServiceQueryResponse = {
 
 export type PackageQueryParams = {
   flowPath: string;
-  blockSearchPaths?: string;
+  searchPaths?: string;
   oocanaBin?: string;
 };
 
@@ -48,8 +48,8 @@ export async function queryPackage(
     "query",
     "package",
     params.flowPath,
-    "--block-search-paths",
-    params.blockSearchPaths || "",
+    "--search-paths",
+    params.searchPaths || "",
   ];
 
   const spawnedProcess = await spawn(bin, args);
@@ -88,8 +88,8 @@ export async function queryService(params: ServiceQueryParams) {
   const bin = join(__dirname, "..", "oocana");
   const args = ["query", "service", params.flowPath];
 
-  if (params.blockSearchPaths) {
-    args.push("--block-search-paths", params.blockSearchPaths);
+  if (params.searchPaths) {
+    args.push("--search-paths", params.searchPaths);
   }
 
   const spawnedProcess = await spawn(bin, args);
@@ -140,8 +140,8 @@ export async function queryUpstream(
     params.flowPath,
     "--nodes",
     params.nodes.join(","),
-    "--block-search-paths",
-    params.blockSearchPaths || "",
+    "--search-paths",
+    params.searchPaths || "",
   ];
 
   if (params.useCache) {

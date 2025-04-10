@@ -13,7 +13,7 @@ export interface RunFlowConfig {
   /** flow.yaml file path or directory path */
   flowPath: string;
   /** comma separated paths for search block package */
-  blockSearchPaths?: string;
+  searchPaths?: string;
   /** optional session id */
   sessionId?: string;
   /** address for mqtt */
@@ -89,7 +89,7 @@ export class Oocana implements IDisposable, OocanaInterface {
 
   public async runFlow({
     flowPath,
-    blockSearchPaths,
+    searchPaths,
     sessionId,
     nodes,
     toNode,
@@ -111,8 +111,8 @@ export class Oocana implements IDisposable, OocanaInterface {
 
     const args = ["run", flowPath, "--reporter", "--broker", this.#address];
 
-    if (blockSearchPaths) {
-      args.push("--block-search-paths", blockSearchPaths);
+    if (searchPaths) {
+      args.push("--search-paths", searchPaths);
     }
 
     if (sessionId) {
