@@ -161,9 +161,7 @@ export class Oocana implements IDisposable, OocanaInterface {
 
     if (bindPaths) {
       for (const path of bindPaths) {
-        if (!path.includes(":")) {
-          throw new Error(`Invalid bind path: ${path}`);
-        }
+        // todo: check if path is valid
         args.push("--bind-paths", path);
       }
     }
