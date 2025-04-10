@@ -1,4 +1,4 @@
-apt update && apt install -y curl unzip
+apt update && apt install -y curl unzip zstd
 # github action 的 SHELL 变量应该是 bash，导致 fnm 永远安装到 bash 的环境变量中
 export SHELL=/bin/zsh
 # Download and install fnm:

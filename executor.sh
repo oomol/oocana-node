@@ -16,10 +16,12 @@ tar -zxvf $tarball -C /tmp/executor
 (cd /tmp/executor/package && npm pkg delete devDependencies && pnpm install)
 (cd /tmp/executor/package/dist && chmod +x nodejs-executor)
 
-sudo ovmlayer cp-layer /tmp/executor/package executor:/executor
-sudo ovmlayer cp-layer $DIR/install-node.sh executor:/install-node.sh
+mv /tmp/executor/package /tmp/executor/executor
 
-sudo ovmlayer merge executor : $mp
-sudo ovmlayer run --merged-point=$mp -- bash -c 'echo "export PATH=/executor/dist:\$PATH" >> ~/.zshrc'
-sudo ovmlayer run --merged-point=$mp -- zsh -c -i '/install-node.sh'
+sudo ovmlayer cp --mode host2layer /tmp/executor/executor executor:/
+sudo ovmlayer cp --mode host2layer $DIR/install-node.sh executor:/
+
+sudo ovmlayer merge -l executor -m $mp
+sudo ovmlayer run --all-devices --merged-point=$mp bash -c 'echo "export PATH=/executor/dist:\$PATH" >> ~/.zshrc'
+sudo ovmlayer run --all-devices --merged-point=$mp zsh -c -i '/install-node.sh'
 sudo ovmlayer unmerge $mp
