@@ -48,8 +48,7 @@ export async function queryPackage(
     "query",
     "package",
     params.flowPath,
-    "--search-paths",
-    params.searchPaths || "",
+    ...(params.searchPaths ? ["--search-paths", params.searchPaths] : []),
   ];
 
   const spawnedProcess = await spawn(bin, args);
