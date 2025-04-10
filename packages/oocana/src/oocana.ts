@@ -40,9 +40,9 @@ export interface RunFlowConfig {
   tempRoot?: string;
   /** @deprecated use BindPaths instead. */
   extraBindPaths?: string[];
-  /** bind paths, format <source>:<target>, oocana will mount source to target in layer. if target not exist, oocana will create it. */
+  /** bind paths, format  src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive], oocana will mount source to target in layer. if target not exist, oocana will create it. */
   bindPaths?: string[];
-  /** a file path contains multiple bind paths, better use absolute path. The file format is <source_path>:<target_path> line by line, if not provided, it will be found in OOCANA_BIND_PATH_FILE env variable */
+  /** a file path contains multiple bind paths, better use absolute path. The file format is src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive] line by line, if not provided, it will be found in OOCANA_BIND_PATH_FILE env variable */
   bindPathFile?: string;
   /** Environment variables passed to all executors. All variable names will be converted to uppercase; then if the variable name does not start with OOMOL_, the OOMOL_ prefix will be added automatically. */
   oomolEnvs?: Record<string, string>;
@@ -150,10 +150,13 @@ export class Oocana implements IDisposable, OocanaInterface {
       args.push("--debug");
     }
 
+    const pathPattern =
+      /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
+
     if (extraBindPaths) {
       for (const path of extraBindPaths) {
-        if (!path.includes(":")) {
-          throw new Error(`Invalid extra bind path: ${path}`);
+        if (!pathPattern.test(path)) {
+          `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`;
         }
         args.push("--bind-paths", path);
       }
@@ -161,7 +164,11 @@ export class Oocana implements IDisposable, OocanaInterface {
 
     if (bindPaths) {
       for (const path of bindPaths) {
-        // todo: check if path is valid
+        if (!pathPattern.test(path)) {
+          throw new Error(
+            `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`
+          );
+        }
         args.push("--bind-paths", path);
       }
     }

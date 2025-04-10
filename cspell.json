@@ -17,6 +17,7 @@
     "mknod",
     "msvc",
     "nonlayer",
+    "nonrecursive",
     "npmrc",
     "oocana",
     "ovmlayer",
