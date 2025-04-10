@@ -142,7 +142,7 @@ describe("stop flow", () => {
         path.join(flow_example, "blocks"),
         path.join(flow_example, "packages"),
       ].join(","),
-      extraBindPaths: [`${homedir()}/.oocana:/root/.oocana`],
+      bindPaths: [`src=${homedir()}/.oocana,dst=/root/.oocana`],
       sessionId: "stop",
       oomolEnvs: {
         VAR: "1",
