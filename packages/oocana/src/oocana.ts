@@ -150,15 +150,25 @@ export class Oocana implements IDisposable, OocanaInterface {
       args.push("--debug");
     }
 
+    const pathPattern =
+      /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
+
     if (extraBindPaths) {
       for (const path of extraBindPaths) {
+        if (!pathPattern.test(path)) {
+          `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`;
+        }
         args.push("--bind-paths", path);
       }
     }
 
-    // TODO: better to check the path's format
     if (bindPaths) {
       for (const path of bindPaths) {
+        if (!pathPattern.test(path)) {
+          throw new Error(
+            `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`
+          );
+        }
         args.push("--bind-paths", path);
       }
     }
