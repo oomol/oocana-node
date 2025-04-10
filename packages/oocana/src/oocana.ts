@@ -156,7 +156,9 @@ export class Oocana implements IDisposable, OocanaInterface {
     if (extraBindPaths) {
       for (const path of extraBindPaths) {
         if (!pathPattern.test(path)) {
-          `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`;
+          throw new Error(
+            `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`
+          );
         }
         args.push("--bind-paths", path);
       }
