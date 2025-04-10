@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.22.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.21.38...@oomol/oocana-v0.22.0) (2025-04-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename blockSearchPaths to searchPaths ([#61](https://github.com/oomol/oocana-node/issues/61))
+* fix bind path check ([#60](https://github.com/oomol/oocana-node/issues/60))
+
+### Features
+
+* fix bind path check ([#60](https://github.com/oomol/oocana-node/issues/60)) ([2bc8a6e](https://github.com/oomol/oocana-node/commit/2bc8a6ef91aee881320dbe5b92d6f675fc598e3c))
+* rename blockSearchPaths to searchPaths ([#61](https://github.com/oomol/oocana-node/issues/61)) ([fb42dad](https://github.com/oomol/oocana-node/commit/fb42dad2c14d87ee6a2a4818cac36b4d2ff99670))
+* update bind paths ([#59](https://github.com/oomol/oocana-node/issues/59)) ([f58ad23](https://github.com/oomol/oocana-node/commit/f58ad2344f9cb674db56865565d91bc41e9ae961))
+* use new ovmlayer api and new bind path format ([#56](https://github.com/oomol/oocana-node/issues/56)) ([b8f704d](https://github.com/oomol/oocana-node/commit/b8f704dbe84e4719dc156b72c378440d9d8c55fc))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.27.0 ([#58](https://github.com/oomol/oocana-node/issues/58)) ([0c08bdc](https://github.com/oomol/oocana-node/commit/0c08bdc5b87629e5e2e1bf024b4f19057ff1df53))
+
 ## [0.21.38](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.21.37...@oomol/oocana-v0.21.38) (2025-04-08)
 
 
