@@ -2,6 +2,9 @@ import { spawn } from "node:child_process";
 import { join } from "node:path";
 import { Cli } from "./cli";
 
+const bindPathPattern =
+  /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
+
 type PackageOptions = {
   packagePath: string;
 };
@@ -65,8 +68,8 @@ async function createPackageLayer({
 
   const args = ["package-layer", "create", packagePath];
   for (const path of bind_paths ?? []) {
-    if (!path.includes(":")) {
-      throw new Error(`Invalid bind path: ${path}`);
+    if (!bindPathPattern.test(path)) {
+      `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`;
     }
 
     args.push("--bind-paths", path);
@@ -141,7 +144,9 @@ type ScanParams = {
   searchPaths: string[];
 };
 
-async function scanPackages(params: ScanParams): Promise<{[key: string]: "NotInStore" | "Exist"}> {
+async function scanPackages(
+  params: ScanParams
+): Promise<{ [key: string]: "NotInStore" | "Exist" }> {
   const map = {};
   const bin = params.bin ?? join(__dirname, "..", "oocana");
 

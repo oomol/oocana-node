@@ -38,8 +38,6 @@ export interface RunFlowConfig {
   sessionPath?: string;
   /** a temporary root directory for session storage. oocana will create a subdirectory for each flowPath (one flow path always has the same subdirectory name). oocana will clean this subdirectory after flow session finish success but retain if the session is not successful. every block can get this subdirectory from context.tmpDir or context.tmp_dir. */
   tempRoot?: string;
-  /** @deprecated use BindPaths instead. */
-  extraBindPaths?: string[];
   /** bind paths, format  src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive], oocana will mount source to target in layer. if target not exist, oocana will create it. */
   bindPaths?: string[];
   /** a file path contains multiple bind paths, better use absolute path. The file format is src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive] line by line, if not provided, it will be found in OOCANA_BIND_PATH_FILE env variable */
@@ -101,7 +99,6 @@ export class Oocana implements IDisposable, OocanaInterface {
     excludePackages,
     sessionPath,
     tempRoot,
-    extraBindPaths,
     bindPaths,
     bindPathFile,
     oomolEnvs,
@@ -152,15 +149,6 @@ export class Oocana implements IDisposable, OocanaInterface {
 
     const pathPattern =
       /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
-
-    if (extraBindPaths) {
-      for (const path of extraBindPaths) {
-        if (!pathPattern.test(path)) {
-          `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`;
-        }
-        args.push("--bind-paths", path);
-      }
-    }
 
     if (bindPaths) {
       for (const path of bindPaths) {
