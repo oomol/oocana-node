@@ -16,7 +16,7 @@ describe(
     it("query upstream", async () => {
       const res = await queryUpstream({
         flowPath: path.join(__dirname, "flows", "pkg", "flow.oo.yaml"),
-        blockSearchPaths: [
+        searchPaths: [
           path.join(__dirname, "blocks"),
           path.join(__dirname, "packages"),
         ].join(","),
@@ -33,7 +33,7 @@ describe(
     it("query service", async () => {
       const res = await queryService({
         flowPath: path.join(__dirname, "flows", "service", "flow.oo.yaml"),
-        blockSearchPaths: [
+        searchPaths: [
           path.join(__dirname, "blocks"),
           path.join(__dirname, "packages"),
         ].join(","),
@@ -46,7 +46,7 @@ describe(
     it("query package", async () => {
       const cli = await queryPackage({
         flowPath: path.join(__dirname, "flows", "triple", "flow.oo.yaml"),
-        blockSearchPaths: [
+        searchPaths: [
           path.join(__dirname, "blocks"),
           path.join(__dirname, "packages"),
         ].join(","),

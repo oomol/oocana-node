@@ -138,7 +138,7 @@ describe("stop flow", () => {
 
     const task = await cli.runFlow({
       flowPath: path.join(flow_example, "flows", "progress", "flow.oo.yaml"),
-      blockSearchPaths: [
+      searchPaths: [
         path.join(flow_example, "blocks"),
         path.join(flow_example, "packages"),
       ].join(","),
@@ -181,7 +181,7 @@ async function run(
 
   const task = await cli.runFlow({
     flowPath: path.join(flow_example, "flows", flow, "flow.oo.yaml"),
-    blockSearchPaths: [
+    searchPaths: [
       path.join(flow_example, "blocks"),
       path.join(flow_example, "packages"),
     ].join(","),
