@@ -81,9 +81,22 @@ async function createPackageLayer({
     args.push("--bind-path-file", bindPathFile);
   }
 
+  let spawnedEnvs = envs ?? {};
   if (envs) {
     for (const [key, value] of Object.entries(envs)) {
       args.push("--retain-env-keys", key, value);
+    }
+  }
+
+  for (const key of Object.keys(process.env)) {
+    if (key.startsWith("OOCANA_") && !!process.env[key]) {
+      spawnedEnvs[key] = process.env[key];
+    }
+  }
+
+  for (const key of Object.keys(process.env)) {
+    if (key.startsWith("OOCANA_") && !!process.env[key]) {
+      spawnedEnvs[key] = process.env[key];
     }
   }
 
@@ -93,7 +106,7 @@ async function createPackageLayer({
 
   const cli = new Cli(
     spawn(oocanaPath, args, {
-      env: envs,
+      env: spawnedEnvs,
     })
   );
   return cli;
