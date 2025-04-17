@@ -100,6 +100,11 @@ async function createPackageLayer({
     }
   }
 
+  // oocana need spawn layer with sudo when in GitHub Actions CI
+  if (process.env.CI) {
+    spawnedEnvs.CI = process.env.CI;
+  }
+
   if (envFile) {
     args.push("--env-file", envFile);
   }
