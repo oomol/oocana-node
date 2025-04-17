@@ -85,7 +85,7 @@ jobs:
           sleep 5
           cd flow-examples
           pnpm run flow
-      # - name: Setup tmate session # only enable when debugging
-      #   uses: mxschmitt/action-tmate@v3
-      #   timeout-minutes: 10
-      #   if: failure()
+      - name: Setup tmate session # only enable when debugging
+        uses: mxschmitt/action-tmate@v3
+        timeout-minutes: 10
+        if: failure()
