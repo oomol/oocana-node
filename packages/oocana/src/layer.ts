@@ -55,6 +55,7 @@ type CreateParams = {
   bind_paths?: string[];
   bindPathFile?: string;
   envFile?: string;
+  envs?: Record<string, string>;
 } & CommonParams;
 
 async function createPackageLayer({
@@ -63,6 +64,7 @@ async function createPackageLayer({
   bind_paths,
   bindPathFile,
   envFile,
+  envs,
 }: CreateParams) {
   const oocanaPath = bin ?? join(__dirname, "..", "oocana");
 
@@ -79,11 +81,21 @@ async function createPackageLayer({
     args.push("--bind-path-file", bindPathFile);
   }
 
+  if (envs) {
+    for (const [key, value] of Object.entries(envs)) {
+      args.push("--retain-env-keys", key, value);
+    }
+  }
+
   if (envFile) {
     args.push("--env-file", envFile);
   }
 
-  const cli = new Cli(spawn(oocanaPath, args));
+  const cli = new Cli(
+    spawn(oocanaPath, args, {
+      env: envs,
+    })
+  );
   return cli;
 }
 
