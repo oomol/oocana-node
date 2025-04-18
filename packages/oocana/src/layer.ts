@@ -84,7 +84,8 @@ async function createPackageLayer({
   let spawnedEnvs = envs ?? {};
   if (envs) {
     for (const [key, value] of Object.entries(envs)) {
-      args.push("--retain-env-keys", key, value);
+      args.push("--retain-env-keys", key);
+      spawnedEnvs[key] = value;
     }
   }
 
@@ -95,7 +96,7 @@ async function createPackageLayer({
   }
 
   for (const key of Object.keys(process.env)) {
-    if (key.startsWith("OOCANA_") && !!process.env[key]) {
+    if (key.startsWith("OOMOL_") && !!process.env[key]) {
       spawnedEnvs[key] = process.env[key];
     }
   }
