@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.3](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.2...@oomol/oocana-v0.22.3) (2025-04-18)
+
+
+### Bug Fixes
+
+* missing path ([#68](https://github.com/oomol/oocana-node/issues/68)) ([ed13b37](https://github.com/oomol/oocana-node/commit/ed13b37fe1a9686741f97304b4cf6bd55558c003))
+
 ## [0.22.2](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.1...@oomol/oocana-v0.22.2) (2025-04-18)
 
 
