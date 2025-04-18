@@ -89,6 +89,11 @@ async function createPackageLayer({
     }
   }
 
+  spawnedEnvs = {
+    ...spawnedEnvs,
+    PATH: process.env.PATH || "",
+  };
+
   for (const key of Object.keys(process.env)) {
     if (key.startsWith("OOCANA_") && !!process.env[key]) {
       spawnedEnvs[key] = process.env[key];
