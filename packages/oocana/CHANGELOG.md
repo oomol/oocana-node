@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.2](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.1...@oomol/oocana-v0.22.2) (2025-04-18)
+
+
+### Bug Fixes
+
+* wrong parameters ([#66](https://github.com/oomol/oocana-node/issues/66)) ([32fad5e](https://github.com/oomol/oocana-node/commit/32fad5ef492b8f44f7ccaab6a26b01f00e5e6724))
+
 ## [0.22.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.0...@oomol/oocana-v0.22.1) (2025-04-17)
 
 
