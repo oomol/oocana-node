@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.0...@oomol/oocana-v0.22.1) (2025-04-17)
+
+
+### Features
+
+* add envs for create layer api ([#62](https://github.com/oomol/oocana-node/issues/62)) ([306c680](https://github.com/oomol/oocana-node/commit/306c680a26ab02fbb30824965433f355fcd409c8))
+
 ## [0.22.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.21.38...@oomol/oocana-v0.22.0) (2025-04-10)
 
 
