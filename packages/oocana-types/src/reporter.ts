@@ -43,6 +43,6 @@ export type IReporterClientMessage =
 export type LocalizeInfo = {
   localize: {
     $key: string;
-    [key: string | number]: string | number | LocalizeInfo;
+    [key: string | number]: string | number | LocalizeInfo["localize"];
   };
 };
