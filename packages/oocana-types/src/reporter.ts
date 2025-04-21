@@ -39,3 +39,10 @@ export type IReporterClientMessage =
   | IReporterBlockLog
   | IReporterBlockWarning
   | IReporterBlockProgress;
+
+export type LocalizeInfo = {
+  localize: {
+    $key: string;
+    [key: string | number]: string | number | LocalizeInfo;
+  };
+};
