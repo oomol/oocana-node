@@ -1,0 +1,29 @@
+nodes:
+  - task:
+      ui:
+        default_width: 450
+      inputs_def:
+        - handle: input
+          description: Input
+          json_schema:
+            type: string
+      outputs_def:
+        - handle: output
+          description: Output
+          json_schema:
+            type: string
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+javascript#1.js
+    node_id: +javascript#1
+    inputs_from:
+      - handle: input
+        value: javascript
+  - subflow: ../../subflows/basic/flow.oo.yml
+    node_id: node-1
+    inputs_from:
+      - handle: input
+        from_node:
+          - node_id: +javascript#1
+            output_handle: output

@@ -128,6 +128,11 @@ describe(
       const { code } = await run("pkg-dir");
       expect(code).toBe(0);
     });
+
+    it("run sub flow", async () => {
+      const { code } = await run("sub");
+      expect(code).toBe(0);
+    });
   }
 );
 
