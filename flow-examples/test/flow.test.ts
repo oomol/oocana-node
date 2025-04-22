@@ -130,7 +130,14 @@ describe(
     });
 
     it("run sub flow", async () => {
-      const { code } = await run("sub");
+      const { code, events } = await run("sub");
+      const jobs = events
+        .filter(e => e.event === "BlockStarted")
+        .map(e => {
+          return e.data.job_id;
+        });
+
+      expect(jobs.length).toBeGreaterThan(1);
       expect(code).toBe(0);
     });
   }
