@@ -128,6 +128,18 @@ describe(
       const { code } = await run("pkg-dir");
       expect(code).toBe(0);
     });
+
+    it("run sub flow", async () => {
+      const { code, events } = await run("sub");
+      const jobs = events
+        .filter(e => e.event === "BlockStarted")
+        .map(e => {
+          return e.data.job_id;
+        });
+
+      expect(jobs.length).toBeGreaterThan(1);
+      expect(code).toBe(0);
+    });
   }
 );
 
