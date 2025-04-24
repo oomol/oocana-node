@@ -132,12 +132,12 @@ describe(
     it("run sub flow", async () => {
       const { code, events } = await run("sub");
       const jobs = events
-        .filter(e => e.event === "BlockStarted")
+        .filter(e => e.event === "BlockFinished")
         .map(e => {
           return e.data.job_id;
         });
-
-      expect(jobs.length).toBeGreaterThan(1);
+      const job_set = new Set(jobs);
+      expect(job_set.size).greaterThanOrEqual(4);
       expect(code).toBe(0);
     });
   }

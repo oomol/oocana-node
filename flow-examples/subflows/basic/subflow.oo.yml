@@ -1,7 +1,5 @@
 nodes:
   - task:
-      ui:
-        default_width: 450
       inputs_def:
         - handle: input
           description: Input
@@ -31,3 +29,8 @@ outputs_def:
     description: Output
     json_schema:
       type: string
+outputs_from:
+  - handle: output
+    from_node:
+      - node_id: +subflow#1
+        output_handle: output
