@@ -20,7 +20,7 @@ nodes:
     inputs_from:
       - handle: input
         value: javascript
-  - subflow: self::sub
+  - subflow: self::basic
     node_id: node-1
     inputs_from:
       - handle: input
