@@ -136,8 +136,8 @@ describe(
         .map(e => {
           return e.data.job_id;
         });
-
-      expect(jobs.length).toBeGreaterThan(3);
+      const job_set = new Set(jobs);
+      expect(job_set.size).greaterThanOrEqual(4);
       expect(code).toBe(0);
     });
   }
