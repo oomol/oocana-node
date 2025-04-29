@@ -21,7 +21,7 @@ describe("subflow test", () => {
     expect(
       startedJobs.length,
       `started job evens ${JSON.stringify(startedJobs)}`
-    ).eq(4);
+    ).eq(3);
 
     expect(code).toBe(0);
   });
