@@ -1,26 +1,17 @@
-import type { VocanaMainFunction } from "@oomol/oocana-types";
+import type { MainFunction } from "@oomol/oocana-types";
 
-interface CounterInputs {
-  count?: number;
-  default_count?: number;
+interface Inputs {
+  input: string;
 }
 
-interface CounterOutput {
-  "output-1": number;
+interface Output {
+  output: string;
 }
 
-export const main: VocanaMainFunction<CounterInputs, CounterOutput> = async (
-  inputs,
-  context
-) => {
-  const { count = context.inputs.default_count || 0 } = inputs;
-  const output = count + 1;
+export const main: MainFunction<Inputs, Output> = async (inputs, context) => {
+  const output = inputs.input;
 
-  console.log(
-    `Block Job '${context.jobId}' input: ${count}, output: ${output}`
-  );
-
-  console.log(inputs, context);
-
-  await context.output("output-1", output);
+  return {
+    output,
+  };
 };
