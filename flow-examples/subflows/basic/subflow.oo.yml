@@ -14,10 +14,10 @@ nodes:
         name: nodejs
         options:
           entry: scriptlets/+javascript#1.js
-    node_id: +subflow#1
+    node_id: subflow-basic#1
     inputs_from:
       - handle: input
-        from_subflow:
+        from_flow:
           - input_handle: input
 inputs_def:
   - handle: input
@@ -32,5 +32,5 @@ outputs_def:
 outputs_from:
   - handle: output
     from_node:
-      - node_id: +subflow#1
+      - node_id: subflow-basic#1
         output_handle: output
