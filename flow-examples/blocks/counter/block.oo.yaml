@@ -1,15 +1,9 @@
-type: task_block
 executor:
   name: nodejs
   options:
-    entry: "src/main.js"
+    entry: "src/main.ts"
     function: main
 inputs_def:
-  - handle: default_count
-    optional: true
-    cache:
-      initiate_value: 0
-  - handle: count
-    optional: true
+  - handle: input
 outputs_def:
-  - handle: output-1
+  - handle: output
