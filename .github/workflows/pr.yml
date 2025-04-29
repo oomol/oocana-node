@@ -38,13 +38,10 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          registry-url: https://npm.pkg.github.com/
           node-version: 22.x
           cache: pnpm
       - name: install
         run: pnpm install --frozen-lockfile
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: build
         run: pnpm run build
       - name: check

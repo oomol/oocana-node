@@ -789,28 +789,28 @@ packages:
     resolution: {integrity: sha512-D4iHGTdAnEEVsB8fl95m1hiz7D5YiRdQ9b/OEb3BYRVwbLsGHcRVPz+u+BgRLNk0Q0/4iZCBqDN96j2XNxfXrA==}
 
   '@oomol/oocana-cli-aarch64-apple-darwin@0.27.1':
-    resolution: {integrity: sha512-5E8Q7as+xjo4XkYiib0QaYiaYPNZhD3mt1aHkPjPWflWzaFjmdBdJ/mRpCc6HjxyiVi9sg66oCau8IEwakScOQ==, tarball: https://npm.pkg.github.com/download/@oomol/oocana-cli-aarch64-apple-darwin/0.27.1/09bf9d3eac007511a427cf5fa4c425e4457cb70a}
+    resolution: {integrity: sha512-5E8Q7as+xjo4XkYiib0QaYiaYPNZhD3mt1aHkPjPWflWzaFjmdBdJ/mRpCc6HjxyiVi9sg66oCau8IEwakScOQ==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [darwin]
     hasBin: true
 
   '@oomol/oocana-cli-aarch64-unknown-linux-gnu@0.27.1':
-    resolution: {integrity: sha512-mvevKkadJOPQiN3YUA71FGVDm3jAYjEof7/MboUvmV9+FpyX7YFR0L9HbQFq59rMHKX4whIOOo6NubDVYw99/w==, tarball: https://npm.pkg.github.com/download/@oomol/oocana-cli-aarch64-unknown-linux-gnu/0.27.1/e64977d420ad4a1de9c61b755c64957d5690edaa}
+    resolution: {integrity: sha512-mvevKkadJOPQiN3YUA71FGVDm3jAYjEof7/MboUvmV9+FpyX7YFR0L9HbQFq59rMHKX4whIOOo6NubDVYw99/w==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [linux]
     hasBin: true
 
   '@oomol/oocana-cli-x86_64-apple-darwin@0.27.1':
-    resolution: {integrity: sha512-UiUBKEPwlquB042bzlHziUHI2y8eeBVkRrN8NvzdoLRZ+JqfJ3O1rgw6jhPokHIXBFYvf710+yfzCcGnf5evtw==, tarball: https://npm.pkg.github.com/download/@oomol/oocana-cli-x86_64-apple-darwin/0.27.1/2d921385aba25227426ecf78d2a974edf17d3b3a}
+    resolution: {integrity: sha512-UiUBKEPwlquB042bzlHziUHI2y8eeBVkRrN8NvzdoLRZ+JqfJ3O1rgw6jhPokHIXBFYvf710+yfzCcGnf5evtw==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [darwin]
     hasBin: true
 
   '@oomol/oocana-cli-x86_64-unknown-linux-gnu@0.27.1':
-    resolution: {integrity: sha512-+b7ZQiImpoUfvsftCEG7LJT2odW3H/zGc9dtSjxl4ojKjkAKj7RLZzDIL1K+V77y5LNNWMppO2QuUIwudLMYRQ==, tarball: https://npm.pkg.github.com/download/@oomol/oocana-cli-x86_64-unknown-linux-gnu/0.27.1/33f6eb0de20e9d1ed5b875d8ac328a8d041b4488}
+    resolution: {integrity: sha512-+b7ZQiImpoUfvsftCEG7LJT2odW3H/zGc9dtSjxl4ojKjkAKj7RLZzDIL1K+V77y5LNNWMppO2QuUIwudLMYRQ==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [linux]

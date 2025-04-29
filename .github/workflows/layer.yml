@@ -36,10 +36,6 @@ jobs:
     if: ${{ needs.skip.outputs.should_skip != 'true' }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-          registry-url: https://npm.pkg.github.com/
       - id: rootfs
         run: |-
           if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
@@ -54,12 +50,10 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          registry-url: https://npm.pkg.github.com/
+          node-version: 22.x
           cache: pnpm
       - name: install
         run: pnpm install --frozen-lockfile
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: build
         run: pnpm run build
       - name: test layer api
