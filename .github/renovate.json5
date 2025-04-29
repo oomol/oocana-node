@@ -38,6 +38,5 @@
       enabled: false,
       matchDepTypes: ["peerDependencies"],
     },
-  ],
-  npmrc: "@oomol:registry=https://npm.pkg.github.com/",
+  ]
 }
