@@ -1,21 +1,9 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { Oocana, isPackageLayerEnable } from "@oomol/oocana";
-import type { OocanaEventConfig } from "@oomol/oocana-types";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { readdir, writeFile } from "node:fs/promises";
-import { homedir, tmpdir } from "node:os";
-import type { AnyEventData } from "remitter";
-
-const flow_example = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const executorBin = path.join(
-  flow_example,
-  "..",
-  "packages",
-  "executor",
-  "dist"
-);
-process.env["PATH"] = `${executorBin}:${process.env["PATH"]}}`;
+import { readdir } from "node:fs/promises";
+import { homedir } from "node:os";
+import { flow_example, runFlow } from "./run";
 
 describe(
   "Flow Tests",
@@ -31,16 +19,21 @@ describe(
     });
 
     it("run pkg flow", async () => {
-      const { code, events } = await run("pkg");
+      const { code, events } = await runFlow("pkg");
       expect(code).toBe(0);
-      expect(events.filter(e => e.event === "BlockStarted").length).toBe(4);
+      expect(
+        events.filter(e => e.event === "BlockStarted").length,
+        `start ${events
+          .filter(e => e.event === "BlockStarted")
+          .map(e => JSON.stringify(e.data.stacks))}`
+      ).toBe(4);
 
       const events_list = events.map(e => e.event);
       expect(events_list).toContain("SessionFinished");
     });
 
     it("run var flow", async () => {
-      const { code, events } = await run("var");
+      const { code, events } = await runFlow("var");
       expect(code).toBe(0);
 
       const latestBlockOutput = events.findLast(e => e.event === "BlockOutput")
@@ -49,7 +42,7 @@ describe(
     });
 
     it("run bin flow", async () => {
-      const { code, events } = await run("bin");
+      const { code, events } = await runFlow("bin");
       expect(code).toBe(0);
 
       const latestBlockLog = events.findLast(e => e.event === "BlockLog")?.data
@@ -60,12 +53,12 @@ describe(
     });
 
     it("run esm flow", async () => {
-      const { code } = await run("esm");
+      const { code } = await runFlow("esm");
       expect(code).toBe(0);
     });
 
     it("run progress flow", async () => {
-      const { code, events } = await run("progress");
+      const { code, events } = await runFlow("progress");
       expect(code).toBe(0);
 
       const latestBlockOutput = events.findLast(e => e.event === "BlockOutput")
@@ -74,7 +67,7 @@ describe(
     });
 
     it("run service flow", async () => {
-      const { code, events } = await run("service");
+      const { code, events } = await runFlow("service");
       expect(code).toBe(0);
 
       const latestBlockWarning = events.findLast(
@@ -87,20 +80,20 @@ describe(
 
     it("run inject flow", async () => {
       if (await isPackageLayerEnable()) {
-        const { code } = await run("inject");
+        const { code } = await runFlow("inject");
         expect(code).toBe(0);
       }
     });
 
     it("run triple flow", async () => {
       if (await isPackageLayerEnable()) {
-        const { code } = await run("triple");
+        const { code } = await runFlow("triple");
         expect(code).toBe(0);
       }
     });
 
     it("run value flow", async () => {
-      const { code, events } = await run("value");
+      const { code, events } = await runFlow("value");
       expect(code).toBe(0);
       const output = events.findLast(e => e.event === "BlockOutput")?.data
         ?.output;
@@ -108,36 +101,24 @@ describe(
     });
 
     it("run spawn flow", async () => {
-      const { code } = await run("spawn");
+      const { code } = await runFlow("spawn");
       expect(code).toBe(0);
     });
 
     it("run bind flow", async () => {
       if (await isPackageLayerEnable()) {
-        const { code } = await run("bind");
+        const { code } = await runFlow("bind");
         expect(code).toBe(0);
       }
     });
 
     it("run tmp-dir flow", async () => {
-      const { code } = await run("tmp-dir");
+      const { code } = await runFlow("tmp-dir");
       expect(code).toBe(0);
     });
 
     it("run pkg-dir flow", async () => {
-      const { code } = await run("pkg-dir");
-      expect(code).toBe(0);
-    });
-
-    it("run sub flow", async () => {
-      const { code, events } = await run("sub");
-      const jobs = events
-        .filter(e => e.event === "BlockFinished")
-        .map(e => {
-          return e.data.job_id;
-        });
-      const job_set = new Set(jobs);
-      expect(job_set.size).greaterThanOrEqual(4);
+      const { code } = await runFlow("pkg-dir");
       expect(code).toBe(0);
     });
   }
@@ -175,68 +156,3 @@ describe("stop flow", () => {
     cli.dispose();
   });
 });
-
-async function run(
-  flow: string
-): Promise<{ code: number; events: AnyEventData<OocanaEventConfig>[] }> {
-  console.log(`run flow ${flow}`);
-  const label = `run flow ${flow}`;
-  console.time(label);
-
-  const cli = new Oocana();
-  await cli.connect();
-
-  const events: AnyEventData<OocanaEventConfig>[] = [];
-  cli.events.onAny(event => {
-    events.push(event);
-  });
-
-  const task = await cli.runFlow({
-    flowPath: path.join(flow_example, "flows", flow, "flow.oo.yaml"),
-    searchPaths: [
-      path.join(flow_example, "blocks"),
-      path.join(flow_example, "packages"),
-    ].join(","),
-    bindPaths: [`src=${homedir()}/.oocana,dst=/root/.oocana`],
-    bindPathFile: await bindFile(),
-    tempRoot: tmpdir(),
-    debug: true,
-    sessionId: flow,
-    oomolEnvs: {
-      VAR: "1",
-    },
-    envs: {
-      VAR: "1",
-    },
-    envFile: path.join(flow_example, "executor.env"),
-  });
-
-  cli.events.on("BlockFinished", event => {
-    if (event["error"]) {
-      console.error("BlockFinished with error", event);
-      throw new Error(`BlockFinished with error: ${event}`);
-    }
-  });
-
-  task.addLogListener("stderr", data => {
-    console.error("stderr", data.toString());
-  });
-
-  task.addLogListener("stdout", data => {
-    console.log("stdout", data.toString());
-  });
-
-  const code = await task.wait();
-  console.timeEnd(label);
-  cli.dispose();
-
-  return { code, events };
-}
-
-async function bindFile() {
-  const content = `src=${flow_example}/executor.env,dst=/root/oocana/bind`;
-
-  const p = `${tmpdir()}/bind.txt`;
-  await writeFile(p, content);
-  return p;
-}

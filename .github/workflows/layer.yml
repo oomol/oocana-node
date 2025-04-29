@@ -78,7 +78,7 @@ jobs:
           pnpm run broker &
           sleep 5
           cd flow-examples
-          pnpm run flow
+          pnpm run test
       # - name: Setup tmate session # only enable when debugging
       #   uses: mxschmitt/action-tmate@v3
       #   timeout-minutes: 10
