@@ -6,6 +6,7 @@ import { Reporter } from "./reporter";
 import type { IDisposable } from "@wopjs/disposable";
 import { disposableStore } from "@wopjs/disposable";
 import { Cli } from "./cli";
+import { spawnedEnvs } from "./env";
 
 export type JobEvent = Remitter<OocanaEventConfig>;
 
@@ -161,38 +162,14 @@ export class Oocana implements IDisposable, OocanaInterface {
       }
     }
 
-    let executorEnvs: Record<string, string> = {
-      PATH: process.env.PATH || "",
-    };
-
-    // oocana need spawn layer with sudo when in GitHub Actions CI
-    if (process.env.CI) {
-      executorEnvs.CI = process.env.CI;
-    }
-
-    if (oomolEnvs) {
-      for (const [key, value] of Object.entries(oomolEnvs)) {
-        let envKey = key.toUpperCase();
-        if (!envKey.startsWith("OOMOL_")) {
-          envKey = `OOMOL_${envKey}`;
-        }
-        executorEnvs[envKey] = value;
-      }
-    }
-
-    for (const key of Object.keys(process.env)) {
-      if (key.startsWith("OOCANA_")) {
-        executorEnvs[key] = process.env[key] || "";
-      }
-    }
-
     if (tempRoot) {
       args.push("--temp-root", tempRoot);
     }
 
+    const executorEnvs = spawnedEnvs(envs, oomolEnvs);
+
     if (envs) {
-      for (const [key, value] of Object.entries(envs)) {
-        executorEnvs[key] = value;
+      for (const [key, _] of Object.entries(envs)) {
         args.push("--retain-env-keys", key);
       }
     }
