@@ -1,6 +1,7 @@
 import { spawn } from "node:child_process";
 import { join } from "node:path";
 import { Cli } from "./cli";
+import { spawnedEnvs } from "./env";
 
 const bindPathPattern =
   /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
@@ -81,35 +82,13 @@ async function createPackageLayer({
     args.push("--bind-path-file", bindPathFile);
   }
 
-  let spawnedEnvs = envs ?? {};
   if (envs) {
     for (const [key, value] of Object.entries(envs)) {
       args.push("--retain-env-keys", key);
-      spawnedEnvs[key] = value;
     }
   }
 
-  spawnedEnvs = {
-    ...spawnedEnvs,
-    PATH: process.env.PATH || "",
-  };
-
-  for (const key of Object.keys(process.env)) {
-    if (key.startsWith("OOCANA_") && !!process.env[key]) {
-      spawnedEnvs[key] = process.env[key];
-    }
-  }
-
-  for (const key of Object.keys(process.env)) {
-    if (key.startsWith("OOMOL_") && !!process.env[key]) {
-      spawnedEnvs[key] = process.env[key];
-    }
-  }
-
-  // oocana need spawn layer with sudo when in GitHub Actions CI
-  if (process.env.CI) {
-    spawnedEnvs.CI = process.env.CI;
-  }
+  const runEnvs = spawnedEnvs(envs);
 
   if (envFile) {
     args.push("--env-file", envFile);
@@ -117,7 +96,7 @@ async function createPackageLayer({
 
   const cli = new Cli(
     spawn(oocanaPath, args, {
-      env: spawnedEnvs,
+      env: runEnvs,
     })
   );
   return cli;
