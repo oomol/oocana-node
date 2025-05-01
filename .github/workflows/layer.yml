@@ -25,6 +25,9 @@ jobs:
           paths: |
             - "packages/oocana/**"
             - "flow-examples/test/layer**"
+            - "flow-examples/flows**"
+            - "flow-examples/subflows**"
+            - "flow-examples/packages**"
             - ".github/workflows/layer.yml"
 
   linux:
