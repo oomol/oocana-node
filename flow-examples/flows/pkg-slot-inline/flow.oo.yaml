@@ -18,7 +18,7 @@ nodes:
     inputs_from:
       - handle: input
         value: "input"
-  - subflow: self::slot
+  - subflow: sub::slot
     node_id: node-sub
     slots:
       - slot_node_id: replace
