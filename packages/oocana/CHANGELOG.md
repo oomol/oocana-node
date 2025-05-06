@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.22.5](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.4...@oomol/oocana-v0.22.5) (2025-05-06)
+
+
+### Code Refactoring
+
+* extract env pass through logic ([#81](https://github.com/oomol/oocana-node/issues/81)) ([41d2ca3](https://github.com/oomol/oocana-node/commit/41d2ca34aa13436e92a80df621d32d4d6def289a))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.27.3 ([#84](https://github.com/oomol/oocana-node/issues/84)) ([aa73f4b](https://github.com/oomol/oocana-node/commit/aa73f4b082e23937814e27e7eac90b3345338bbe))
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.27.4 ([#86](https://github.com/oomol/oocana-node/issues/86)) ([a65aad7](https://github.com/oomol/oocana-node/commit/a65aad7cff9a0968224225829100844a4ec297a7))
+
 ## [0.22.4](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.3...@oomol/oocana-v0.22.4) (2025-04-29)
 
 
