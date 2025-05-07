@@ -2,8 +2,7 @@
   "name": "@oomol/oocana-test",
   "private": true,
   "scripts": {
-    "concurrency": "vitest run flow --bail 1",
-    "test": "pnpm run query && pnpm run flow && pnpm run cache && pnpm run subflow && pnpm run slot",
+    "test": "vitest run flow --bail 1",
     "cache": "vitest run test/cache.test.ts --bail 1",
     "query": "vitest run test/query.test.ts --bail 1",
     "flow": "vitest run test/flow.test.ts --bail 1",
