@@ -3,13 +3,13 @@
   "private": true,
   "scripts": {
     "test": "pnpm run query && pnpm run flow && pnpm run cache && pnpm run subflow && pnpm run slot",
-    "cache": "vitest run cache --bail 1",
-    "query": "vitest run query --bail 1",
-    "flow": "vitest run flow --bail 1",
-    "subflow": "vitest run subflow --bail 1",
-    "slot": "vitest run slot --bail 1",
-    "layer": "vitest run layer --bail 1",
-    "nonlayer": "vitest run macos --bail 1"
+    "cache": "vitest run test/cache.test.ts --bail 1",
+    "query": "vitest run test/query.test.ts --bail 1",
+    "flow": "vitest run test/flow.test.ts --bail 1",
+    "subflow": "vitest run test/subflow.test.ts --bail 1",
+    "slot": "vitest run test/slot.test.ts --bail 1",
+    "layer": "vitest run test/layer.test.ts --bail 1",
+    "nonlayer": "vitest run test/macos.test.ts --bail 1"
   },
   "dependencies": {
     "@oomol/oocana": "workspace:*",
