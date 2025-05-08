@@ -87,8 +87,11 @@ export async function createContext({
     });
   }
 
-  const flowNodeStore = flowStore.get(combine_node_id) || {};
-  flowNodeStore.set(combine_node_id, flowNodeStore);
+  let flowNodeStore = flowStore.get(combine_node_id);
+  if (!flowNodeStore) {
+    flowNodeStore = new Map();
+    flowStore.set(combine_node_id, flowNodeStore);
+  }
 
   return new ContextImpl({
     blockInfo: {
