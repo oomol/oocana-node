@@ -27,9 +27,10 @@ export class ContextImpl implements Context {
   readonly jobId: string;
   readonly block_path?: string;
   readonly stacks: readonly BlockJobStackLevel[];
-  #store: { [index: string]: any };
+  #variableStore: { [index: string]: any };
   static readonly keepAlive = Symbol("keepAlive");
   keepAlive = ContextImpl.keepAlive;
+  readonly flowNodeStore: { [index: string]: any };
   private isDone = false;
   private mainframe: Mainframe;
   private outputsDef: HandlesDef;
@@ -55,6 +56,7 @@ export class ContextImpl implements Context {
     tmpDir,
     packageName,
     pkgDir,
+    flowNodeStore,
   }: {
     blockInfo: BlockInfo;
     mainframe: Mainframe;
@@ -66,6 +68,7 @@ export class ContextImpl implements Context {
     tmpDir: string;
     packageName: string;
     pkgDir: string;
+    flowNodeStore: { [index: string]: any };
   }) {
     const { session_id, job_id, block_path, stacks } = blockInfo;
     this.mainframe = mainframe;
@@ -77,7 +80,8 @@ export class ContextImpl implements Context {
     this.stacks = stacks;
     this.inputs = inputs;
     this.node_id = stacks[stacks.length - 1]?.node_id;
-    this.#store = store;
+    this.flowNodeStore = flowNodeStore;
+    this.#variableStore = store;
     this.sessionDir = sessionDir;
     this.tmpDir = tmpDir;
     this.packageName = packageName;
@@ -249,7 +253,7 @@ export class ContextImpl implements Context {
     if (isValHandle(outputsDef, handle) && !this.isBasicType(output)) {
       const objectRef = this.createObjectRef(handle);
       const ref = outputRefKey(objectRef);
-      this.#store[ref] = value;
+      this.#variableStore[ref] = value;
       value = {
         __OOMOL_TYPE__: "oomol/var",
         value: objectRef,

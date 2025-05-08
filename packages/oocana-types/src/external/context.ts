@@ -67,6 +67,28 @@ export interface Context<
   readonly stacks: readonly BlockJobStackLevel[];
   readonly inputs: TInputs;
 
+  /**
+   * persist data across job running for same node it. For subflow, each subflow job will possess different flow store.
+   * usage example:
+   * ```ts
+   * function main(inputs, context) {
+   *   let value = context.flowNodeStore["key"];
+   *   if (value === undefined) {
+   *     value = 0;
+   *   } else {
+   *     value += 1;
+   *   }
+   *   context.flowNodeStore["key"] = value
+   *   console.log("value:", value);
+   * }
+   *
+   * the first time node run, value will be 0
+   * the second time node run, value will be 1
+   * these jobs are different. but they are in the same flow, so they share the same flowNodeStore.
+   * ```
+   */
+  readonly flowNodeStore: { [index: string]: any };
+
   readonly output: {
     <THandle extends Extract<keyof TOutputs, string>>(
       handle: THandle,

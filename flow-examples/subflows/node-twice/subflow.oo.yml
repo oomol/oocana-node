@@ -1,0 +1,79 @@
+nodes:
+  - task:
+      inputs_def:
+        - handle: input
+          description: Input
+          json_schema:
+            type: string
+      outputs_def:
+        - handle: output
+          description: Output
+          json_schema:
+            type: string
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+javascript#1.js
+    node_id: subflow-basic#1
+    inputs_from:
+      - handle: input
+        from_flow:
+          - input_handle: input
+  - task:
+      inputs_def:
+        - handle: input
+          description: Input
+          json_schema:
+            type: string
+      outputs_def:
+        - handle: output
+          description: Output
+          json_schema:
+            type: string
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+javascript#1.js
+    node_id: subflow-basic#11
+    inputs_from:
+      - handle: input
+        from_flow:
+          - input_handle: input
+  - task:
+      inputs_def:
+        - handle: input
+          description: Input
+          json_schema:
+            type: string
+      outputs_def:
+        - handle: output
+          description: Output
+          json_schema:
+            type: string
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+javascript#2.js
+    node_id: subflow-basic#2
+    inputs_from:
+      - handle: input
+        from_node:
+          - node_id: subflow-basic#1
+            output_handle: output
+          - node_id: subflow-basic#11
+            output_handle: output
+inputs_def:
+  - handle: input
+    description: Input
+    json_schema:
+      type: string
+outputs_def:
+  - handle: output
+    description: Output
+    json_schema:
+      type: string
+outputs_from:
+  - handle: output
+    from_node:
+      - node_id: subflow-basic#1
+        output_handle: output

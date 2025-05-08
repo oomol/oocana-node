@@ -31,4 +31,14 @@ describe("subflow test", () => {
 
     expect(code).toBe(0);
   });
+
+  it("run sub flow", async () => {
+    const { code, events } = await runFlow("one-subflow-twice-subflow-node");
+    expect(code).toBe(0);
+  });
+
+  it("run sub flow", async () => {
+    const { code, events } = await runFlow("sub-twice");
+    expect(code).toBe(0);
+  });
 });
