@@ -78,6 +78,7 @@ export interface Context<
    *   } else {
    *     value += 1;
    *   }
+   *   context.flowNodeStore["key"] = value
    *   console.log("value:", value);
    * }
    *
