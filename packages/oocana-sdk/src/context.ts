@@ -30,6 +30,7 @@ export class ContextImpl implements Context {
   #variableStore: { [index: string]: any };
   static readonly keepAlive = Symbol("keepAlive");
   keepAlive = ContextImpl.keepAlive;
+  readonly flowNodeStore: { [index: string]: any };
   private isDone = false;
   private mainframe: Mainframe;
   private outputsDef: HandlesDef;
@@ -55,6 +56,7 @@ export class ContextImpl implements Context {
     tmpDir,
     packageName,
     pkgDir,
+    flowNodeStore,
   }: {
     blockInfo: BlockInfo;
     mainframe: Mainframe;
@@ -66,6 +68,7 @@ export class ContextImpl implements Context {
     tmpDir: string;
     packageName: string;
     pkgDir: string;
+    flowNodeStore: { [index: string]: any };
   }) {
     const { session_id, job_id, block_path, stacks } = blockInfo;
     this.mainframe = mainframe;
@@ -77,6 +80,7 @@ export class ContextImpl implements Context {
     this.stacks = stacks;
     this.inputs = inputs;
     this.node_id = stacks[stacks.length - 1]?.node_id;
+    this.flowNodeStore = flowNodeStore;
     this.#variableStore = store;
     this.sessionDir = sessionDir;
     this.tmpDir = tmpDir;
