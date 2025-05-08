@@ -30,7 +30,7 @@ jobs:
             - "flow-examples/packages**"
             - ".github/workflows/layer.yml"
 
-  linux:
+  check:
     strategy:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm]
