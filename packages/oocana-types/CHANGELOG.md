@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.32](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.31...@oomol/oocana-types-v0.20.32) (2025-05-08)
+
+
+### Features
+
+* add flow node store feature ([#94](https://github.com/oomol/oocana-node/issues/94)) ([e554e03](https://github.com/oomol/oocana-node/commit/e554e03763a892d85ca26fb4424cd41227c50ae9))
+
 ## [0.20.31](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.30...@oomol/oocana-types-v0.20.31) (2025-04-01)
 
 

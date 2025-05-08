@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.19.5](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.4...@oomol/oocana-sdk-v0.19.5) (2025-05-08)
+
+
+### Features
+
+* add flow node store feature ([#94](https://github.com/oomol/oocana-node/issues/94)) ([e554e03](https://github.com/oomol/oocana-node/commit/e554e03763a892d85ca26fb4424cd41227c50ae9))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.20.32
+
 ## [0.19.4](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.3...@oomol/oocana-sdk-v0.19.4) (2025-04-08)
 
 
