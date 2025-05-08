@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.20.5](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.4...@oomol/executor-v0.20.5) (2025-05-08)
+
+
+### Features
+
+* add flow node store feature ([#94](https://github.com/oomol/oocana-node/issues/94)) ([e554e03](https://github.com/oomol/oocana-node/commit/e554e03763a892d85ca26fb4424cd41227c50ae9))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-sdk bumped to 0.19.5
+    * @oomol/oocana-types bumped to 0.20.32
+
 ## [0.20.4](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.3...@oomol/executor-v0.20.4) (2025-04-08)
 
 
