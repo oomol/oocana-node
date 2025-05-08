@@ -1,6 +1,5 @@
-import { it, expect } from "vitest";
+import { it, expect, describe } from "vitest";
 import { runFlow } from "./run";
-import { describe } from "node:test";
 
 describe("subflow test", () => {
   it("run sub flow", async () => {
