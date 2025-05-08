@@ -155,7 +155,7 @@ class ServiceRuntime implements ServiceContext {
       tmpDir: this.#sessionDir, // TODO: use tmpDir and need consider global service
       packageName: this.#serviceHash,
       pkgDir: this.#pkgDir,
-      flowStore: {} as any, // TODO: implement flowNodeStore
+      flowStore: new Map(), // TODO: implement flowNodeStore
     });
 
     const originalDone = context.done;
