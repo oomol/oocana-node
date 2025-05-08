@@ -82,7 +82,12 @@ jobs:
           sleep 5
           cd flow-examples
           pnpm run test
-      # - name: Setup tmate session # only enable when debugging
-      #   uses: mxschmitt/action-tmate@v3
-      #   timeout-minutes: 10
-      #   if: failure()
+      - name: upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: oocana-logs
+          path: |
+            ~/.oocana/sessions/
+            /tmp/ovmlayer.log
+          retention-days: 1
+        if: failure()
