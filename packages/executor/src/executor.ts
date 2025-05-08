@@ -32,6 +32,7 @@ import path from "node:path";
 export const valStore: { [index: string]: any } = {};
 
 const jobSet = new Set<string>();
+const nodeStoreMap = new Map<string, { [index: string]: any }>();
 
 type ServiceStatus = "running" | "launching";
 
@@ -79,14 +80,22 @@ export async function runExecutor({
         return;
       }
 
-      // https://github.com/oomol/oocana-rust/issues/310 临时解决方案
+      // oocana-rust 会重复发送 job_id
       if (jobSet.has(payload.job_id)) {
         logger.warn(`job ${payload.job_id} is running, ignore`);
         return;
       }
       jobSet.add(payload.job_id);
 
-      runBlock(mainframe, payload, sessionDir, tmpDir, packageName, pkgDir);
+      runBlock(
+        mainframe,
+        payload,
+        sessionDir,
+        tmpDir,
+        packageName,
+        pkgDir,
+        nodeStoreMap
+      );
     }
   );
 

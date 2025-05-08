@@ -27,7 +27,8 @@ export async function runBlock(
   sessionDir: string,
   tmpDir: string,
   packageName: string,
-  pkgDir: string
+  pkgDir: string,
+  flowStore: Map<string, { [node: string]: any }>
 ): Promise<void> {
   const { session_id, job_id, executor, dir, outputs } = payload;
   const jobInfo = { session_id, job_id };
@@ -46,6 +47,7 @@ export async function runBlock(
       tmpDir,
       packageName,
       pkgDir,
+      flowStore,
     });
   } catch (err) {
     logger.error(`create context error`, err);

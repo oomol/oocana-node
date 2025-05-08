@@ -27,6 +27,7 @@ export async function createContext({
   tmpDir,
   packageName,
   pkgDir,
+  flowStore,
 }: {
   mainframe: Mainframe;
   jobInfo: JobInfo;
@@ -37,6 +38,7 @@ export async function createContext({
   tmpDir: string;
   packageName: string;
   pkgDir: string;
+  flowStore: Map<string, { [node: string]: any }>;
 }) {
   const { session_id, job_id } = jobInfo;
 
@@ -78,6 +80,16 @@ export async function createContext({
   const block_path = blockReadyResponse.block_path;
   const stacks = Object.freeze(blockReadyResponse.stacks);
 
+  let combine_node_id = "node";
+  if (stacks.length > 0) {
+    stacks.forEach(stack => {
+      combine_node_id += `${stack.flow_job_id}_${stack.node_id}`;
+    });
+  }
+
+  const flowNodeStore = flowStore.get(combine_node_id) || {};
+  flowNodeStore.set(combine_node_id, flowNodeStore);
+
   return new ContextImpl({
     blockInfo: {
       session_id,
@@ -94,5 +106,6 @@ export async function createContext({
     tmpDir,
     packageName,
     pkgDir,
+    flowNodeStore,
   });
 }
