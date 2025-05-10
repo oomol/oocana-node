@@ -4,7 +4,7 @@ import { stat, realpath, unlink } from "node:fs/promises";
 import path from "node:path";
 import { logger } from "./logger";
 import { importFile } from "@hyrious/esbuild-dev";
-import type { ServiceExecutePayload } from "@oomol/oocana-types";
+import type { LocalizeInfo, ServiceExecutePayload } from "@oomol/oocana-types";
 import { pathToFileURL } from "node:url";
 
 export interface ExecutorArgs {
@@ -246,5 +246,15 @@ export function isServicePayload(
     typeof payload.service_executor.name === "string" &&
     typeof payload.service_executor.entry === "string" &&
     typeof payload.service_executor.function === "string"
+  );
+}
+
+export function isLocaleInfo(info: any): info is LocalizeInfo {
+  const localizeInfo = info as LocalizeInfo;
+  return (
+    localizeInfo &&
+    typeof localizeInfo === "object" &&
+    typeof localizeInfo.localize === "object" &&
+    typeof localizeInfo.localize.$key === "string"
   );
 }
