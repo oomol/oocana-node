@@ -83,8 +83,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: oocana-logs
-          path: |
-            ~/.oocana/sessions/
-            /tmp/ovmlayer.log
+          path: ~/.oocana/sessions
           retention-days: 1
         if: failure()
