@@ -39,7 +39,7 @@ describe("slot test", () => {
 
 describe("package slot test", () => {
   it("run pkg slot-task flow", async () => {
-    const { code, events } = await runFlow("slot-task");
+    const { code, events } = await runFlow("pkg-slot-task");
     const e = events.filter(
       e =>
         e.event === "BlockFinished" &&
@@ -50,7 +50,7 @@ describe("package slot test", () => {
   });
 
   it("run pkg slot-inline flow", async () => {
-    const { code, events } = await runFlow("slot-inline");
+    const { code, events } = await runFlow("pkg-slot-inline");
     const e = events.filter(
       e =>
         e.event === "BlockFinished" &&
@@ -61,7 +61,7 @@ describe("package slot test", () => {
   });
 
   it("run pkg slot-subflow flow", async () => {
-    const { code, events } = await runFlow("slot-subflow");
+    const { code, events } = await runFlow("pkg-slot-subflow");
     const e = events.filter(
       e =>
         e.event === "BlockFinished" &&
