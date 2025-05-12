@@ -6,6 +6,7 @@ import { logger } from "./logger";
 import { importFile } from "@hyrious/esbuild-dev";
 import type { ServiceExecutePayload } from "@oomol/oocana-types";
 import { pathToFileURL } from "node:url";
+import { inspect } from "node:util";
 
 export interface ExecutorArgs {
   readonly sessionId: string;
@@ -203,11 +204,11 @@ export function findFunction(m: any, name: string | undefined): any {
   }
 
   if (name && m[name]) {
-    throw new Error(`${name} is not a function but typeof ${typeof m[name]}`);
+    throw new Error(`${name} is not a function but typeof ${inspect(m[name])}`);
   } else if (m.default) {
-    throw new Error(`default is not a function but typeof ${typeof m.default}`);
+    throw new Error(`default is not a function the content is ${inspect(m)}`);
   } else if (m.main) {
-    throw new Error(`main is not a function but typeof ${typeof m.main}`);
+    throw new Error(`main is not a function the content is ${inspect(m)}`);
   } else {
     throw new Error(
       "Unable to find any callable function in the default or main field. Maybe you should check the entry file is correct"

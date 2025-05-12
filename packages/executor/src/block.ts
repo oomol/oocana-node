@@ -13,6 +13,7 @@ import { asyncLocalStorage } from "./hook";
 import "./hook";
 import { createModuleFile } from "./file";
 import { logger } from "./logger";
+import { inspect } from "node:util";
 
 async function runFunction(
   func: MainFunction<any, any>,
@@ -61,6 +62,7 @@ export async function runBlock(
 
   let filePath;
   let func;
+  let module;
 
   try {
     if (executor.options?.source) {
@@ -70,17 +72,15 @@ export async function runBlock(
         source: executor.options.source,
       });
       filePath = await getEntryPath(entry);
-      const module = await getModule(filePath);
+      module = await getModule(filePath);
       func = findFunction(module, executor.options?.function);
     } else {
       filePath = await getEntryPath(executor.options?.entry ?? "main.ts", dir);
-      const module = await getModule(filePath);
-      // console.log("module", module);
-      logger.debug(`name: ${executor.options?.function}`);
+      module = await getModule(filePath);
       func = findFunction(module, executor.options?.function);
     }
   } catch (error) {
-    logger.error(`get function error`, error);
+    logger.error(`get function error module is ${inspect(module)}`, error);
     context.done(error);
     return;
   }
