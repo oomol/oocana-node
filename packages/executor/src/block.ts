@@ -59,9 +59,8 @@ export async function runBlock(
     return;
   }
 
-  let module;
-
   let filePath;
+  let func;
 
   try {
     if (executor.options?.source) {
@@ -71,19 +70,21 @@ export async function runBlock(
         source: executor.options.source,
       });
       filePath = await getEntryPath(entry);
-      module = await getModule(filePath);
+      const module = await getModule(filePath);
+      func = findFunction(module, executor.options?.function);
     } else {
       filePath = await getEntryPath(executor.options?.entry ?? "main.ts", dir);
-      module = await getModule(filePath);
+      const module = await getModule(filePath);
+      logger.debug(`module: ${module} name: ${executor.options?.function}`);
+      func = findFunction(module, executor.options?.function);
     }
   } catch (error) {
-    logger.error(`get module error`, error);
+    logger.error(`get function error`, error);
     context.done(error);
     return;
   }
 
   try {
-    const func = findFunction(module, executor.options?.function);
     const result = await runFunction(func, context);
     await outputWithReturnObject(context, result);
     logger.info(`run block success job_id: ${job_id}`);
