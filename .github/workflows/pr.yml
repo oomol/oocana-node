@@ -62,3 +62,6 @@ jobs:
             /tmp/ovmlayer.log
           retention-days: 1
         if: failure()
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
