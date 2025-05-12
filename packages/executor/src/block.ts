@@ -75,7 +75,8 @@ export async function runBlock(
     } else {
       filePath = await getEntryPath(executor.options?.entry ?? "main.ts", dir);
       const module = await getModule(filePath);
-      logger.debug(`module: ${module} name: ${executor.options?.function}`);
+      // console.log("module", module);
+      logger.debug(`name: ${executor.options?.function}`);
       func = findFunction(module, executor.options?.function);
     }
   } catch (error) {
