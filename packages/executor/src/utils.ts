@@ -202,6 +202,18 @@ export function findFunction(m: any, name: string | undefined): any {
     return m.main;
   }
 
+  // workaround for issue #90
+  const wrapModule = m.default || m;
+  if (wrapModule && typeof wrapModule === "object") {
+    if (name && typeof wrapModule[name] === "function") {
+      return wrapModule[name];
+    } else if (typeof wrapModule.default === "function") {
+      return wrapModule.default;
+    } else if (typeof wrapModule.main === "function") {
+      return wrapModule.main;
+    }
+  }
+
   if (name && m[name]) {
     throw new Error(`${name} is not a function but typeof ${typeof m[name]}`);
   } else if (m.default) {
