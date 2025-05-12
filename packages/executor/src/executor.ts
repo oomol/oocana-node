@@ -178,7 +178,7 @@ export async function runExecutor({
       case "SessionFinished":
         if (isCurrentSession(payload)) {
           logger.info(`session ${sessionId} finished, executor exit`);
-          await cleanupTmpFile();
+          // await cleanupTmpFile();
           process.exit(0);
         }
         break;
