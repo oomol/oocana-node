@@ -31,7 +31,8 @@ type SecretConf = {
 type SecretPath = [SecretType, SecretName, SecretKey];
 
 // ${{OO_SECRET:type,name,key}}，捕获组为 (type,name,key)
-const SECRET_REGEX = /"\$\{\{OO_SECRET:([^,]+,[^,]+,[^,]+)\}\}"/g;
+const GLOBAL_SECRET_REGEX = /"\$\{\{OO_SECRET:([^,]+,[^,]+,[^,]+)\}\}"/g;
+const VALUE_SECRET_REGEX = /^\$\{\{OO_SECRET:([^,]+,[^,]+,[^,]+)\}\}$/;
 
 export async function replaceSecret(
   inputs: any,
@@ -41,21 +42,24 @@ export async function replaceSecret(
   const secrets = await readSecretConf();
 
   let string_inputs = JSON.stringify(inputs);
-  const secret_match = string_inputs.matchAll(SECRET_REGEX);
+  const secret_match = string_inputs.matchAll(GLOBAL_SECRET_REGEX);
 
-  if (secret_match && secrets) {
-    for (const m of secret_match) {
-      const secret_capture = m[1] || "";
-      const real_secret = await getSecret(secret_capture, secrets);
-      if (secret_capture != "" && secret_capture != real_secret) {
-        string_inputs = string_inputs.replace(
-          m[0],
-          `"${real_secret.replaceAll('"', '\\"')}"`
-        );
-      }
-    }
+  if (secrets) {
     try {
-      inputs = JSON.parse(string_inputs);
+      inputs = JSON.parse(string_inputs, (_key, value) => {
+        if (value && typeof value === "string") {
+          const secret_capture = value.match(VALUE_SECRET_REGEX);
+          if (secret_capture) {
+            const origin = secret_capture[1];
+            const secretValue = getSecret(origin, secrets);
+            if (secretValue === origin) {
+              return value;
+            }
+            return secretValue;
+          }
+        }
+        return value;
+      });
     } catch (error) {
       throw new Error(`replaceSecret parse json parse error: ${error}`);
     }
@@ -85,7 +89,7 @@ export async function replaceSecret(
         );
         break;
       } else {
-        inputs[key] = await getSecret(value as string, secrets);
+        inputs[key] = getSecret(value as string, secrets);
       }
     } else {
       if (containSubSecretSchema(def.json_schema)) {
@@ -126,16 +130,16 @@ export async function replaceSecret(
 
           if (path === "" || path == null) {
             // 说明是整个替换
-            node_inputs[k] = await getSecret(input_value, secrets);
+            node_inputs[k] = getSecret(input_value, secrets);
           } else if (typeof path === "string" && path in input_value) {
-            input_value[path] = await getSecret(input_value[path], secrets);
+            input_value[path] = getSecret(input_value[path], secrets);
           } else if (typeof path === "number" && path in input_value) {
-            input_value[path] = await getSecret(input_value[path], secrets);
+            input_value[path] = getSecret(input_value[path], secrets);
           } else if (Array.isArray(path)) {
             let temp = input_value;
             for (let i = 0; i < path.length; i++) {
               if (i === path.length - 1) {
-                temp[path[i]] = await getSecret(temp[path[i]], secrets);
+                temp[path[i]] = getSecret(temp[path[i]], secrets);
               } else {
                 temp = temp[path[i]];
               }
@@ -176,7 +180,7 @@ async function replaceSubSecret(
           if (typeof v !== "string") {
             logger.warn(`Secret value not string: ${v}, path: ${subDef}`);
           } else {
-            value[key] = await getSecret(v, secrets);
+            value[key] = getSecret(v, secrets);
           }
         } else {
           await replaceSubSecret(v, subDef, secrets);
@@ -192,7 +196,7 @@ async function replaceSubSecret(
               `Secret value not string: ${value[i]}, path: ${def.items}`
             );
           } else {
-            value[i] = await getSecret(value[i], secrets);
+            value[i] = getSecret(value[i], secrets);
           }
         }
       } else {
@@ -205,7 +209,7 @@ async function replaceSubSecret(
 }
 
 // studio 上尽量先检查路径存在，这边报错和告警信息，只是为了保险起见
-async function getSecret(path: string, secrets: SecretConf): Promise<string> {
+function getSecret(path: string, secrets: SecretConf): string {
   const [type, name, key]: SecretPath = path.split(
     ","
   ) as unknown as SecretPath;
