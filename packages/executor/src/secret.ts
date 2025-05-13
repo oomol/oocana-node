@@ -85,7 +85,7 @@ export async function replaceSecret(
         );
         break;
       } else {
-        inputs[key] = await getSecret(value as string, secrets);
+        inputs[key] = getSecret(value as string, secrets);
       }
     } else {
       if (containSubSecretSchema(def.json_schema)) {
@@ -126,16 +126,16 @@ export async function replaceSecret(
 
           if (path === "" || path == null) {
             // 说明是整个替换
-            node_inputs[k] = await getSecret(input_value, secrets);
+            node_inputs[k] = getSecret(input_value, secrets);
           } else if (typeof path === "string" && path in input_value) {
-            input_value[path] = await getSecret(input_value[path], secrets);
+            input_value[path] = getSecret(input_value[path], secrets);
           } else if (typeof path === "number" && path in input_value) {
-            input_value[path] = await getSecret(input_value[path], secrets);
+            input_value[path] = getSecret(input_value[path], secrets);
           } else if (Array.isArray(path)) {
             let temp = input_value;
             for (let i = 0; i < path.length; i++) {
               if (i === path.length - 1) {
-                temp[path[i]] = await getSecret(temp[path[i]], secrets);
+                temp[path[i]] = getSecret(temp[path[i]], secrets);
               } else {
                 temp = temp[path[i]];
               }
@@ -176,7 +176,7 @@ async function replaceSubSecret(
           if (typeof v !== "string") {
             logger.warn(`Secret value not string: ${v}, path: ${subDef}`);
           } else {
-            value[key] = await getSecret(v, secrets);
+            value[key] = getSecret(v, secrets);
           }
         } else {
           await replaceSubSecret(v, subDef, secrets);
@@ -192,7 +192,7 @@ async function replaceSubSecret(
               `Secret value not string: ${value[i]}, path: ${def.items}`
             );
           } else {
-            value[i] = await getSecret(value[i], secrets);
+            value[i] = getSecret(value[i], secrets);
           }
         }
       } else {
@@ -205,7 +205,7 @@ async function replaceSubSecret(
 }
 
 // studio 上尽量先检查路径存在，这边报错和告警信息，只是为了保险起见
-async function getSecret(path: string, secrets: SecretConf): Promise<string> {
+function getSecret(path: string, secrets: SecretConf): string {
   const [type, name, key]: SecretPath = path.split(
     ","
   ) as unknown as SecretPath;
