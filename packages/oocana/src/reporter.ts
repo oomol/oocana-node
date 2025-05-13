@@ -7,7 +7,7 @@ export class Reporter {
     address = address.includes("://") ? address : `mqtt://${address}`;
 
     const client = mqtt.connect(address);
-    await client.subscribeAsync("report");
+    await client.subscribeAsync("report/#");
 
     return new Reporter(client, address);
   }
