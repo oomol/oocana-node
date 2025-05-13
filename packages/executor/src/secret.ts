@@ -31,7 +31,8 @@ type SecretConf = {
 type SecretPath = [SecretType, SecretName, SecretKey];
 
 // ${{OO_SECRET:type,name,key}}，捕获组为 (type,name,key)
-const SECRET_REGEX = /"\$\{\{OO_SECRET:([^,]+,[^,]+,[^,]+)\}\}"/g;
+const GLOBAL_SECRET_REGEX = /"\$\{\{OO_SECRET:([^,]+,[^,]+,[^,]+)\}\}"/g;
+const VALUE_SECRET_REGEX = /^\$\{\{OO_SECRET:([^,]+,[^,]+,[^,]+)\}\}$/;
 
 export async function replaceSecret(
   inputs: any,
@@ -41,14 +42,13 @@ export async function replaceSecret(
   const secrets = await readSecretConf();
 
   let string_inputs = JSON.stringify(inputs);
-  const secret_match = string_inputs.matchAll(SECRET_REGEX);
+  const secret_match = string_inputs.matchAll(GLOBAL_SECRET_REGEX);
 
   if (secrets) {
     try {
       inputs = JSON.parse(string_inputs, (_key, value) => {
         if (value && typeof value === "string") {
-          const secret_capture =
-            /^\$\{\{OO_SECRET:([^,]+,[^,]+,[^,]+)\}\}$/.exec(value);
+          const secret_capture = value.match(VALUE_SECRET_REGEX);
           if (secret_capture) {
             const origin = secret_capture[1];
             const secretValue = getSecret(origin, secrets);
