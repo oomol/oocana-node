@@ -51,11 +51,11 @@ export async function replaceSecret(
             /^\$\{\{OO_SECRET:([^,]+,[^,]+,[^,]+)\}\}$/.exec(value);
           if (secret_capture) {
             const origin = secret_capture[1];
-            const replaceSecret = getSecret(origin, secrets);
-            if (replaceSecret === origin) {
+            const secretValue = getSecret(origin, secrets);
+            if (secretValue === origin) {
               return value;
             }
-            return replaceSecret;
+            return secretValue;
           }
         }
         return value;
