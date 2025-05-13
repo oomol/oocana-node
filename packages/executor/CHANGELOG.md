@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.6](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.5...@oomol/executor-v0.20.6) (2025-05-13)
+
+
+### Bug Fixes
+
+* add workaround for wrap module issue 90 ([#111](https://github.com/oomol/oocana-node/issues/111)) ([b4d7989](https://github.com/oomol/oocana-node/commit/b4d79898848ce89827b7a4afd5577bc498ce5036))
+
 ## [0.20.5](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.4...@oomol/executor-v0.20.5) (2025-05-08)
 
 
