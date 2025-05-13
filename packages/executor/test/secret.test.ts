@@ -3,7 +3,7 @@ import { replaceSecret, SECRET_PATH } from "../src/secret";
 import { mkdir, writeFile, unlink } from "fs/promises";
 import path from "path";
 
-const SECRET_VALUE = 'aa"a';
+const SECRET_VALUE = 'a\na"a';
 const ORIGIN_VALUE = "Custom,aaa,AccessKey_ID";
 
 const data = {
