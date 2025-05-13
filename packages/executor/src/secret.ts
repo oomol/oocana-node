@@ -43,19 +43,23 @@ export async function replaceSecret(
   let string_inputs = JSON.stringify(inputs);
   const secret_match = string_inputs.matchAll(SECRET_REGEX);
 
-  if (secret_match && secrets) {
-    for (const m of secret_match) {
-      const secret_capture = m[1] || "";
-      const real_secret = await getSecret(secret_capture, secrets);
-      if (secret_capture != "" && secret_capture != real_secret) {
-        string_inputs = string_inputs.replace(
-          m[0],
-          `"${real_secret.replaceAll('"', '\\"')}"`
-        );
-      }
-    }
+  if (secrets) {
     try {
-      inputs = JSON.parse(string_inputs);
+      inputs = JSON.parse(string_inputs, (_key, value) => {
+        if (value && typeof value === "string") {
+          const secret_capture =
+            /^\$\{\{OO_SECRET:([^,]+,[^,]+,[^,]+)\}\}$/.exec(value);
+          if (secret_capture) {
+            const origin = secret_capture[1];
+            const replaceSecret = getSecret(origin, secrets);
+            if (replaceSecret === origin) {
+              return value;
+            }
+            return replaceSecret;
+          }
+        }
+        return value;
+      });
     } catch (error) {
       throw new Error(`replaceSecret parse json parse error: ${error}`);
     }
