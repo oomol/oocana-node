@@ -1,5 +1,5 @@
 {
-  "packages/executor": "0.20.6",
+  "packages/executor": "0.20.7",
   "packages/oocana": "0.22.12",
   "packages/oocana-sdk": "0.19.5",
   "packages/oocana-types": "0.20.32"

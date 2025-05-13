@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.7](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.6...@oomol/executor-v0.20.7) (2025-05-13)
+
+
+### Bug Fixes
+
+* fix json control character ([#116](https://github.com/oomol/oocana-node/issues/116)) ([9cdf357](https://github.com/oomol/oocana-node/commit/9cdf3573ab1b6ddacfee1ebac17c58ad15870535))
+
 ## [0.20.6](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.5...@oomol/executor-v0.20.6) (2025-05-13)
 
 
