@@ -61,7 +61,7 @@ export async function runExecutor({
 
   const mainframe = new Mainframe(
     `mqtt://${address}`,
-    `nodejs-executor-` + (identifier || sessionId)
+    `nodejs-executor-` + (identifier || sessionId) + `-${process.pid}`
   );
 
   const isCurrentSession = (payload: any) => payload.session_id == sessionId;
