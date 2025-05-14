@@ -25,6 +25,7 @@
     "pnpm",
     "preinstall",
     "rootfs",
+    "slotflow",
     "stuartleeks",
     "Subflow",
     "treeshake",
