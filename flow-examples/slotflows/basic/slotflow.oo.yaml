@@ -14,19 +14,20 @@ nodes:
         name: nodejs
         options:
           entry: scriptlets/+javascript#1.js
-    node_id: node-1
+    node_id: slot-1
     inputs_from:
       - handle: input
-        value: "input"
+        from_flow:
+          - input_handle: input
   - subflow: self::slot
-    node_id: node-sub
+    node_id: slot-sub
     slots:
       - slot_node_id: replace
-        slotflow: self::basic
+        subflow: self::basic
     inputs_from:
       - handle: input
         from_node:
-          - node_id: node-1
+          - node_id: slot-1
             output_handle: output
   - task:
       inputs_def:
@@ -43,9 +44,24 @@ nodes:
         name: nodejs
         options:
           entry: scriptlets/+javascript#1.js
-    node_id: node-2
+    node_id: slot-2
     inputs_from:
       - handle: input
         from_node:
-          - node_id: node-sub
+          - node_id: slot-sub
             output_handle: output
+inputs_def:
+  - handle: input
+    description: Input
+    json_schema:
+      type: string
+outputs_def:
+  - handle: output
+    description: Output
+    json_schema:
+      type: string
+outputs_from:
+  - handle: output
+    from_node:
+      - node_id: slot-2
+        output_handle: output
