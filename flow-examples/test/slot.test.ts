@@ -37,6 +37,19 @@ describe("slot test", () => {
   });
 });
 
+describe("slotflow test", () => {
+  it("run slotflow flow", async () => {
+    const { code, events } = await runFlow("slot-subflow");
+    const e = events.filter(
+      e =>
+        e.event === "BlockFinished" &&
+        e.data.stacks.filter(e => e.node_id === "node-2").length == 1
+    );
+    expect(e.length).toBe(1);
+    expect(code).toBe(0);
+  });
+});
+
 describe("package slot test", () => {
   it("run pkg slot-task flow", async () => {
     const { code, events } = await runFlow("pkg-slot-task");
