@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.8](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.7...@oomol/executor-v0.20.8) (2025-05-14)
+
+
+### Bug Fixes
+
+* avoid same id ([#119](https://github.com/oomol/oocana-node/issues/119)) ([2d85fda](https://github.com/oomol/oocana-node/commit/2d85fda998641608968518908ec20753c8fc035b))
+
 ## [0.20.7](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.6...@oomol/executor-v0.20.7) (2025-05-13)
 
 
