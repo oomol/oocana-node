@@ -89,7 +89,7 @@ jobs:
 
   check:
     runs-on: ubuntu-latest
-    needs: [layer-check]
+    needs: [layer-test]
     if: ${{ always() }}
     steps:
       - name: check
