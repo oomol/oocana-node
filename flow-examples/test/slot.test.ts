@@ -39,7 +39,7 @@ describe("slot test", () => {
 
 describe("slotflow test", () => {
   it("run slotflow flow", async () => {
-    const { code, events } = await runFlow("slot-subflow");
+    const { code, events } = await runFlow("slot-slotflow");
     const e = events.filter(
       e =>
         e.event === "BlockFinished" &&
