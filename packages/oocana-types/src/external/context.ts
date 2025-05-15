@@ -149,4 +149,7 @@ export interface Context<
 
   /** a temporary directory for the current package, all blocks in this package will share the same directory. This directory will be cleaned if this session finishes successfully; otherwise, it will be kept for debugging or other purposes. */
   readonly tmpPkgDir: string;
+
+  /** a host endpoint, allowing containers to access services running on the host system. in cloud environment, it will be undefined. */
+  readonly hostEndpoint: string | undefined;
 }
