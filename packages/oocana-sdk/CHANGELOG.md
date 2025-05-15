@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.19.6](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.5...@oomol/oocana-sdk-v0.19.6) (2025-05-15)
+
+
+### Features
+
+* **context:** add hostEndpoint ([#124](https://github.com/oomol/oocana-node/issues/124)) ([b9f608c](https://github.com/oomol/oocana-node/commit/b9f608cedd5bed7f878cabf996d1a970926cdcec))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.20.33
+
 ## [0.19.5](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.4...@oomol/oocana-sdk-v0.19.5) (2025-05-08)
 
 
