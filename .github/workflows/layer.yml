@@ -102,3 +102,4 @@ jobs:
           }
 
           exit_on_result "layer-test" "${{ needs.layer-test.result }}"
+          echo all needs jobs : "${{ toJson(needs)}}"
