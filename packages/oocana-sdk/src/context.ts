@@ -40,9 +40,10 @@ export class ContextImpl implements Context {
   public readonly OOMOL_LLM_ENV: OOMOL_LLM_ENV;
   public readonly hostInfo: HostInfo;
   public readonly tmpDir: string;
+  public readonly tmpPkgDir: string;
   public readonly packageName: string;
   public readonly pkgDir: string;
-
+  public readonly hostEndpoint: string | undefined;
   public node_id: string;
 
   constructor({
@@ -101,8 +102,9 @@ export class ContextImpl implements Context {
       gpuVendor: process.env.OOMOL_HOST_GPU_VENDOR || "unknown",
       gpuRenderer: process.env.OOMOL_HOST_GPU_RENDERER || "unknown",
     });
+
+    this.hostEndpoint = process.env.OO_HOST_ENDPOINT;
   }
-  tmpPkgDir: string;
 
   private createObjectRef = (handle: string): StoreKeyRef => {
     return {
