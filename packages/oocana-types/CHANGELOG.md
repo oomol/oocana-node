@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.33](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.32...@oomol/oocana-types-v0.20.33) (2025-05-15)
+
+
+### Features
+
+* **context:** add hostEndpoint ([#124](https://github.com/oomol/oocana-node/issues/124)) ([b9f608c](https://github.com/oomol/oocana-node/commit/b9f608cedd5bed7f878cabf996d1a970926cdcec))
+
 ## [0.20.32](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.31...@oomol/oocana-types-v0.20.32) (2025-05-08)
 
 
