@@ -159,9 +159,9 @@ class ServiceRuntime implements ServiceContext {
     });
 
     const originalDone = context.finish;
-    context.finish = async () => {
+    context.finish = async (...args) => {
       this.#runningBlocks.delete(job_id);
-      await originalDone();
+      await originalDone(...args);
       if (this.#runningBlocks.size === 0) {
         this.startExitTimerIfNeeded();
       }
