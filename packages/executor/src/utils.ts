@@ -6,6 +6,7 @@ import { logger } from "./logger";
 import { importFile } from "@hyrious/esbuild-dev";
 import type { ServiceExecutePayload } from "@oomol/oocana-types";
 import { pathToFileURL } from "node:url";
+import { inspect } from "node:util";
 
 export interface ExecutorArgs {
   readonly sessionId: string;
@@ -84,7 +85,11 @@ export async function outputWithReturnObject(
 
   // only accept object
   if (typeof result !== "object" || result === null) {
-    context.finish({ error: new Error("return value must be an object") });
+    context.finish({
+      error: new Error(
+        `return value must be an object, but get ${inspect(result)}`
+      ),
+    });
     return;
   }
 
@@ -205,17 +210,11 @@ export function findFunction(m: any, name: string | undefined): any {
     }
   }
 
-  if (name && m[name]) {
-    throw new Error(`${name} is not a function but typeof ${typeof m[name]}`);
-  } else if (m.default) {
-    throw new Error(`default is not a function but typeof ${typeof m.default}`);
-  } else if (m.main) {
-    throw new Error(`main is not a function but typeof ${typeof m.main}`);
-  } else {
-    throw new Error(
-      "Unable to find any callable function in the default or main field. Maybe you should check the entry file is correct"
-    );
-  }
+  throw new Error(
+    `Unable to find any callable function in the default or main field for module: ${inspect(
+      m
+    )}`
+  );
 }
 
 export async function getEntryPath(entry: string, cwd: string = process.cwd()) {
