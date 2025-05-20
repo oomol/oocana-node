@@ -38,6 +38,7 @@ export interface IMainframeBlockError extends JobInfo {
 export interface IMainframeBlockFinished extends JobInfo {
   type: "BlockFinished";
   error?: string;
+  result?: Record<string, unknown>;
 }
 
 export type IMainframeServerMessage = IMainframeBlockInputs;
