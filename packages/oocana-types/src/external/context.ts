@@ -96,8 +96,6 @@ export interface Context<
     ): Promise<void>;
 
     /**
-     * @deprecated this method will be removed in the future. please use function without done parameter. if you want to report block done, please use context.done() instead.
-     * Report Block output.
      * @param handle Output handle
      * @param output Output value
      */
@@ -106,6 +104,13 @@ export interface Context<
       output: TOutputs[THandle]
     ): Promise<void>;
   };
+
+  /**
+   * Report block outputs. it can report multiple output at once.
+   * @param map map can be a partial object of TOutputs
+   * @returns
+   */
+  readonly outputs: (map: Partial<TOutputs>) => Promise<void>;
 
   /**
    * reporter block finish. it can contain error or result.
