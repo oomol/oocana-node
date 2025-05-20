@@ -69,8 +69,9 @@ describe(
       const { code, events } = await runFlow("var");
       expect(code).toBe(0);
 
-      const latestBlockOutput = events.findLast(e => e.event === "BlockOutput")
-        ?.data?.output;
+      const latestBlockOutput = events.findLast(
+        e => e.event === "BlockFinished"
+      )?.data?.result?.out;
       expect(latestBlockOutput).toBe("ok");
     });
 
@@ -128,8 +129,8 @@ describe(
     it("run value flow", async () => {
       const { code, events } = await runFlow("value");
       expect(code).toBe(0);
-      const output = events.findLast(e => e.event === "BlockOutput")?.data
-        ?.output;
+      const output = events.findLast(e => e.event === "BlockFinished")?.data
+        ?.result?.out;
       expect(output).toEqual(null);
     });
 
