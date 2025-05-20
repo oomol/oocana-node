@@ -31,7 +31,6 @@ export class ContextImpl implements Context {
   static readonly keepAlive = Symbol("keepAlive");
   keepAlive = ContextImpl.keepAlive;
   readonly flowNodeStore: { [index: string]: any };
-  private isDone = false;
   private mainframe: Mainframe;
   private outputsDef: HandlesDef;
   private storeKey: string;
@@ -123,32 +122,48 @@ export class ContextImpl implements Context {
     );
   };
 
-  autoDone = async () => {
-    if (this.isDone) {
-      return;
-    }
-    await this.done();
-  };
-
-  done = async (err?: any) => {
-    if (this.isDone) {
-      this.warning("done has been called multiple times, will be ignored.");
-      return;
-    }
-
-    this.isDone = true;
-
-    const error =
-      err instanceof Error ? `${err.message}\n${err.stack}` : `${err}`;
+  finish = async (arg?: { result?: any; error?: unknown }) => {
+    const { result, error } = arg || {};
+    const errorMessage =
+      error instanceof Error ? `${error.message}\n${error.stack}` : `${error}`;
 
     this.reportProgress.flush();
 
-    await this.mainframe.sendFinish({
-      type: "BlockFinished",
-      session_id: this.sessionId,
-      job_id: this.jobId,
-      error: err ? error : undefined,
-    });
+    if (!!errorMessage) {
+      await this.mainframe.sendFinish({
+        type: "BlockFinished",
+        session_id: this.sessionId,
+        job_id: this.jobId,
+        error: errorMessage,
+      });
+    } else if (result) {
+      const wrapResult: Record<string, unknown> = {};
+      for (const [key, value] of Object.entries(result)) {
+        if (!(key in this.outputsDef)) {
+          this.warning(
+            `Output handle key: [${key}] is not defined in Block outputs schema.`
+          );
+          continue;
+        }
+        try {
+          wrapResult[key] = await this.wrapOutputValue(key, value);
+        } catch (error) {
+          this.error(error);
+        }
+      }
+      await this.mainframe.sendFinish({
+        type: "BlockFinished",
+        session_id: this.sessionId,
+        job_id: this.jobId,
+        result: wrapResult,
+      });
+    } else {
+      await this.mainframe.sendFinish({
+        type: "BlockFinished",
+        session_id: this.sessionId,
+        job_id: this.jobId,
+      });
+    }
   };
 
   logJSON = async (jsonValue: unknown) => {

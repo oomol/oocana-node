@@ -158,8 +158,8 @@ class ServiceRuntime implements ServiceContext {
       flowStore: new Map(), // TODO: implement flowNodeStore
     });
 
-    const originalDone = context.done;
-    context.done = async () => {
+    const originalDone = context.finish;
+    context.finish = async () => {
       this.#runningBlocks.delete(job_id);
       await originalDone();
       if (this.#runningBlocks.size === 0) {

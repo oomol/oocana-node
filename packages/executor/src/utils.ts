@@ -74,8 +74,7 @@ export async function outputWithReturnObject(
   result: unknown
 ) {
   if (result === undefined) {
-    context.autoDone();
-    return;
+    context.finish();
   }
 
   // done 的权限移交给用户，让用户自主决定 done 的时机。
@@ -83,21 +82,13 @@ export async function outputWithReturnObject(
     return;
   }
 
-  // 不是 object 而是 string 之类的，也是可以遍历的。
-  if (typeof result !== "object") {
-    context.done(new Error("return value must be an object"));
+  // only accept object
+  if (typeof result !== "object" || result === null) {
+    context.finish({ error: new Error("return value must be an object") });
     return;
   }
 
-  // 用户如果输出了错误的 key，也一样发出去，通过 context.output 里面的逻辑输出日志。
-  // TODO: 如果 output_defs 有 key 没有发出去过，最好也有一个 warning。
-  await Promise.all(
-    Object.keys(result || {}).map(key =>
-      context.output(key, (result as any)[key])
-    )
-  );
-
-  context.done();
+  context.finish({ result });
 }
 
 const caches = new Set<string>();

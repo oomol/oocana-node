@@ -109,8 +109,15 @@ export interface Context<
     ): Promise<void>;
   };
 
-  /** Report Block done. */
-  readonly done: (err?: any) => Promise<void>;
+  /**
+   * reporter block finish. it can contain error or result.
+   * if contains error, it will be treated as block failed and ignore result argument
+   * if contains result, it will be treated as success
+   * otherwise, it will be treated as success and no result will be reported.
+   */
+  readonly finish: (
+    arg?: { result?: any; error?: never } | { result?: never; error?: unknown }
+  ) => Promise<void>;
 
   /** Report logs */
   readonly logJSON: (jsonValue: unknown) => Promise<void>;
