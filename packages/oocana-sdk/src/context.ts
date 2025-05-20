@@ -124,12 +124,14 @@ export class ContextImpl implements Context {
 
   finish = async (arg?: { result?: any; error?: unknown }) => {
     const { result, error } = arg || {};
-    const errorMessage =
-      error instanceof Error ? `${error.message}\n${error.stack}` : `${error}`;
 
     this.reportProgress.flush();
 
-    if (!!errorMessage) {
+    if (!!error) {
+      const errorMessage =
+        error instanceof Error
+          ? `${error.message}\n${error.stack}`
+          : `${error}`;
       await this.mainframe.sendFinish({
         type: "BlockFinished",
         session_id: this.sessionId,
