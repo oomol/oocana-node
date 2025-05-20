@@ -18,6 +18,39 @@ describe(
       console.log("files", files);
     });
 
+    it("run basic flow", async () => {
+      const { code, events } = await runFlow("basic");
+      expect(code).toBe(0);
+      expect(
+        events.filter(e => e.event === "BlockStarted").length,
+        `start ${events
+          .filter(e => e.event === "BlockStarted")
+          .map(e => JSON.stringify(e.data.stacks))}`
+      ).toBe(3);
+
+      expect(
+        events
+          .filter(e => e.event === "BlockOutputMap")
+          .filter(e => e.data.map?.a === "a" && e.data.map?.b === "b").length,
+        `finish ${events
+          .filter(e => e.event === "BlockFinished")
+          .map(e => JSON.stringify(e.data.stacks))}`
+      ).toBe(1);
+
+      expect(
+        events
+          .filter(e => e.event === "BlockFinished")
+          .filter(e => e.data.result?.a === "a" && e.data.result?.b === "b")
+          .length,
+        `finish ${events
+          .filter(e => e.event === "BlockFinished")
+          .map(e => JSON.stringify(e.data.stacks))}`
+      ).toBe(1);
+
+      const events_list = events.map(e => e.event);
+      expect(events_list).toContain("SessionFinished");
+    });
+
     it("run pkg flow", async () => {
       const { code, events } = await runFlow("pkg");
       expect(code).toBe(0);
