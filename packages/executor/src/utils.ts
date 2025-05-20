@@ -76,24 +76,17 @@ export async function outputWithReturnObject(
 ) {
   if (result === undefined) {
     context.finish();
-  }
-
-  // done 的权限移交给用户，让用户自主决定 done 的时机。
-  if (result === context.keepAlive) {
-    return;
-  }
-
-  // only accept object
-  if (typeof result !== "object" || result === null) {
+  } else if (result === context.keepAlive) {
+    // pass
+  } else if (typeof result !== "object" || result === null) {
     context.finish({
       error: new Error(
         `return value must be an object, but get ${inspect(result)}`
       ),
     });
-    return;
+  } else {
+    context.finish({ result });
   }
-
-  context.finish({ result });
 }
 
 const caches = new Set<string>();
