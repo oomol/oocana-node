@@ -87,7 +87,6 @@ export interface BlockOutput extends BlockInfo {
   readonly type: "BlockOutput";
   readonly handle: string;
   readonly output: any;
-  readonly done: boolean;
 }
 
 export interface BlockLog extends BlockInfo {
