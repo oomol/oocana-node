@@ -328,7 +328,7 @@ export class ContextImpl implements Context {
 
     let value;
     try {
-      value = this.wrapOutputValue(handle, output);
+      value = await this.wrapOutputValue(handle, output);
     } catch (error) {
       this.error(error);
       return;
