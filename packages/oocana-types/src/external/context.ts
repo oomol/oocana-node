@@ -100,12 +100,10 @@ export interface Context<
      * Report Block output.
      * @param handle Output handle
      * @param output Output value
-     * @param done will remove. Report Block done.
      */
     <THandle extends Extract<keyof TOutputs, string>>(
       handle: THandle,
-      output: TOutputs[THandle],
-      done: boolean
+      output: TOutputs[THandle]
     ): Promise<void>;
   };
 
