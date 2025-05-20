@@ -30,6 +30,11 @@ export interface IMainframeBlockOutput<TOutput = any> extends JobInfo {
   output: TOutput;
 }
 
+export interface IMainframeBlockOutputMap<TOutput = any> extends JobInfo {
+  type: "BlockOutputMap";
+  map: Record<string, TOutput>;
+}
+
 export interface IMainframeBlockError extends JobInfo {
   type: "BlockError";
   error: string;
@@ -45,6 +50,7 @@ export type IMainframeServerMessage = IMainframeBlockInputs;
 export type IMainframeClientMessage =
   | IMainframeBlockReady
   | IMainframeBlockOutput
+  | IMainframeBlockOutputMap
   | IMainframeBlockError
   | IMainframeBlockFinished
   | IMainframeExecutorReady;

@@ -294,6 +294,30 @@ export class ContextImpl implements Context {
     return value;
   };
 
+  outputs = async (map: Partial<Record<string, any>>) => {
+    const wrapResult: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(map)) {
+      if (!(key in this.outputsDef)) {
+        await this.warning(
+          `Output handle key: [${key}] is not defined in Block outputs schema.`
+        );
+        continue;
+      }
+      try {
+        wrapResult[key] = await this.wrapOutputValue(key, value);
+      } catch (error) {
+        this.error(error);
+      }
+    }
+
+    await this.mainframe.sendOutputs({
+      type: "BlockOutputMap",
+      session_id: this.sessionId,
+      job_id: this.jobId,
+      map: wrapResult,
+    });
+  };
+
   output = async <THandle extends string>(handle: THandle, output: any) => {
     if (!(handle in this.outputsDef)) {
       await this.warning(
