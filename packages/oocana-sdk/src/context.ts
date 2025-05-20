@@ -142,7 +142,7 @@ export class ContextImpl implements Context {
       const wrapResult: Record<string, unknown> = {};
       for (const [key, value] of Object.entries(result)) {
         if (!(key in this.outputsDef)) {
-          this.warning(
+          await this.warning(
             `Output handle key: [${key}] is not defined in Block outputs schema.`
           );
           continue;
