@@ -245,11 +245,7 @@ export class ContextImpl implements Context {
       });
     }, 300);
 
-  output = async <THandle extends string>(
-    handle: THandle,
-    output: any,
-    done = false
-  ) => {
+  output = async <THandle extends string>(handle: THandle, output: any) => {
     const outputsDef = this.outputsDef;
     let value = output;
     if (isValHandle(outputsDef, handle) && !this.isBasicType(output)) {
@@ -289,10 +285,6 @@ export class ContextImpl implements Context {
         `Output handle key: [${handle}] is not defined in Block outputs schema.`
       );
 
-      if (done) {
-        this.done();
-      }
-
       return;
     }
 
@@ -302,13 +294,8 @@ export class ContextImpl implements Context {
       job_id: this.jobId,
       handle,
       output: value,
-      done,
     });
 
     this.reportProgress.flush();
-
-    if (done) {
-      this.done();
-    }
   };
 }

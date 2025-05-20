@@ -28,7 +28,6 @@ export interface IMainframeBlockOutput<TOutput = any> extends JobInfo {
   type: "BlockOutput";
   handle: string;
   output: TOutput;
-  done: boolean;
 }
 
 export interface IMainframeBlockError extends JobInfo {
