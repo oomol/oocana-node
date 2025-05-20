@@ -100,6 +100,18 @@ describe(
       expect(latestBlockOutput).toBe(3);
     });
 
+    it("run warning flow", async () => {
+      const { code, events } = await runFlow("warning");
+      expect(code).toBe(0);
+
+      const latestBlockWarning = events.findLast(
+        e => e.event === "BlockWarning"
+      )?.data?.warning;
+      expect(latestBlockWarning).toBe(
+        "Output handle key: [c] is not defined in Block outputs schema."
+      );
+    });
+
     it("run service flow", async () => {
       const { code, events } = await runFlow("service");
       expect(code).toBe(0);

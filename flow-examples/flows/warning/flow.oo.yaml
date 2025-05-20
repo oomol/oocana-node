@@ -1,0 +1,21 @@
+nodes:
+  - task:
+      ui:
+        default_width: 450
+      inputs_def:
+        - handle: in
+          value: input value
+          json_schema:
+            type: string
+      outputs_def:
+        - handle: a
+        - handle: b
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+typescript#1.ts
+    title: "TypeScript #1"
+    node_id: +typescript#1
+    inputs_from:
+      - handle: in
+        value: aaaa
