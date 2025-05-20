@@ -4,7 +4,6 @@ nodes:
         default_width: 450
       inputs_def:
         - handle: in
-          ignoreNull: true
           value: input value
           description: Input
           json_schema:
@@ -19,7 +18,6 @@ nodes:
         options:
           entry: scriptlets/+typescript#1.ts
     title: "TypeScript #1"
-    icon: ":skill-icons:typescript:"
     node_id: +typescript#1
     inputs_from:
       - handle: in
@@ -43,7 +41,6 @@ nodes:
         options:
           entry: scriptlets/+typescript#2.ts
     title: "TypeScript #2"
-    icon: ":skill-icons:typescript:"
     node_id: +typescript#2
     inputs_from:
       - handle: a
