@@ -78,7 +78,7 @@ export async function runBlock(
     }
   } catch (error) {
     logger.error(`get module error`, error);
-    context.done(error);
+    context.finish({ error });
     return;
   }
 
@@ -89,6 +89,6 @@ export async function runBlock(
     logger.info(`run block success job_id: ${job_id}`);
   } catch (error) {
     logger.error(`run block job_id: ${job_id} error`, error);
-    context.done(error);
+    context.finish({ error });
   }
 }

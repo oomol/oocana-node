@@ -5,14 +5,11 @@ nodes:
       inputs_def:
         - handle: in
           value: input value
-          description: Input
           json_schema:
             type: string
       outputs_def:
-        - handle: out
-          description: Output
-          json_schema:
-            contentMediaType: oomol/bin
+        - handle: a
+        - handle: b
       executor:
         name: nodejs
         options:
@@ -27,15 +24,9 @@ nodes:
         default_width: 450
       inputs_def:
         - handle: a
-          description: Input
-          json_schema:
-            contentMediaType: oomol/bin
           value: input value
       outputs_def:
         - handle: out
-          description: Output
-          json_schema:
-            type: string
       executor:
         name: nodejs
         options:
@@ -46,4 +37,8 @@ nodes:
       - handle: a
         from_node:
           - node_id: +typescript#1
-            output_handle: out
+            output_handle: a
+      - handle: b
+        from_node:
+          - node_id: +typescript#1
+            output_handle: b

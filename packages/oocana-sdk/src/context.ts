@@ -31,7 +31,6 @@ export class ContextImpl implements Context {
   static readonly keepAlive = Symbol("keepAlive");
   keepAlive = ContextImpl.keepAlive;
   readonly flowNodeStore: { [index: string]: any };
-  private isDone = false;
   private mainframe: Mainframe;
   private outputsDef: HandlesDef;
   private storeKey: string;
@@ -123,32 +122,50 @@ export class ContextImpl implements Context {
     );
   };
 
-  autoDone = async () => {
-    if (this.isDone) {
-      return;
-    }
-    await this.done();
-  };
-
-  done = async (err?: any) => {
-    if (this.isDone) {
-      this.warning("done has been called multiple times, will be ignored.");
-      return;
-    }
-
-    this.isDone = true;
-
-    const error =
-      err instanceof Error ? `${err.message}\n${err.stack}` : `${err}`;
+  finish = async (arg?: { result?: any; error?: unknown }) => {
+    const { result, error } = arg || {};
 
     this.reportProgress.flush();
 
-    await this.mainframe.sendFinish({
-      type: "BlockFinished",
-      session_id: this.sessionId,
-      job_id: this.jobId,
-      error: err ? error : undefined,
-    });
+    if (!!error) {
+      const errorMessage =
+        error instanceof Error
+          ? `${error.message}\n${error.stack}`
+          : `${error}`;
+      await this.mainframe.sendFinish({
+        type: "BlockFinished",
+        session_id: this.sessionId,
+        job_id: this.jobId,
+        error: errorMessage,
+      });
+    } else if (result) {
+      const wrapResult: Record<string, unknown> = {};
+      for (const [key, value] of Object.entries(result)) {
+        if (!(key in this.outputsDef)) {
+          await this.warning(
+            `Output handle key: [${key}] is not defined in Block outputs schema.`
+          );
+          continue;
+        }
+        try {
+          wrapResult[key] = await this.wrapOutputValue(key, value);
+        } catch (error) {
+          this.error(error);
+        }
+      }
+      await this.mainframe.sendFinish({
+        type: "BlockFinished",
+        session_id: this.sessionId,
+        job_id: this.jobId,
+        result: wrapResult,
+      });
+    } else {
+      await this.mainframe.sendFinish({
+        type: "BlockFinished",
+        session_id: this.sessionId,
+        job_id: this.jobId,
+      });
+    }
   };
 
   logJSON = async (jsonValue: unknown) => {
@@ -245,54 +262,77 @@ export class ContextImpl implements Context {
       });
     }, 300);
 
-  output = async <THandle extends string>(
-    handle: THandle,
-    output: any,
-    done = false
-  ) => {
+  private wrapOutputValue = async (handle: string, value: any) => {
     const outputsDef = this.outputsDef;
-    let value = output;
-    if (isValHandle(outputsDef, handle) && !this.isBasicType(output)) {
+    if (isValHandle(outputsDef, handle) && !this.isBasicType(value)) {
       const objectRef = this.createObjectRef(handle);
       const ref = outputRefKey(objectRef);
       this.#variableStore[ref] = value;
-      value = {
+      return {
         __OOMOL_TYPE__: "oomol/var",
         value: objectRef,
       } as VarValue;
     } else if (isBinHandle(outputsDef, handle)) {
-      if (!(output instanceof Buffer)) {
-        await this.error(
-          `Bin value not Buffer: ${output}, path: ${outputsDef[handle]}`
+      if (!(value instanceof Buffer)) {
+        throw new Error(
+          `Bin value not Buffer: ${value}, path: ${outputsDef[handle]}`
         );
-        return;
       }
 
       const filePath = `${this.sessionDir}/binary/${this.sessionId}/${this.jobId}/${handle}`;
       try {
         mkdirSync(dirname(filePath), { recursive: true });
-        await writeFile(filePath, output);
-        value = {
+        await writeFile(filePath, value);
+        return {
           value: filePath,
           __OOMOL_TYPE__: "oomol/bin",
         } as BinaryValue;
       } catch (error) {
-        await this.error(
+        throw new Error(
           `write bin to file error: ${error}, path: ${outputsDef[handle]}`
         );
-        return;
+      }
+    }
+    return value;
+  };
+
+  outputs = async (map: Partial<Record<string, any>>) => {
+    const wrapResult: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(map)) {
+      if (!(key in this.outputsDef)) {
+        await this.warning(
+          `Output handle key: [${key}] is not defined in Block outputs schema.`
+        );
+        continue;
+      }
+      try {
+        wrapResult[key] = await this.wrapOutputValue(key, value);
+      } catch (error) {
+        this.error(error);
       }
     }
 
-    if (outputsDef[handle] === undefined) {
+    await this.mainframe.sendOutputs({
+      type: "BlockOutputMap",
+      session_id: this.sessionId,
+      job_id: this.jobId,
+      map: wrapResult,
+    });
+  };
+
+  output = async <THandle extends string>(handle: THandle, output: any) => {
+    if (!(handle in this.outputsDef)) {
       await this.warning(
         `Output handle key: [${handle}] is not defined in Block outputs schema.`
       );
+      return;
+    }
 
-      if (done) {
-        this.done();
-      }
-
+    let value;
+    try {
+      value = await this.wrapOutputValue(handle, output);
+    } catch (error) {
+      this.error(error);
       return;
     }
 
@@ -302,13 +342,8 @@ export class ContextImpl implements Context {
       job_id: this.jobId,
       handle,
       output: value,
-      done,
     });
 
     this.reportProgress.flush();
-
-    if (done) {
-      this.done();
-    }
   };
 }

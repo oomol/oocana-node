@@ -18,6 +18,39 @@ describe(
       console.log("files", files);
     });
 
+    it("run basic flow", async () => {
+      const { code, events } = await runFlow("basic");
+      expect(code).toBe(0);
+      expect(
+        events.filter(e => e.event === "BlockStarted").length,
+        `start ${events
+          .filter(e => e.event === "BlockStarted")
+          .map(e => JSON.stringify(e.data.stacks))}`
+      ).toBe(3);
+
+      expect(
+        events
+          .filter(e => e.event === "BlockOutputMap")
+          .filter(e => e.data.map?.a === "a" && e.data.map?.b === "b").length,
+        `finish ${events
+          .filter(e => e.event === "BlockFinished")
+          .map(e => JSON.stringify(e.data.stacks))}`
+      ).toBe(1);
+
+      expect(
+        events
+          .filter(e => e.event === "BlockFinished")
+          .filter(e => e.data.result?.a === "a" && e.data.result?.b === "b")
+          .length,
+        `finish ${events
+          .filter(e => e.event === "BlockFinished")
+          .map(e => JSON.stringify(e.data.stacks))}`
+      ).toBe(1);
+
+      const events_list = events.map(e => e.event);
+      expect(events_list).toContain("SessionFinished");
+    });
+
     it("run pkg flow", async () => {
       const { code, events } = await runFlow("pkg");
       expect(code).toBe(0);
@@ -36,8 +69,9 @@ describe(
       const { code, events } = await runFlow("var");
       expect(code).toBe(0);
 
-      const latestBlockOutput = events.findLast(e => e.event === "BlockOutput")
-        ?.data?.output;
+      const latestBlockOutput = events.findLast(
+        e => e.event === "BlockFinished"
+      )?.data?.result?.out;
       expect(latestBlockOutput).toBe("ok");
     });
 
@@ -64,6 +98,18 @@ describe(
       const latestBlockOutput = events.findLast(e => e.event === "BlockOutput")
         ?.data?.output;
       expect(latestBlockOutput).toBe(3);
+    });
+
+    it("run warning flow", async () => {
+      const { code, events } = await runFlow("warning");
+      expect(code).toBe(0);
+
+      const latestBlockWarning = events.findLast(
+        e => e.event === "BlockWarning"
+      )?.data?.warning;
+      expect(latestBlockWarning).toBe(
+        "Output handle key: [c] is not defined in Block outputs schema."
+      );
     });
 
     it("run service flow", async () => {
@@ -95,8 +141,8 @@ describe(
     it("run value flow", async () => {
       const { code, events } = await runFlow("value");
       expect(code).toBe(0);
-      const output = events.findLast(e => e.event === "BlockOutput")?.data
-        ?.output;
+      const output = events.findLast(e => e.event === "BlockFinished")?.data
+        ?.result?.out;
       expect(output).toEqual(null);
     });
 

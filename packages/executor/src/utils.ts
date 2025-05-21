@@ -6,6 +6,7 @@ import { logger } from "./logger";
 import { importFile } from "@hyrious/esbuild-dev";
 import type { ServiceExecutePayload } from "@oomol/oocana-types";
 import { pathToFileURL } from "node:url";
+import { inspect } from "node:util";
 
 export interface ExecutorArgs {
   readonly sessionId: string;
@@ -74,30 +75,18 @@ export async function outputWithReturnObject(
   result: unknown
 ) {
   if (result === undefined) {
-    context.autoDone();
-    return;
+    context.finish();
+  } else if (result === context.keepAlive) {
+    // pass
+  } else if (typeof result !== "object" || result === null) {
+    context.finish({
+      error: new Error(
+        `return value must be an object, but get ${inspect(result)}`
+      ),
+    });
+  } else {
+    context.finish({ result });
   }
-
-  // done 的权限移交给用户，让用户自主决定 done 的时机。
-  if (result === context.keepAlive) {
-    return;
-  }
-
-  // 不是 object 而是 string 之类的，也是可以遍历的。
-  if (typeof result !== "object") {
-    context.done(new Error("return value must be an object"));
-    return;
-  }
-
-  // 用户如果输出了错误的 key，也一样发出去，通过 context.output 里面的逻辑输出日志。
-  // TODO: 如果 output_defs 有 key 没有发出去过，最好也有一个 warning。
-  await Promise.all(
-    Object.keys(result || {}).map(key =>
-      context.output(key, (result as any)[key])
-    )
-  );
-
-  context.done();
 }
 
 const caches = new Set<string>();
@@ -214,17 +203,11 @@ export function findFunction(m: any, name: string | undefined): any {
     }
   }
 
-  if (name && m[name]) {
-    throw new Error(`${name} is not a function but typeof ${typeof m[name]}`);
-  } else if (m.default) {
-    throw new Error(`default is not a function but typeof ${typeof m.default}`);
-  } else if (m.main) {
-    throw new Error(`main is not a function but typeof ${typeof m.main}`);
-  } else {
-    throw new Error(
-      "Unable to find any callable function in the default or main field. Maybe you should check the entry file is correct"
-    );
-  }
+  throw new Error(
+    `Unable to find any callable function in the default or main field for module: ${inspect(
+      m
+    )}`
+  );
 }
 
 export async function getEntryPath(entry: string, cwd: string = process.cwd()) {

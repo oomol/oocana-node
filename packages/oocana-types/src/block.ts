@@ -28,7 +28,11 @@ export interface IMainframeBlockOutput<TOutput = any> extends JobInfo {
   type: "BlockOutput";
   handle: string;
   output: TOutput;
-  done: boolean;
+}
+
+export interface IMainframeBlockOutputMap<TOutput = any> extends JobInfo {
+  type: "BlockOutputMap";
+  map: Record<string, TOutput>;
 }
 
 export interface IMainframeBlockError extends JobInfo {
@@ -39,12 +43,14 @@ export interface IMainframeBlockError extends JobInfo {
 export interface IMainframeBlockFinished extends JobInfo {
   type: "BlockFinished";
   error?: string;
+  result?: Record<string, unknown>;
 }
 
 export type IMainframeServerMessage = IMainframeBlockInputs;
 export type IMainframeClientMessage =
   | IMainframeBlockReady
   | IMainframeBlockOutput
+  | IMainframeBlockOutputMap
   | IMainframeBlockError
   | IMainframeBlockFinished
   | IMainframeExecutorReady;

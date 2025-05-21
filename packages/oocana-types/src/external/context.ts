@@ -96,21 +96,31 @@ export interface Context<
     ): Promise<void>;
 
     /**
-     * @deprecated this method will be removed in the future. please use function without done parameter. if you want to report block done, please use context.done() instead.
-     * Report Block output.
      * @param handle Output handle
      * @param output Output value
-     * @param done will remove. Report Block done.
      */
     <THandle extends Extract<keyof TOutputs, string>>(
       handle: THandle,
-      output: TOutputs[THandle],
-      done: boolean
+      output: TOutputs[THandle]
     ): Promise<void>;
   };
 
-  /** Report Block done. */
-  readonly done: (err?: any) => Promise<void>;
+  /**
+   * Report block outputs. it can report multiple output at once.
+   * @param map map can be a partial object of TOutputs
+   * @returns
+   */
+  readonly outputs: (map: Partial<TOutputs>) => Promise<void>;
+
+  /**
+   * reporter block finish. it can contain error or result.
+   * if contains error, it will be treated as block failed and ignore result argument
+   * if contains result, it will be treated as success
+   * otherwise, it will be treated as success and no result will be reported.
+   */
+  readonly finish: (
+    arg?: { result?: any; error?: never } | { result?: never; error?: unknown }
+  ) => Promise<void>;
 
   /** Report logs */
   readonly logJSON: (jsonValue: unknown) => Promise<void>;
