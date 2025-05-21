@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.35](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.34...@oomol/oocana-types-v0.20.35) (2025-05-21)
+
+
+### Features
+
+* add extra llm types to oocana types ([#135](https://github.com/oomol/oocana-node/issues/135)) ([a9161e1](https://github.com/oomol/oocana-node/commit/a9161e12cfe9432bdbf5eed9c30a75de8a04bcee))
+
 ## [0.20.34](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.33...@oomol/oocana-types-v0.20.34) (2025-05-21)
 
 
