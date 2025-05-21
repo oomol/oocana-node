@@ -43,7 +43,7 @@ jobs:
           else
             echo "architecture=arm64" >> $GITHUB_OUTPUT
           fi
-      - uses: ./.github/actions/ovmlayer
+      - uses: oomol/oocana-rust/.github/actions/ovmlayer@main
         with:
           rootfs: https://github.com/oomol/ovmlayer-rootfs/releases/download/base-rootfs%400.3.0/${{steps.rootfs.outputs.architecture}}-rootfs.tar
           token: ${{ secrets.ACCESS_REPO }}
