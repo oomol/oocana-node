@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.20.34](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.33...@oomol/oocana-types-v0.20.34) (2025-05-21)
+
+
+### Features
+
+* change context done to finish and use new args ([5db43d5](https://github.com/oomol/oocana-node/commit/5db43d5191982fe4f2bd81463b4b4a1f68e37b3c))
+* improve finish message and remove done flag in output message ([#132](https://github.com/oomol/oocana-node/issues/132)) ([5db43d5](https://github.com/oomol/oocana-node/commit/5db43d5191982fe4f2bd81463b4b4a1f68e37b3c))
+
+
+### Code Refactoring
+
+* follow underlying api name ([5db43d5](https://github.com/oomol/oocana-node/commit/5db43d5191982fe4f2bd81463b4b4a1f68e37b3c))
+
 ## [0.20.33](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.32...@oomol/oocana-types-v0.20.33) (2025-05-15)
 
 

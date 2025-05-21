@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.19.7](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.6...@oomol/oocana-sdk-v0.19.7) (2025-05-21)
+
+
+### Features
+
+* change context done to finish and use new args ([5db43d5](https://github.com/oomol/oocana-node/commit/5db43d5191982fe4f2bd81463b4b4a1f68e37b3c))
+* improve finish message and remove done flag in output message ([#132](https://github.com/oomol/oocana-node/issues/132)) ([5db43d5](https://github.com/oomol/oocana-node/commit/5db43d5191982fe4f2bd81463b4b4a1f68e37b3c))
+
+
+### Code Refactoring
+
+* follow underlying api name ([5db43d5](https://github.com/oomol/oocana-node/commit/5db43d5191982fe4f2bd81463b4b4a1f68e37b3c))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.20.34
+
 ## [0.19.6](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.5...@oomol/oocana-sdk-v0.19.6) (2025-05-15)
 
 
