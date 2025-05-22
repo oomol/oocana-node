@@ -1,0 +1,52 @@
+name: "setup oocana-node"
+description: "setup oocana-node on ubuntu-latest with optional layer"
+inputs:
+  token:
+    description: "GitHub token"
+    required: true
+    default: ${{ github.token }}
+  create-layer:
+    description: "create layer"
+    required: false
+    default: "false"
+  ref:
+    description: "GitHub ref"
+    required: false
+    default: ""
+  path:
+    description: "GitHub path"
+    required: false
+    default: "."
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        repository: oomol/oocana-node
+        path: ${{ inputs.path }}
+        ref: ${{ inputs.ref }}
+        token: ${{ inputs.token }}
+    - uses: pnpm/action-setup@v4
+      with:
+        package_json_file: ${{ inputs.path }}/package.json
+    - uses: actions/setup-node@v4
+      with:
+        registry-url: https://npm.pkg.github.com/
+        node-version: 22.x
+        cache: pnpm
+        cache-dependency-path: ${{ inputs.path }}/pnpm-lock.yaml
+    - name: install
+      run: pnpm install
+      shell: bash
+      working-directory: ${{ inputs.path }}
+    - name: build
+      run: pnpm build
+      shell: bash
+      working-directory: ${{ inputs.path }}
+    - name: create-layer
+      if: ${{ inputs.create-layer != 'false' }}
+      run: |
+        node ./layer.mjs
+      shell: bash
+      working-directory: ${{ inputs.path }}
