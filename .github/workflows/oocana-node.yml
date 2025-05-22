@@ -29,13 +29,11 @@ jobs:
       - name: setup oocana-node action without layer
         uses: ./.github/actions/oocana-node
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.sha }}
           path: "oocana-node"
       - name: setup oocana-node action with layer
         uses: ./.github/actions/oocana-node
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.sha }}
           create-layer: "true"
           path: "oocana-node"
