@@ -1,6 +1,7 @@
 import { exec } from "child_process";
-import { existsSync } from "fs";
-import { readFile, writeFile } from "fs/promises";
+import { existsSync } from "node:fs";
+import { dirname } from "node:path";
+import { readFile, writeFile, mkdir } from "node:fs/promises";
 import os from "os";
 
 (async function () {
@@ -23,6 +24,7 @@ import os from "os";
 
   console.log("Layer not found");
   await createExecutor();
+  await mkdir(dirname(layer), { recursive: true });
   writeFile(layer, JSON.stringify({ base_rootfs: ["executor"] }));
 })();
 
