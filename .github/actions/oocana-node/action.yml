@@ -3,7 +3,7 @@ description: "setup oocana-node on ubuntu-latest with optional layer"
 inputs:
   token:
     description: "GitHub token"
-    required: true
+    required: false
     default: ${{ github.token }}
   create-layer:
     description: "create layer"
