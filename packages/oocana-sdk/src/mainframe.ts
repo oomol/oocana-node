@@ -14,7 +14,7 @@ import type {
   IReporterClientMessage,
   IMainframeExecutorReady,
   IReporterBlockWarning,
-  IMainframeBlockOutputMap,
+  IMainframeBlockOutputs,
 } from "@oomol/oocana-types";
 
 export class Mainframe {
@@ -128,7 +128,7 @@ export class Mainframe {
     await this.send(message);
   }
 
-  public async sendOutputs(message: IMainframeBlockOutputMap): Promise<void> {
+  public async sendOutputs(message: IMainframeBlockOutputs): Promise<void> {
     await this.send(message);
   }
 

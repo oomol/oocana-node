@@ -30,7 +30,7 @@ describe(
 
       expect(
         events
-          .filter(e => e.event === "BlockOutputMap")
+          .filter(e => e.event === "BlockOutputs")
           .filter(e => e.data.map?.a === "a" && e.data.map?.b === "b").length,
         `finish ${events
           .filter(e => e.event === "BlockFinished")
