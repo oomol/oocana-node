@@ -32,7 +32,7 @@ export interface IMainframeBlockOutput<TOutput = any> extends JobInfo {
 
 export interface IMainframeBlockOutputs<TOutput = any> extends JobInfo {
   type: "BlockOutputs";
-  map: Record<string, TOutput>;
+  outputs: Record<string, TOutput>;
 }
 
 export interface IMainframeBlockError extends JobInfo {

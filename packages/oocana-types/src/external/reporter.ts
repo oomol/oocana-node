@@ -91,7 +91,7 @@ export interface BlockOutput extends BlockInfo {
 
 export interface BlockOutputs extends BlockInfo {
   readonly type: "BlockOutputs";
-  readonly map: Record<string, any>;
+  readonly outputs: Record<string, any>;
 }
 
 export interface BlockLog extends BlockInfo {

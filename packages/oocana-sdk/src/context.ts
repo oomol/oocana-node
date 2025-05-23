@@ -316,7 +316,7 @@ export class ContextImpl implements Context {
       type: "BlockOutputs",
       session_id: this.sessionId,
       job_id: this.jobId,
-      map: wrapResult,
+      outputs: wrapResult,
     });
   };
 
