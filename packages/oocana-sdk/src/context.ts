@@ -313,10 +313,10 @@ export class ContextImpl implements Context {
     }
 
     await this.mainframe.sendOutputs({
-      type: "BlockOutputMap",
+      type: "BlockOutputs",
       session_id: this.sessionId,
       job_id: this.jobId,
-      map: wrapResult,
+      outputs: wrapResult,
     });
   };
 

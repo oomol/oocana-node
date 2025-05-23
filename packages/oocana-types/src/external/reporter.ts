@@ -89,9 +89,9 @@ export interface BlockOutput extends BlockInfo {
   readonly output: any;
 }
 
-export interface BlockOutputMap extends BlockInfo {
-  readonly type: "BlockOutputMap";
-  readonly map: Record<string, any>;
+export interface BlockOutputs extends BlockInfo {
+  readonly type: "BlockOutputs";
+  readonly outputs: Record<string, any>;
 }
 
 export interface BlockLog extends BlockInfo {
@@ -142,7 +142,7 @@ export interface JobEventMap {
   BlockStarted: BlockStarted;
   BlockFinished: BlockFinished;
   BlockOutput: BlockOutput;
-  BlockOutputMap: BlockOutputMap;
+  BlockOutputs: BlockOutputs;
   BlockLog: BlockLog;
   BlockError: BlockError;
   FlowStarted: FlowStarted;
