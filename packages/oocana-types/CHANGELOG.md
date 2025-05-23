@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.36](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.35...@oomol/oocana-types-v0.20.36) (2025-05-23)
+
+
+### Code Refactoring
+
+* rename event ([#143](https://github.com/oomol/oocana-node/issues/143)) ([eca5f4a](https://github.com/oomol/oocana-node/commit/eca5f4a93a645789d311001f6f4fc851e4181b86))
+
 ## [0.20.35](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.34...@oomol/oocana-types-v0.20.35) (2025-05-21)
 
 

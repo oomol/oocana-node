@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.19.9](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.8...@oomol/oocana-sdk-v0.19.9) (2025-05-23)
+
+
+### Code Refactoring
+
+* rename event ([#143](https://github.com/oomol/oocana-node/issues/143)) ([eca5f4a](https://github.com/oomol/oocana-node/commit/eca5f4a93a645789d311001f6f4fc851e4181b86))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.20.36
+
 ## [0.19.8](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.7...@oomol/oocana-sdk-v0.19.8) (2025-05-21)
 
 
