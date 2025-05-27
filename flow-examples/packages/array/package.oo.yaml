@@ -1,0 +1,12 @@
+version: 0.0.8
+scripts:
+  bootstrap: |
+    npm install
+dependencies:
+  {}
+name: array
+description: Util Nodes for handling Array data.
+displayName: Array
+repository: https://github.com/oomol-flows/array
+icon: https://package-assets.oomol.com/packages/array/0.0.7/files/package/icon.png
+releaseNotes: Allow args to be null
