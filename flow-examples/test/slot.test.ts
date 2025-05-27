@@ -25,6 +25,22 @@ describe("slot test", () => {
     expect(code).toBe(0);
   });
 
+  it("run map-slot-inline flow", async () => {
+    const { code, events } = await runFlow("map-slot-inline");
+    expect(code).toBe(0);
+    const subflowOutputs = events.filter(e => e.event === "SubflowBlockOutput");
+    expect(subflowOutputs.length).toBe(2);
+    expect(
+      subflowOutputs[0].data.output,
+      JSON.stringify(subflowOutputs[0])
+    ).toEqual(["aaa", "bbb"]);
+
+    expect(
+      subflowOutputs[1].data.output,
+      JSON.stringify(subflowOutputs[1])
+    ).toEqual(["aaa", "bbb"]);
+  });
+
   it("run slot-subflow flow with bind", async () => {
     const { code, events } = await runFlow("slot-subflow");
     const e = events.filter(
