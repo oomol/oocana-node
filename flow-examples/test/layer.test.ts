@@ -194,12 +194,12 @@ describe("Layer operations", () => {
         searchPaths: [dirname(examplePackagePath), dirname(testDir)],
       });
 
-      const package_number = (await readdir(dirname(examplePackagePath), {}))
-        .length - 1;
+      const package_number =
+        (await readdir(dirname(examplePackagePath), {})).length - 1;
 
       let results = Object.values(map);
-      expect(results).not.toContain(true);
-      expect(results.length).toBe(package_number);
+      expect(results, JSON.stringify(results)).not.toContain(true);
+      expect(results.length, JSON.stringify(results)).toBe(package_number);
       expect(Object.keys(map)).toContain(examplePackagePath);
 
       {
