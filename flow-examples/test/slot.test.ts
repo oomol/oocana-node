@@ -28,8 +28,22 @@ describe("slot test", () => {
   it("run map-slot-inline flow", async () => {
     const { code, events } = await runFlow("map-slot-inline");
     expect(code).toBe(0);
+    const slotflowOutputs = events.filter(
+      e => e.event === "SlotflowBlockOutput"
+    );
+    expect(slotflowOutputs.length).toBe(2);
+    expect(
+      slotflowOutputs[0].data.output,
+      JSON.stringify(slotflowOutputs[0])
+    ).toEqual("aaa");
+
+    expect(
+      slotflowOutputs[1].data.output,
+      JSON.stringify(slotflowOutputs[1])
+    ).toEqual("bbb");
+
     const subflowOutputs = events.filter(e => e.event === "SubflowBlockOutput");
-    expect(subflowOutputs.length).toBe(2);
+    expect(subflowOutputs.length, JSON.stringify(subflowOutputs)).toBe(2);
     expect(
       subflowOutputs[0].data.output,
       JSON.stringify(subflowOutputs[0])
