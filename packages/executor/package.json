@@ -1,6 +1,6 @@
 {
   "name": "@oomol/node-executor",
-  "version": "0.20.12",
+  "version": "0.20.13",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },

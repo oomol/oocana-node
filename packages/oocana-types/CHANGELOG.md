@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.37](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.36...@oomol/oocana-types-v0.20.37) (2025-05-28)
+
+
+### Features
+
+* add slotflow event ([#154](https://github.com/oomol/oocana-node/issues/154)) ([1cb9626](https://github.com/oomol/oocana-node/commit/1cb9626bcd9dfd1dfc65b1905d40eb374ed9c022))
+
 ## [0.20.36](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.35...@oomol/oocana-types-v0.20.36) (2025-05-23)
 
 
