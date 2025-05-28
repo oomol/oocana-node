@@ -69,6 +69,29 @@ export interface SubflowBlockOutput extends BlockInfo {
 }
 // endregion
 
+// region Slotflow
+export interface SlotflowBlockStarted extends BlockInfo {
+  readonly type: "SlotflowBlockStarted";
+  readonly inputs?: Record<string, any>;
+  readonly create_at: number;
+}
+export interface SlotflowBlockFinished extends BlockInfo {
+  readonly type: "SlotflowBlockFinished";
+  readonly error?: string;
+  readonly result?: Record<string, any>;
+  readonly finish_at: number;
+}
+
+export interface SlotflowBlockOutput extends BlockInfo {
+  readonly type: "SlotflowBlockOutput";
+  readonly handle: string;
+  readonly output: any;
+}
+export interface SlotflowBlockOutputs extends BlockInfo {
+  readonly type: "SlotflowBlockOutputs";
+  readonly outputs: Record<string, any>;
+}
+
 // region Block
 export interface BlockStarted extends BlockInfo {
   readonly type: "BlockStarted";
@@ -151,6 +174,10 @@ export interface JobEventMap {
   SubflowBlockStarted: SubflowBlockStarted;
   SubflowBlockOutput: SubflowBlockOutput;
   SubflowBlockFinished: SubflowBlockFinished;
+  SlotflowBlockStarted: SlotflowBlockStarted;
+  SlotflowBlockOutput: SlotflowBlockOutput;
+  SlotflowBlockOutputs: SlotflowBlockOutputs;
+  SlotflowBlockFinished: SlotflowBlockFinished;
   BlockWarning: BlockWarning;
   BlockMessage: BlockMessage;
   BlockPreview: BlockPreview;
