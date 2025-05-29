@@ -50,11 +50,11 @@ nodes:
         from_node:
           - node_id: slot-sub
             output_handle: output
-inputs_def:
-  - handle: input
-    description: Input
-    json_schema:
-      type: string
+# inputs_def:
+#   - handle: input
+#     description: Input
+#     json_schema:
+#       type: string
 outputs_def:
   - handle: output
     description: Output
