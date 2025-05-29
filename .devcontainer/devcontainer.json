@@ -9,6 +9,7 @@
       "pnpmVersion": "latest",
       "nvmVersion": "latest"
     },
+    "ghcr.io/devcontainers/features/go:1": {},
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/devcontainers/features/sshd:1": {},
     "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {},
@@ -84,7 +85,7 @@
     "--device=/dev/loop-control"
   ],
   "remoteUser": "root",
-  "onCreateCommand": "corepack enable && sudo ln -sf /workspaces/ovmlayer/ovmlayer /usr/local/bin/ovmlayer",
-  "postCreateCommand": "(test -e /dev/loop0 || sudo mknod /dev/loop0 b 7 0) && ovmlayer setup dev --base-rootfs='/workspaces/layer/base-rootfs.tar' --layer-disk=/root/tmp_overlay_desk",
+  "onCreateCommand": "./.devcontainer/build.sh",
+  "postCreateCommand": "sudo mknod /dev/loop0 b 7 0; ./.devcontainer/setup.sh",
   "postStartCommand": "test -e /dev/loop0 || sudo mknod /dev/loop0 b 7 0"
 }
