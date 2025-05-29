@@ -45,7 +45,7 @@ jobs:
           fi
       - uses: oomol/oocana-rust/.github/actions/ovmlayer@main
         with:
-          rootfs: https://github.com/oomol/ovmlayer-rootfs/releases/download/base-rootfs%400.3.0/${{steps.rootfs.outputs.architecture}}-rootfs.tar
+          rootfs: https://github.com/oomol/ovmlayer-rootfs/releases/download/base-rootfs%400.4.0/${{steps.rootfs.outputs.architecture}}-rootfs.tar
           token: ${{ secrets.ACCESS_REPO }}
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
