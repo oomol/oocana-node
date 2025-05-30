@@ -28,9 +28,7 @@ describe("slot test", () => {
   it("run map-slot-inline flow", async () => {
     const { code, events } = await runFlow("map-slot-inline");
     expect(code).toBe(0);
-    const slotflowOutputs = events.filter(
-      e => e.event === "SlotflowBlockOutput"
-    );
+    const slotflowOutputs = events.filter(e => e.event === "SlotflowOutput");
     expect(slotflowOutputs.length).toBe(2);
     expect(
       slotflowOutputs[0].data.output,
