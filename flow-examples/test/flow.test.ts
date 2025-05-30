@@ -144,7 +144,7 @@ describe(
       expect(code).toBe(0);
       const output = events.findLast(e => e.event === "BlockFinished")?.data
         ?.result?.out;
-      expect(output).toEqual(null);
+      expect(output).toEqual("static");
     });
 
     it("run spawn flow", async () => {
