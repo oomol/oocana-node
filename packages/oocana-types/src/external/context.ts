@@ -90,11 +90,6 @@ export interface Context<
   readonly flowNodeStore: { [index: string]: any };
 
   readonly output: {
-    <THandle extends Extract<keyof TOutputs, string>>(
-      handle: THandle,
-      output: TOutputs[THandle]
-    ): Promise<void>;
-
     /**
      * @param handle Output handle
      * @param output Output value
