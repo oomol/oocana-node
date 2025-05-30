@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.38](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.37...@oomol/oocana-types-v0.20.38) (2025-05-30)
+
+
+### Code Refactoring
+
+* rename slotflow block to slotflow ([#160](https://github.com/oomol/oocana-node/issues/160)) ([15fe3b5](https://github.com/oomol/oocana-node/commit/15fe3b51749bb64692634630f6b5b02ff0c1592f))
+
 ## [0.20.37](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.36...@oomol/oocana-types-v0.20.37) (2025-05-28)
 
 
