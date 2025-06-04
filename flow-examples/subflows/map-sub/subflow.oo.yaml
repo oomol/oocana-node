@@ -9,16 +9,14 @@ inputs_def:
       - bbb
 outputs_def:
   - handle: output
-    json_schema:
-      {}
+    json_schema: {}
 nodes:
   - subflow: array::map
     title: "Map #1"
     node_id: map#1
     inputs_from:
       - handle: array
-        from_node:
-          []
+        from_node: []
         from_flow:
           - input_handle: input
       - handle: args
@@ -32,23 +30,18 @@ nodes:
               inputs_def:
                 - handle: input
                   description: Input
-                  json_schema:
-                    {}
+                  json_schema: {}
                 - handle: args
-                  json_schema:
-                    {}
-                  kind: primitive
+                  json_schema: {}
                   nullable: false
                 - handle: index
                   json_schema:
                     type: integer
-                  kind: primitive
                   nullable: false
               outputs_def:
                 - handle: output
                   description: Output
-                  json_schema:
-                    {}
+                  json_schema: {}
               executor:
                 name: nodejs
                 options:
