@@ -34,7 +34,11 @@ export type PreviewPayload =
     };
 
 export type KeepAlive = symbol;
-export type ReturnObject = void | Record<string, unknown> | KeepAlive;
+export type ReturnObject<T = Record<string, unknown>> =
+  | void
+  | undefined
+  | Partial<T>
+  | KeepAlive;
 
 export type MainFunction<
   TInputs = Record<string, any>,
