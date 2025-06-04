@@ -275,7 +275,7 @@ export class ContextImpl implements Context {
     } else if (isBinHandle(outputsDef, handle)) {
       if (!(value instanceof Buffer)) {
         throw new Error(
-          `Bin value not Buffer: ${value}, path: ${outputsDef[handle]}`
+          `Binary value is not Buffer: ${value}, input def: ${outputsDef[handle]}`
         );
       }
 
@@ -288,9 +288,7 @@ export class ContextImpl implements Context {
           __OOMOL_TYPE__: "oomol/bin",
         } as BinaryValue;
       } catch (error) {
-        throw new Error(
-          `write bin to file error: ${error}, path: ${outputsDef[handle]}`
-        );
+        throw new Error(`write bin to file error: ${error}, path: ${filePath}`);
       }
     }
     return value;
