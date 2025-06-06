@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.20.39](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.38...@oomol/oocana-types-v0.20.39) (2025-06-06)
+
+
+### Features
+
+* add pkg dir ([#172](https://github.com/oomol/oocana-node/issues/172)) ([f1acc9e](https://github.com/oomol/oocana-node/commit/f1acc9eafdd536f4395fae3cbfa7cbe896866884))
+
+
+### Code Refactoring
+
+* improve return type ([#170](https://github.com/oomol/oocana-node/issues/170)) ([f3300e5](https://github.com/oomol/oocana-node/commit/f3300e5ad69b888baabe9481a8b0376f442cab24))
+
 ## [0.20.38](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.37...@oomol/oocana-types-v0.20.38) (2025-05-30)
 
 
