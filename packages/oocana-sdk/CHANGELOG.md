@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.19.12](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.11...@oomol/oocana-sdk-v0.19.12) (2025-06-06)
+
+
+### Code Refactoring
+
+* improve return type ([#170](https://github.com/oomol/oocana-node/issues/170)) ([f3300e5](https://github.com/oomol/oocana-node/commit/f3300e5ad69b888baabe9481a8b0376f442cab24))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.20.39
+
 ## [0.19.11](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.10...@oomol/oocana-sdk-v0.19.11) (2025-05-30)
 
 
