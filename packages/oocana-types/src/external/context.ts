@@ -153,10 +153,13 @@ export interface Context<
 
   readonly keepAlive: KeepAlive;
 
-  /** a temporary directory for the current flow, all blocks in this flow will share the same directory. This directory will be cleaned if this session finishes successfully; otherwise, it will be kept for debugging or other purposes. */
+  /** Directory for persistent package files across sessions; not cleared when a session ends. The same package will utilize the same directory, while different packages will utilize distinct directories. */
+  readonly pkgDir: string;
+
+  /** Temporary directory for the current flow, all blocks in this flow will share the same directory. This directory will be cleaned if this session finishes successfully; otherwise, it will be kept for debugging or other purposes. */
   readonly tmpDir: string;
 
-  /** a temporary directory for the current package, all blocks in this package will share the same directory. This directory will be cleaned if this session finishes successfully; otherwise, it will be kept for debugging or other purposes. */
+  /** Temporary directory for the current package, all blocks in this package will share the same directory. This directory will be cleaned if this session finishes successfully; otherwise, it will be kept for debugging or other purposes. */
   readonly tmpPkgDir: string;
 
   /** A host endpoint that allows containers to access services running on the host system. in cloud environment, it will be undefined. */
