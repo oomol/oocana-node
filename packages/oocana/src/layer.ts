@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import { join } from "node:path";
 import { Cli } from "./cli";
-import { spawnedEnvs } from "./env";
+import { generateSpawnEnvs } from "./env";
 
 const bindPathPattern =
   /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
@@ -88,7 +88,7 @@ async function createPackageLayer({
     }
   }
 
-  const runEnvs = spawnedEnvs(envs);
+  const runEnvs = generateSpawnEnvs(envs, undefined, {});
 
   if (envFile) {
     args.push("--env-file", envFile);

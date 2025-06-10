@@ -6,7 +6,7 @@ import { Reporter } from "./reporter";
 import type { IDisposable } from "@wopjs/disposable";
 import { disposableStore } from "@wopjs/disposable";
 import { Cli } from "./cli";
-import { spawnedEnvs } from "./env";
+import { generateSpawnEnvs, SpawnedEnvs } from "./env";
 
 export type JobEvent = Remitter<OocanaEventConfig>;
 
@@ -43,6 +43,8 @@ export interface RunFlowConfig {
   bindPaths?: string[];
   /** a file path contains multiple bind paths, better use absolute path. The file format is src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive] line by line, if not provided, it will be found in OOCANA_BIND_PATH_FILE env variable */
   bindPathFile?: string;
+  /** default is process.env */
+  spawnedEnvs?: SpawnedEnvs;
   /** Environment variables passed to all executors. All variable names will be converted to uppercase; then if the variable name does not start with OOMOL_, the OOMOL_ prefix will be added automatically. */
   oomolEnvs?: Record<string, string>;
   /** when spawn executor, oocana will only retain envs start with OOMOL_ by design. Other env variables need to be explicitly added in this parameters otherwise they will be ignored. */
@@ -102,6 +104,7 @@ export class Oocana implements IDisposable, OocanaInterface {
     tempRoot,
     bindPaths,
     bindPathFile,
+    spawnedEnvs,
     oomolEnvs,
     envFile,
     envs,
@@ -166,7 +169,7 @@ export class Oocana implements IDisposable, OocanaInterface {
       args.push("--temp-root", tempRoot);
     }
 
-    const executorEnvs = spawnedEnvs(envs, oomolEnvs);
+    const executorEnvs = generateSpawnEnvs(envs, oomolEnvs, spawnedEnvs);
 
     if (envs) {
       for (const [key, _] of Object.entries(envs)) {
