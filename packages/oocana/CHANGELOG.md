@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.28](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.27...@oomol/oocana-v0.22.28) (2025-06-10)
+
+
+### Features
+
+* pass process env to spawned ([#173](https://github.com/oomol/oocana-node/issues/173)) ([7088c82](https://github.com/oomol/oocana-node/commit/7088c82835b2c5f03c094391446eaf71f2692af6))
+
 ## [0.22.27](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.26...@oomol/oocana-v0.22.27) (2025-06-06)
 
 
