@@ -73,7 +73,14 @@ describe("slotflow test", () => {
         e.event === "BlockFinished" &&
         e.data.stacks.filter(e => e.node_id === "node-2").length == 1
     );
-    expect(e.length).toBe(1);
+    expect(e.length, JSON.stringify(e)).toBe(1);
+
+    const slotflowFinished = events.filter(e => e.event === "SlotflowFinished");
+    expect(slotflowFinished.length).toBe(1);
+
+    const slotflowStarted = events.filter(e => e.event === "SlotflowStarted");
+    expect(slotflowStarted.length).toBe(1);
+
     expect(code).toBe(0);
   });
 });
