@@ -68,4 +68,15 @@ describe("package slot test", () => {
     expect(e.length).toBe(1);
     expect(code).toBe(0);
   });
+
+  it("run addition-slot-input flow", async () => {
+    const { code, events } = await runFlow("addition-slot-input");
+    const e = events.filter(
+      e =>
+        e.event === "BlockFinished" &&
+        e.data.stacks.filter(e => e.node_id === "node-2").length == 1
+    );
+    expect(e.length).toBe(1);
+    expect(code).toBe(0);
+  });
 });
