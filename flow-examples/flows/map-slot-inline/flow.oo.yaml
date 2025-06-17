@@ -1,8 +1,0 @@
-nodes:
-  - subflow: self::map-sub
-    node_id: ss#1
-    inputs_from:
-      - handle: input
-        value:
-          - aaa
-          - bbb
