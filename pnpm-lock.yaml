@@ -123,17 +123,17 @@ importers:
         version: 0.4.6
     optionalDependencies:
       '@oomol/oocana-cli-aarch64-apple-darwin':
-        specifier: 0.28.10
-        version: 0.28.10
+        specifier: 0.28.11
+        version: 0.28.11
       '@oomol/oocana-cli-aarch64-unknown-linux-gnu':
-        specifier: 0.28.10
-        version: 0.28.10
+        specifier: 0.28.11
+        version: 0.28.11
       '@oomol/oocana-cli-x86_64-apple-darwin':
-        specifier: 0.28.10
-        version: 0.28.10
+        specifier: 0.28.11
+        version: 0.28.11
       '@oomol/oocana-cli-x86_64-unknown-linux-gnu':
-        specifier: 0.28.10
-        version: 0.28.10
+        specifier: 0.28.11
+        version: 0.28.11
     devDependencies:
       '@oomol/oocana-types':
         specifier: workspace:*
@@ -790,29 +790,29 @@ packages:
   '@octokit/types@9.3.2':
     resolution: {integrity: sha512-D4iHGTdAnEEVsB8fl95m1hiz7D5YiRdQ9b/OEb3BYRVwbLsGHcRVPz+u+BgRLNk0Q0/4iZCBqDN96j2XNxfXrA==}
 
-  '@oomol/oocana-cli-aarch64-apple-darwin@0.28.10':
-    resolution: {integrity: sha512-bKh++lCWbGkVjLnybl9K0J3+D9/i7XbwqGWbzZqYiaONRMjA+xrZdPNbYRZuJUTiiWnD+VAPx3LnsnLjnZQLsQ==}
+  '@oomol/oocana-cli-aarch64-apple-darwin@0.28.11':
+    resolution: {integrity: sha512-d3tTIRrsde7yBIgXo2YB8c9xSH3j6pBBVIUrjN/QursbrnP4Ox9cnrWxup1mtC4fWKl9C5f/uJR5NPoDVK8KGA==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [darwin]
     hasBin: true
 
-  '@oomol/oocana-cli-aarch64-unknown-linux-gnu@0.28.10':
-    resolution: {integrity: sha512-inj1K3/t9RdgJiVFU1RrVcolNlUXPGdus/YJYWMvJ1t7YDnxEzBEBeD0YBRoxuInT4Eh36CuNsH1AjaAyNxURg==}
+  '@oomol/oocana-cli-aarch64-unknown-linux-gnu@0.28.11':
+    resolution: {integrity: sha512-q3Rj5ZeIcr+JWaNs1l+1qO8VI7a5IVR71mSVS0uDVOWDZl1omj69o9T8iVj80jzQ72DqSxY1SagB7RO8ZwX1bQ==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [linux]
     hasBin: true
 
-  '@oomol/oocana-cli-x86_64-apple-darwin@0.28.10':
-    resolution: {integrity: sha512-e8bBPDOzi8HWEk8k3U/1wBf+taISVnlMMh7/EIezzeuS3+tghljb9q5X5Hjj/43wG42l4NgywnudJmeCMgG7SQ==}
+  '@oomol/oocana-cli-x86_64-apple-darwin@0.28.11':
+    resolution: {integrity: sha512-pQZf17e90bLhdRyfrNC6bN09i4CrNwI0OHnFVAmHSq8PDo1mD6xZO262+Bmxb+hh8Lqg16BFxo40NfzvDE7MMw==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [darwin]
     hasBin: true
 
-  '@oomol/oocana-cli-x86_64-unknown-linux-gnu@0.28.10':
-    resolution: {integrity: sha512-FP0+5FnjyKR0Rub6EX6CtqlqxPMTDHTZGijCfmic+r1o7Nkodu8ZWguIMu6CHbAca/vHIkePXer5cNF2CUkytQ==}
+  '@oomol/oocana-cli-x86_64-unknown-linux-gnu@0.28.11':
+    resolution: {integrity: sha512-WMZw/sA2LhCDX1aUIAvDTZ7e2EpSbBWKkqWuf4x7CKBc+NU7kIBf7ZEgPX4PzjXoYC96icnkvedFk3K8MjR5Wg==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [linux]
@@ -3493,16 +3493,16 @@ snapshots:
     dependencies:
       '@octokit/openapi-types': 18.1.1
 
-  '@oomol/oocana-cli-aarch64-apple-darwin@0.28.10':
+  '@oomol/oocana-cli-aarch64-apple-darwin@0.28.11':
     optional: true
 
-  '@oomol/oocana-cli-aarch64-unknown-linux-gnu@0.28.10':
+  '@oomol/oocana-cli-aarch64-unknown-linux-gnu@0.28.11':
     optional: true
 
-  '@oomol/oocana-cli-x86_64-apple-darwin@0.28.10':
+  '@oomol/oocana-cli-x86_64-apple-darwin@0.28.11':
     optional: true
 
-  '@oomol/oocana-cli-x86_64-unknown-linux-gnu@0.28.10':
+  '@oomol/oocana-cli-x86_64-unknown-linux-gnu@0.28.11':
     optional: true
 
   '@pkgjs/parseargs@0.11.0':
