@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.40](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.39...@oomol/oocana-types-v0.20.40) (2025-06-18)
+
+
+### Features
+
+* add cache and partial to session event ([#182](https://github.com/oomol/oocana-node/issues/182)) ([b906826](https://github.com/oomol/oocana-node/commit/b906826a637e993acad14b6348eb3646c72f68d5))
+
 ## [0.20.39](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.38...@oomol/oocana-types-v0.20.39) (2025-06-06)
 
 
