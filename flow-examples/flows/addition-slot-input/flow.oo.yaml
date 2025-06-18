@@ -1,0 +1,61 @@
+nodes:
+  - task:
+      inputs_def:
+        - handle: input
+          description: Input
+          json_schema:
+            type: string
+      outputs_def:
+        - handle: output
+          description: Output
+          json_schema:
+            type: string
+        - handle: b
+          json_schema:
+            type: string
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+javascript#1.js
+    node_id: node-1
+    inputs_from:
+      - handle: input
+        value: "input"
+  - subflow: self::slot
+    node_id: node-sub
+    slots:
+      - slot_node_id: replace
+        slotflow: self::addition
+        inputs_def:
+          - handle: add
+        inputs_from:
+          - handle: add
+            from_node:
+              - node_id: node-1
+                output_handle: b
+    inputs_from:
+      - handle: input
+        from_node:
+          - node_id: node-1
+            output_handle: output
+  - task:
+      inputs_def:
+        - handle: input
+          description: Input
+          json_schema:
+            type: string
+      outputs_def:
+        - handle: output
+          description: Output
+          json_schema:
+            type: string
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+javascript#1.js
+    node_id: node-2
+    inputs_from:
+      - handle: input
+        from_node:
+          - node_id: node-sub
+            output_handle: output
