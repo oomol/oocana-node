@@ -7,6 +7,7 @@ export interface SessionStarted {
   readonly create_at: number;
   readonly path: string;
   readonly partial: boolean;
+  readonly cache: boolean;
 }
 
 export interface SessionFinished {
@@ -15,6 +16,8 @@ export interface SessionFinished {
   readonly finish_at: number;
   readonly path: string;
   readonly error?: string;
+  readonly partial: boolean;
+  readonly cache: boolean;
 }
 // endregion
 
