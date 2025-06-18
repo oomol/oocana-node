@@ -49,7 +49,14 @@ describe(
       ).toBe(1);
 
       const events_list = events.map(e => e.event);
-      expect(events_list).toContain("SessionFinished");
+
+      const sessionStarted = events.filter(e => e.event === "SessionStarted");
+      const sessionFinished = events.filter(e => e.event === "SessionFinished");
+      expect(sessionStarted.length).toBe(1);
+      expect(sessionFinished.length).toBe(1);
+
+      expect(sessionStarted[0].data.partial).not.toBeUndefined();
+      expect(sessionFinished[0].data.partial).not.toBeUndefined();
     });
 
     it("run pkg flow", async () => {
