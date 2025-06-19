@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.41](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.40...@oomol/oocana-types-v0.20.41) (2025-06-19)
+
+
+### Features
+
+* expose block inputs and outputs def ([#189](https://github.com/oomol/oocana-node/issues/189)) ([3becb1a](https://github.com/oomol/oocana-node/commit/3becb1afb9b4686e5c59b4ebd1b878aee2366a6e))
+
 ## [0.20.40](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.39...@oomol/oocana-types-v0.20.40) (2025-06-18)
 
 
