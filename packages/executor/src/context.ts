@@ -49,9 +49,13 @@ export async function createContext({
   });
   logger.info(`receive block ready response job_id: ${job_id}`);
 
-  const { inputs, inputs_def, inputs_def_patch } = blockReadyResponse;
+  const {
+    inputs,
+    inputs_def: inputsDef,
+    inputs_def_patch: inputsDefPatch,
+  } = blockReadyResponse;
 
-  const node_inputs = await replaceSecret(inputs, inputs_def, inputs_def_patch);
+  const node_inputs = await replaceSecret(inputs, inputsDef, inputsDefPatch);
 
   for (const [key, value] of Object.entries(node_inputs)) {
     if (isVarValue(value)) {
@@ -65,7 +69,7 @@ export async function createContext({
     } else if (isBinaryValue(value)) {
       const path = value.value;
       if (typeof path !== "string") {
-        logger.warn(`Bin value not string: ${path}, path: ${inputs_def[key]}`);
+        logger.warn(`Bin value not string: ${path}, path: ${inputsDef[key]}`);
       } else {
         try {
           const buf = await readFile(path);
@@ -102,6 +106,7 @@ export async function createContext({
     },
     mainframe,
     inputs: Object.freeze(node_inputs),
+    inputsDef,
     outputsDef,
     store,
     storeKey,
