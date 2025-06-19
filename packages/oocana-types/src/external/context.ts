@@ -1,3 +1,4 @@
+import { HandlesDef } from "../schema";
 import type { BlockJobStackLevel } from "./block";
 
 export type PreviewType =
@@ -70,6 +71,11 @@ export interface Context<
   readonly block_path?: string;
   readonly stacks: readonly BlockJobStackLevel[];
   readonly inputs: TInputs;
+
+  /** block inputs def which is defined in Block inputs_def field and Node inputs_def field, oocana will transform inputs_def array to HandlesDef */
+  readonly inputsDef: HandlesDef;
+  /** block outputs def which is defined in Block outputs_def field and Node outputs_def field, oocana will transform outputs_def array to HandlesDef */
+  readonly outputsDef: HandlesDef;
 
   /**
    * persist data across job running for same node it. For subflow, each subflow job will possess different flow store.

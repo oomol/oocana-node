@@ -32,7 +32,8 @@ export class ContextImpl implements Context {
   keepAlive = ContextImpl.keepAlive;
   readonly flowNodeStore: { [index: string]: any };
   private mainframe: Mainframe;
-  private outputsDef: HandlesDef;
+  public readonly inputsDef: HandlesDef;
+  public readonly outputsDef: HandlesDef;
   private storeKey: string;
   public readonly sessionDir: string;
   public readonly inputs: Record<string, any>;
@@ -49,6 +50,7 @@ export class ContextImpl implements Context {
     blockInfo,
     mainframe,
     inputs,
+    inputsDef,
     outputsDef,
     store = {},
     storeKey,
@@ -61,6 +63,7 @@ export class ContextImpl implements Context {
     blockInfo: BlockInfo;
     mainframe: Mainframe;
     readonly inputs: Record<string, any>;
+    inputsDef: HandlesDef;
     outputsDef: HandlesDef;
     store: { [index: string]: any };
     storeKey: string;
@@ -72,7 +75,8 @@ export class ContextImpl implements Context {
   }) {
     const { session_id, job_id, block_path, stacks } = blockInfo;
     this.mainframe = mainframe;
-    this.outputsDef = outputsDef;
+    this.inputsDef = Object.freeze(inputsDef);
+    this.outputsDef = Object.freeze(outputsDef);
     this.storeKey = storeKey;
     this.sessionId = session_id;
     this.jobId = job_id;
