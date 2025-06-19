@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.19.14](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.13...@oomol/oocana-sdk-v0.19.14) (2025-06-19)
+
+
+### Features
+
+* expose block inputs and outputs def ([#189](https://github.com/oomol/oocana-node/issues/189)) ([3becb1a](https://github.com/oomol/oocana-node/commit/3becb1afb9b4686e5c59b4ebd1b878aee2366a6e))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.20.41
+
 ## [0.19.13](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.12...@oomol/oocana-sdk-v0.19.13) (2025-06-18)
 
 
