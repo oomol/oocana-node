@@ -4,7 +4,10 @@ export type HandlesDef = {
   [name: string]: {
     handle: string;
     json_schema?: RootFieldSchema;
-    name?: string;
+    kind?: string;
+    description?: string;
+    value?: any;
+    nullable?: boolean;
   };
 };
 
