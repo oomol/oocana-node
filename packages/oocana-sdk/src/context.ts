@@ -101,6 +101,14 @@ export class ContextImpl implements Context {
         : [],
     });
 
+    for (const [key, value] of Object.entries(this.OOMOL_LLM_ENV)) {
+      if (value === "" || (Array.isArray(value) && value.length === 0)) {
+        this.warning(
+          `OOMOL_LLM_ENV variable ${key} is (${value}), this may cause some features not working properly.`
+        );
+      }
+    }
+
     this.hostInfo = Object.freeze({
       gpuVendor: process.env.OOMOL_HOST_GPU_VENDOR || "unknown",
       gpuRenderer: process.env.OOMOL_HOST_GPU_RENDERER || "unknown",
