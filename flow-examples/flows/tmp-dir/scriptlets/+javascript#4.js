@@ -2,10 +2,10 @@
 /**
  * @typedef {{
  *   input: string;
- * }} Inputs
+ * }} Inputs;
  * @typedef {{
  *   output: string;
- * }} Outputs
+ * }} Outputs;
  */
 //#endregion
 

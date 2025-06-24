@@ -3,10 +3,10 @@ import type { Context } from "@oomol/types/oocana";
 //#region generated meta
 type Inputs = {
   input: string;
-}
+};
 type Outputs = {
   output: string;
-}
+};
 //#endregion
 
 export default async function(
