@@ -5,6 +5,7 @@
  * }} Inputs;
  * @typedef {{
  *   output: string;
+ *   b: string;
  * }} Outputs;
  */
 //#endregion
