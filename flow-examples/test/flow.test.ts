@@ -108,6 +108,15 @@ describe(
       expect(endNode?.node_id).toBe("end");
     });
 
+    it("run nullable flow", async () => {
+      const { code, events } = await runFlow("from");
+      expect(code).toBe(0);
+
+      const endNode = events.findLast(e => e.event === "BlockFinished")?.data
+        ?.stacks?.[0];
+      expect(endNode?.node_id).toBe("end");
+    });
+
     it("run additional-block flow", async () => {
       const { code, events } = await runFlow("additional-block");
       expect(code).toBe(0);
