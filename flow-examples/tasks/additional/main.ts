@@ -17,7 +17,12 @@ export default async function(
     console.log("inputsDef", context.inputsDef);
     console.log("outputsDef", context.outputsDef);
 
+    let merged = "";
+    for (const key in context.inputsDef) {
+        merged += params[key];
+    }
+
     for (const key in context.outputsDef) {
-        context.output(key as any, key);
+        context.output(key as any, merged);
     }
 };

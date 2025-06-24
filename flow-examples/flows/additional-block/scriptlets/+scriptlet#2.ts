@@ -15,7 +15,9 @@ export default async function(
     context: Context<Inputs, Outputs>
 ): Promise<Partial<Outputs> | undefined | void> {
 
-    // your code
+    if (params.input === "output_value111") {
+        return {output: "1"}
+    }
 
-    return { output: "output_value" };
+    throw new Error("This is a test error")
 };
