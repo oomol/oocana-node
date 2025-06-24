@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.19.15](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.14...@oomol/oocana-sdk-v0.19.15) (2025-06-24)
+
+
+### Features
+
+* warning when llm env has empty value ([#191](https://github.com/oomol/oocana-node/issues/191)) ([dee2735](https://github.com/oomol/oocana-node/commit/dee27358bfbfe42128e987cd70b268fa9c3fe201))
+
 ## [0.19.14](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.13...@oomol/oocana-sdk-v0.19.14) (2025-06-19)
 
 
