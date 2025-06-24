@@ -52,7 +52,7 @@ nodes:
       executor:
         name: nodejs
         options:
-          entry: scriptlets/+javascript#1.js
+          entry: scriptlets/+javascript#2.js
     node_id: node-2
     inputs_from:
       - handle: input
