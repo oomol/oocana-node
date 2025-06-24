@@ -1,0 +1,94 @@
+nodes:
+  - node_id: +typescript#1
+    title: "TypeScript #1"
+    icon: ":skill-icons:typescript:"
+    task:
+      ui:
+        default_width: 450
+      inputs_def:
+        - handle: input
+          description: Input
+          json_schema:
+            {}
+        - handle: output
+          json_schema:
+            type: number
+          nullable: false
+          description: Output
+        - handle: value1
+          json_schema:
+            type: number
+          nullable: false
+      outputs_def:
+        - handle: output
+          description: Output
+          json_schema:
+            type: number
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+scriptlet#1.ts
+    inputs_from:
+      - handle: input
+        schema_overrides:
+          - schema:
+              type: number
+        value: 2
+      - handle: output
+        from_node:
+          - node_id: +typescript#2
+            output_handle: output
+      - handle: value1
+        value: 5
+        from_node:
+          - node_id: +value#1
+            output_handle: value1
+  - node_id: +typescript#2
+    title: "TypeScript #2"
+    icon: ":skill-icons:typescript:"
+    task:
+      ui:
+        default_width: 450
+      inputs_def:
+        []
+      outputs_def:
+        - handle: output
+          description: Output
+          json_schema:
+            type: number
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+scriptlet#2.ts
+  - node_id: +value#1
+    title: "Value #1"
+    values:
+      - handle: value1
+        json_schema:
+          type: number
+        value: 4
+  - node_id: end
+    title: "end"
+    icon: ":skill-icons:typescript:"
+    task:
+      ui:
+        default_width: 450
+      inputs_def:
+        - handle: input
+          description: Input
+          json_schema:
+            {}
+      outputs_def:
+        - handle: output
+          description: Output
+          json_schema:
+            {}
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+scriptlet#3.ts
+    inputs_from:
+      - handle: input
+        from_node:
+          - node_id: +typescript#1
+            output_handle: output
