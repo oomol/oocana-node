@@ -28,13 +28,13 @@ nodes:
         from_node:
           - node_id: +typescript#1
             output_handle: output
-      - handle: output1
+      - handle: input1
         from_node:
           - node_id: +typescript#1
             output_handle: output1
     task: self::additional
     inputs_def:
-      - handle: output1
+      - handle: input1
         json_schema:
           {}
         nullable: false

@@ -28,11 +28,26 @@ nodes:
         slotflow: self::addition
         inputs_def:
           - handle: add
+          - handle: addd
+            json_schema:
+              {}
+          - handle: adddd
+            json_schema:
+              {}
         inputs_from:
           - handle: add
             from_node:
               - node_id: node-1
                 output_handle: b
+          - handle: addd
+            schema_overrides:
+              - schema:
+                  type: number
+            value: 1
+          - handle: adddd
+            from_node:
+              - node_id: +value#1
+                output_handle: value1
     inputs_from:
       - handle: input
         from_node:
@@ -59,3 +74,10 @@ nodes:
         from_node:
           - node_id: node-sub
             output_handle: output
+  - node_id: +value#1
+    title: "Value #1"
+    values:
+      - handle: value1
+        json_schema:
+          type: number
+        value: 0
