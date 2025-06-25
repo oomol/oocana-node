@@ -6,13 +6,10 @@ nodes:
           json_schema:
             type: string
       outputs_def:
-        - handle: output
+        - handle: array
           description: Output
           json_schema:
-            type: string
-        - handle: b
-          json_schema:
-            type: string
+            type: array
       executor:
         name: nodejs
         options:
@@ -21,44 +18,45 @@ nodes:
     inputs_from:
       - handle: input
         value: "input"
-  - subflow: self::slot
-    node_id: node-sub
+  - node_id: +value#1
+    title: "Value #1"
+    values:
+      - handle: add
+        json_schema:
+          type: number
+        value: 3
+  - node_id: iterator#1
+    inputs_from:
+      - handle: array
+        value:
+          []
+        from_node:
+          - node_id: node-1
+            output_handle: array
+    subflow: self::iterator
     slots:
-      - slot_node_id: replace
-        slotflow: self::addition
+      - slot_node_id: +slot#1
+        slotflow: self::+slotflow#1
         inputs_def:
           - handle: add
-          - handle: addd
             json_schema:
-              {}
-          - handle: adddd
-            json_schema:
-              {}
+              type: number
+            nullable: false
         inputs_from:
           - handle: add
             from_node:
-              - node_id: node-1
-                output_handle: b
-          - handle: addd
-            schema_overrides:
-              - schema:
-                  type: number
-            value: 1
-          - handle: adddd
-            from_node:
               - node_id: +value#1
-                output_handle: value1
-    inputs_from:
-      - handle: input
-        from_node:
-          - node_id: node-1
-            output_handle: output
+                output_handle: add
   - task:
       inputs_def:
-        - handle: input
+        - handle: result
           description: Input
           json_schema:
-            type: string
+            type: array
+        - handle: add
+          json_schema:
+            type: number
+          nullable: false
       outputs_def:
         - handle: output
           description: Output
@@ -70,14 +68,12 @@ nodes:
           entry: scriptlets/+javascript#2.js
     node_id: node-2
     inputs_from:
-      - handle: input
+      - handle: result
         from_node:
-          - node_id: node-sub
+          - node_id: iterator#1
             output_handle: output
-  - node_id: +value#1
-    title: "Value #1"
-    values:
-      - handle: value1
-        json_schema:
-          type: number
-        value: 0
+      - handle: add
+        value: 3
+        from_node:
+          - node_id: +value#1
+            output_handle: add
