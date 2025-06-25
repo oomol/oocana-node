@@ -1,0 +1,96 @@
+inputs_def:
+  - handle: array
+    json_schema:
+      type: array
+      items:
+        type: number
+    value:
+      []
+outputs_def:
+  - handle: output
+    json_schema:
+      type: array
+nodes:
+  - node_id: +slot#1
+    title: "Slot #1"
+    slot:
+      inputs_def:
+        - handle: item
+          description: Output
+          json_schema:
+            type: number
+          nullable: false
+      outputs_def:
+        - handle: transform
+          json_schema:
+            type: number
+    inputs_from:
+      - handle: item
+        from_node:
+          - node_id: +typescript#1
+            output_handle: item
+  - node_id: +typescript#1
+    title: "TypeScript #1"
+    icon: ":skill-icons:typescript:"
+    task:
+      ui:
+        default_width: 450
+      inputs_def:
+        - handle: input
+          description: Input
+          json_schema:
+            type: array
+      outputs_def:
+        - handle: item
+          description: Output
+          json_schema:
+            type: number
+        - handle: length
+          json_schema:
+            type: number
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+scriptlet#1.ts
+    inputs_from:
+      - handle: input
+        from_flow:
+          - input_handle: array
+  - node_id: +typescript#2
+    title: "TypeScript #2"
+    icon: ":skill-icons:typescript:"
+    task:
+      ui:
+        default_width: 450
+      inputs_def:
+        - handle: input
+          description: Input
+          json_schema:
+            {}
+        - handle: length
+          json_schema:
+            type: number
+          nullable: false
+      outputs_def:
+        - handle: output
+          description: Output
+          json_schema:
+            type: array
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+scriptlet#2.ts
+    inputs_from:
+      - handle: input
+        from_node:
+          - node_id: +slot#1
+            output_handle: transform
+      - handle: length
+        from_node:
+          - node_id: +typescript#1
+            output_handle: length
+outputs_from:
+  - handle: output
+    from_node:
+      - node_id: +typescript#2
+        output_handle: output

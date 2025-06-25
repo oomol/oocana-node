@@ -1,7 +1,8 @@
 //#region generated meta
 /**
  * @typedef {{
- *   input: string;
+ *   result: any[];
+ *   add: number;
  * }} Inputs;
  * @typedef {{
  *   output: string;
@@ -15,9 +16,11 @@
  * @returns {Promise<Outputs>}
  */
 export default async function (params, context) {
-  const { input } = params;
-  if (input !== "inputbbbb") {
-    throw new Error("Invalid input: " + input);
+  const { result, add } = params;
+  for (let i=0; i<result.length; i++) {
+    if (result[i] !== i + 1 + add) {
+      throw new Error(`input ${i} is ${result[i]}, expected ${i + 1 + add}`)
+    }
   }
-  return { output: params.input };
+  return { output: params.result };
 }

@@ -4,8 +4,7 @@
  *   input: string;
  * }} Inputs;
  * @typedef {{
- *   output: string;
- *   b: string;
+ *   array: any[];
  * }} Outputs;
  */
 //#endregion
@@ -17,8 +16,5 @@
  */
 export default async function (params, context) {
   const { input } = params;
-  if (input !== "input" && input !== "inputbbbb") {
-    throw new Error("Invalid input: " + input);
-  }
-  return { output: params.input, b: "bbbb" };
+  return { array: [1, 2, 3] };
 }
