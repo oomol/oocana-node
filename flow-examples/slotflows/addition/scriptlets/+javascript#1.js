@@ -2,6 +2,9 @@
 /**
  * @typedef {{
  *   input: string;
+ *   add: any;
+ *   addd: string;
+ *   adddd: any;
  * }} Inputs;
  * @typedef {{
  *   output: string;

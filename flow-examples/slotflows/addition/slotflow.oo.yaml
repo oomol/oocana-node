@@ -6,6 +6,15 @@ nodes:
           json_schema:
             type: string
         - handle: add
+        - handle: addd
+          description: Input
+          json_schema:
+            type: string
+          nullable: false
+        - handle: adddd
+          json_schema:
+            {}
+          nullable: false
       outputs_def:
         - handle: output
           description: Output
@@ -19,17 +28,23 @@ nodes:
     inputs_from:
       - handle: input
         from_flow:
-          - input_handle: input
+          - input_handle: slot-input
       - handle: add
         from_flow:
           - input_handle: add
+      - handle: addd
+        from_flow:
+          - input_handle: addd
+      - handle: adddd
+        from_flow:
+          - input_handle: adddd
 outputs_def:
   - handle: output
     description: Output
     json_schema:
       type: string
 outputs_from:
-  - handle: output
+  - handle: slot-output
     from_node:
       - node_id: slot-1
         output_handle: output

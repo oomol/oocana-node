@@ -30,7 +30,7 @@ nodes:
           - handle: add
           - handle: addd
             json_schema:
-              {}
+              type: number
           - handle: adddd
             json_schema:
               {}
@@ -39,17 +39,14 @@ nodes:
             from_node:
               - node_id: node-1
                 output_handle: b
-          - handle: addd
-            schema_overrides:
-              - schema:
-                  type: number
-            value: 1
           - handle: adddd
             from_node:
               - node_id: +value#1
                 output_handle: value1
+          - handle: addd
+            value: 0.01
     inputs_from:
-      - handle: input
+      - handle: subflow-input
         from_node:
           - node_id: node-1
             output_handle: output

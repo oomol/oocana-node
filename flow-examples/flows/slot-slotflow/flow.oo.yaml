@@ -24,7 +24,7 @@ nodes:
       - slot_node_id: replace
         slotflow: self::basic
     inputs_from:
-      - handle: input
+      - handle: subflow-input
         from_node:
           - node_id: node-1
             output_handle: output
