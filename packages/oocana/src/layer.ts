@@ -2,6 +2,9 @@ import { spawn } from "node:child_process";
 import { join } from "node:path";
 import { Cli } from "./cli";
 import { generateSpawnEnvs } from "./env";
+import { tmpdir } from "node:os";
+import { randomUUID } from "node:crypto";
+import { readFileSync } from "node:fs";
 
 const bindPathPattern =
   /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
@@ -162,7 +165,6 @@ type ScanParams = {
 async function scanPackages(
   params: ScanParams
 ): Promise<{ [key: string]: "NotInStore" | "Exist" }> {
-  const map = {};
   const bin = params.bin ?? join(__dirname, "..", "oocana");
 
   const paths: string[] = [];
@@ -170,14 +172,11 @@ async function scanPackages(
     paths.push("--search-paths", path);
   }
 
+  const tmp_file = join(tmpdir(), randomUUID() + ".json");
+  paths.push("--output", tmp_file);
+
   return new Promise<{}>((resolve, reject) => {
     const cli = new Cli(spawn(bin, ["package-layer", "scan", ...paths]));
-    cli.addLogListener("stdout", (data: string) => {
-      const output = data.trim().split("\n").pop();
-      if (output?.startsWith("{") && output.endsWith("}")) {
-        Object.assign(map, JSON.parse(output));
-      }
-    });
 
     let err = "";
     cli.addLogListener("stderr", (data: string) => {
@@ -185,6 +184,13 @@ async function scanPackages(
     });
     cli.wait().then(code => {
       if (code == 0) {
+        const fileContent = readFileSync(tmp_file, { encoding: "utf-8" });
+        let map: { [key: string]: "NotInStore" | "Exist" } = {};
+        try {
+          map = JSON.parse(fileContent);
+        } catch (error) {
+          console.error("Failed to parse JSON:", error);
+        }
         resolve(map);
       } else {
         reject(err);
