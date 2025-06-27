@@ -226,7 +226,7 @@ export async function queryInput(
   args.push("--output", tmp_file);
 
   return new Promise<{}>((resolve, reject) => {
-    const cli = new Cli(spawn(bin, ["package-layer", "scan", ...args]));
+    const cli = new Cli(spawn(bin, [...args]));
 
     let err = "";
     cli.addLogListener("stderr", (data: string) => {
