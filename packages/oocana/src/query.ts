@@ -1,6 +1,9 @@
 import { spawn } from "child_process";
 import { join } from "path";
 import { Cli } from "./cli";
+import { randomUUID } from "crypto";
+import { readFileSync } from "fs";
+import { tmpdir } from "os";
 
 export type UpstreamQueryParams = {
   flowPath: string;
@@ -197,4 +200,56 @@ export async function queryUpstream(
     upstreamNodes,
     flowPath: params.flowPath,
   };
+}
+
+type InputQueryParams = {
+  flowPath: string;
+  searchPaths?: string;
+};
+
+type InputQueryResponse = {
+  [key: string]: [
+    {
+      handle: string;
+      json_schema?: any;
+    }
+  ];
+};
+
+export async function queryInput(
+  params: InputQueryParams
+): Promise<InputQueryResponse> {
+  const bin = join(__dirname, "..", "oocana");
+  const args = ["query", "input", params.flowPath];
+
+  if (params.searchPaths) {
+    args.push("--search-paths", params.searchPaths);
+  }
+
+  const tmp_file = join(tmpdir(), randomUUID() + ".json");
+  args.push("--output", tmp_file);
+
+  return new Promise<{}>((resolve, reject) => {
+    const cli = new Cli(spawn(bin, ["package-layer", "scan", ...args]));
+
+    let err = "";
+    cli.addLogListener("stderr", (data: string) => {
+      err += data;
+    });
+    cli.wait().then(code => {
+      if (code == 0) {
+        const fileContent = readFileSync(tmp_file, { encoding: "utf-8" });
+        let map: InputQueryResponse = {};
+        try {
+          map = JSON.parse(fileContent);
+          resolve(map);
+        } catch (error) {
+          console.error("Failed to parse JSON:", error);
+          reject(new Error("Failed to parse JSON from input query result"));
+        }
+      } else {
+        reject(err);
+      }
+    });
+  });
 }
