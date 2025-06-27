@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.22.38](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.37...@oomol/oocana-v0.22.38) (2025-06-27)
+
+
+### Features
+
+* add query input api ([#212](https://github.com/oomol/oocana-node/issues/212)) ([d4196f2](https://github.com/oomol/oocana-node/commit/d4196f255818cca3a206b8de0b057921950e1846))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.28.20 ([#210](https://github.com/oomol/oocana-node/issues/210)) ([a66d523](https://github.com/oomol/oocana-node/commit/a66d523b22594a3478ba0b341b9d3cd91ad923b2))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.20.42
+
 ## [0.22.37](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.36...@oomol/oocana-v0.22.37) (2025-06-26)
 
 
