@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.42](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.41...@oomol/oocana-types-v0.20.42) (2025-06-27)
+
+
+### Features
+
+* add query input api ([#212](https://github.com/oomol/oocana-node/issues/212)) ([d4196f2](https://github.com/oomol/oocana-node/commit/d4196f255818cca3a206b8de0b057921950e1846))
+
 ## [0.20.41](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.40...@oomol/oocana-types-v0.20.41) (2025-06-19)
 
 
