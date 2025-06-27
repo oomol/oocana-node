@@ -4,6 +4,7 @@ import { Cli } from "./cli";
 import { randomUUID } from "crypto";
 import { readFileSync } from "fs";
 import { tmpdir } from "os";
+import { HandleDef } from "@oomol/oocana-types";
 
 export type UpstreamQueryParams = {
   flowPath: string;
@@ -208,12 +209,7 @@ type InputQueryParams = {
 };
 
 type InputQueryResponse = {
-  [key: string]: [
-    {
-      handle: string;
-      json_schema?: any;
-    }
-  ];
+  [key: string]: HandleDef[];
 };
 
 export async function queryInput(
