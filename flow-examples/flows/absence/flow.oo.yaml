@@ -1,0 +1,6 @@
+nodes:
+  - task: counter
+    node_id: node-1
+  - task: counter
+    title: "TypeScript #2"
+    node_id: node-2

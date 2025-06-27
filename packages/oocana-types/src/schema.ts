@@ -1,14 +1,15 @@
 // 跟随 block yaml 的 schema。
 // 如果能够跟随 @oomol/schema 的类型更好。
+export type HandleDef = {
+  handle: string;
+  json_schema?: RootFieldSchema;
+  kind?: string;
+  description?: string;
+  value?: any;
+  nullable?: boolean;
+};
 export type HandlesDef = {
-  [name: string]: {
-    handle: string;
-    json_schema?: RootFieldSchema;
-    kind?: string;
-    description?: string;
-    value?: any;
-    nullable?: boolean;
-  };
+  [name: string]: HandleDef;
 };
 
 // var 目前只能放在根目录
