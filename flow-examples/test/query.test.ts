@@ -1,7 +1,12 @@
 import { describe, it, expect } from "vitest";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { queryUpstream, queryService, queryPackage } from "@oomol/oocana";
+import {
+  queryUpstream,
+  queryService,
+  queryPackage,
+  queryInput,
+} from "@oomol/oocana";
 
 const __dirname = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const executorBin = path.join(__dirname, "..", "packages", "executor", "dist");
@@ -53,6 +58,29 @@ describe(
       });
 
       expect(Object.keys(cli).length).toBe(2);
+    });
+
+    it("query flow absence input", async () => {
+      const result = await queryInput({
+        flowPath: path.join(__dirname, "flows", "absence", "flow.oo.yaml"),
+        searchPaths: [
+          path.join(__dirname, "blocks"),
+          path.join(__dirname, "packages"),
+        ].join(","),
+      });
+
+      expect(result).toEqual({
+        "node-1": [
+          {
+            handle: "input",
+          },
+        ],
+        "node-2": [
+          {
+            handle: "input",
+          },
+        ],
+      });
     });
   }
 );
