@@ -7,6 +7,8 @@ export type HandleDef = {
   description?: string;
   value?: any;
   nullable?: boolean;
+  /** Indicates whether the field is additional. Additional handles are defined in the flow node, not in the block. */
+  is_additional?: boolean;
 };
 export type HandlesDef = {
   [name: string]: HandleDef;
