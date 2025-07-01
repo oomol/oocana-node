@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.43](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.42...@oomol/oocana-types-v0.20.43) (2025-07-01)
+
+
+### Features
+
+* add addition field ([#217](https://github.com/oomol/oocana-node/issues/217)) ([ee93527](https://github.com/oomol/oocana-node/commit/ee93527d847226e5492b663316065333c4fb61d5))
+
 ## [0.20.42](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.41...@oomol/oocana-types-v0.20.42) (2025-06-27)
 
 
