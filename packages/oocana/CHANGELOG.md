@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.42](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.41...@oomol/oocana-v0.22.42) (2025-07-01)
+
+
+### Features
+
+* export query input type ([#222](https://github.com/oomol/oocana-node/issues/222)) ([3e4b1af](https://github.com/oomol/oocana-node/commit/3e4b1af6c9f06c99a31aecf9ce122ae1bb2deb43))
+
 ## [0.22.41](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.40...@oomol/oocana-v0.22.41) (2025-07-01)
 
 
