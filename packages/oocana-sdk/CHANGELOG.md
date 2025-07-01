@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.19.17](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.16...@oomol/oocana-sdk-v0.19.17) (2025-07-01)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.20.43
+
 ## [0.19.16](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.15...@oomol/oocana-sdk-v0.19.16) (2025-06-27)
 
 
