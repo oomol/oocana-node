@@ -4,7 +4,8 @@ import { Cli } from "./cli";
 import { randomUUID } from "crypto";
 import { readFileSync } from "fs";
 import { tmpdir } from "os";
-import { HandleDef } from "@oomol/oocana-types";
+import type { HandleDef } from "@oomol/oocana-types";
+export type { HandleDef } from "@oomol/oocana-types";
 
 export type UpstreamQueryParams = {
   flowPath: string;
@@ -208,7 +209,7 @@ type InputQueryParams = {
   searchPaths?: string;
 };
 
-type InputQueryResponse = {
+export type InputQueryResponse = {
   [key: string]: HandleDef[];
 };
 
