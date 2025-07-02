@@ -25,10 +25,10 @@ export interface RunFlowConfig {
   debug?: boolean;
   /** only run these nodes */
   nodes?: string[];
-  /** fake data override last value save */
+  /** replace node's input value(only work on handle without connection to node or flow) */
   inputValues?: {
     [nodeId: string]: {
-      [inputHandle: string]: any[];
+      [inputHandle: string]: any;
     };
   };
   /** @deprecated use nodes parameter instead */
