@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.44](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.43...@oomol/oocana-v0.22.44) (2025-07-02)
+
+
+### Features
+
+* update parameter types ([#226](https://github.com/oomol/oocana-node/issues/226)) ([965dc0c](https://github.com/oomol/oocana-node/commit/965dc0c6e93157bb116d7cdfe4f3e7fef4ceadd1))
+
 ## [0.22.43](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.42...@oomol/oocana-v0.22.43) (2025-07-02)
 
 
