@@ -123,6 +123,11 @@ export interface Context<
    */
   readonly outputs: (map: Partial<TOutputs>) => Promise<void>;
 
+  readonly runBlock: (
+    blockName: string,
+    inputs: Record<string, any>
+  ) => Promise<void>;
+
   /**
    * reporter block finish. it can contain error or result.
    * if contains error, it will be treated as block failed and ignore result argument

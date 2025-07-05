@@ -1,4 +1,4 @@
-import { BlockInfo, JobInfo } from "./external/block";
+import { BlockInfo, BlockJobStackLevel, JobInfo } from "./external/block";
 import type { HandlesDef, HandlesDefPatch } from "./schema";
 
 export interface IMainframeBlockInputs<
@@ -12,6 +12,13 @@ export interface IMainframeBlockInputs<
 
 export interface IMainframeBlockReady extends JobInfo {
   type: "BlockReady";
+}
+
+export interface IMainframeBlockRunPayload extends JobInfo {
+  type: "RunBlock";
+  block: string;
+  inputs: Record<string, unknown>;
+  stacks: readonly BlockJobStackLevel[];
 }
 
 export interface IMainframeExecutorReady {
@@ -53,6 +60,7 @@ export type IMainframeClientMessage =
   | IMainframeBlockOutputs
   | IMainframeBlockError
   | IMainframeBlockFinished
+  | IMainframeBlockRunPayload
   | IMainframeExecutorReady;
 
 export interface ExecutorPayload extends JobInfo {

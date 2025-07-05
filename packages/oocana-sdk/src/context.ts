@@ -202,6 +202,17 @@ export class ContextImpl implements Context {
     });
   };
 
+  runBlock = async (blockName: string, inputs: Record<string, any>) => {
+    await this.mainframe.sendRun({
+      type: "RunBlock",
+      session_id: this.sessionId,
+      job_id: this.jobId,
+      stacks: this.stacks,
+      block: blockName,
+      inputs,
+    });
+  };
+
   warning = async (msg: string) => {
     await this.mainframe.sendWarning({
       type: "BlockWarning",
