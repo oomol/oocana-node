@@ -16,6 +16,7 @@ import throttle from "lodash.throttle";
 import { writeFile } from "node:fs/promises";
 import { mkdirSync } from "node:fs";
 import path, { dirname } from "node:path";
+import EventEmitter from "node:events";
 
 interface ThrottleFunction<T extends (...args: any[]) => any> {
   (...args: Parameters<T>): ReturnType<T>;
@@ -203,14 +204,31 @@ export class ContextImpl implements Context {
   };
 
   runBlock = async (blockName: string, inputs: Record<string, any>) => {
+    const block_job_id = `${this.jobId}-${blockName}`;
     await this.mainframe.sendRun({
       type: "RunBlock",
       session_id: this.sessionId,
       job_id: this.jobId,
       stacks: this.stacks,
       block: blockName,
+      block_job_id,
       inputs,
     });
+
+    const events = new EventEmitter();
+
+    const onMessage = (payload: any) => {
+      if (payload.job_id !== block_job_id) {
+        return;
+      }
+      events.emit(payload.type, payload);
+      if (payload.type === "BlockFinished") {
+        this.mainframe.removeReportCallback(onMessage);
+      }
+    };
+    this.mainframe.addReportCallback(onMessage);
+
+    return events;
   };
 
   warning = async (msg: string) => {

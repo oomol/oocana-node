@@ -1,3 +1,4 @@
+import EventEmitter from "events";
 import { HandlesDef } from "../schema";
 import type { BlockJobStackLevel } from "./block";
 
@@ -126,7 +127,7 @@ export interface Context<
   readonly runBlock: (
     blockName: string,
     inputs: Record<string, any>
-  ) => Promise<void>;
+  ) => Promise<EventEmitter>;
 
   /**
    * reporter block finish. it can contain error or result.

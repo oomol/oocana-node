@@ -22,6 +22,7 @@ export class Mainframe {
   private mqtt: MqttClient;
 
   private hashMap: Map<string, OnMessageCallback> = new Map();
+  private reporterCallbacks: Set<any> = new Set();
   public connectingPromise: Promise<void>;
 
   public constructor(address: string, clientId?: string) {
@@ -76,6 +77,18 @@ export class Mainframe {
       if (callback) {
         callback(topic, payload, packet);
       }
+      if (topic === "report") {
+        for (const cb of this.reporterCallbacks) {
+          try {
+            const message = JSON.parse(
+              payload.toString()
+            ) as IReporterClientMessage;
+            cb(message);
+          } catch (error) {
+            console.error("Error parsing report message:", error);
+          }
+        }
+      }
     });
   }
 
@@ -89,6 +102,18 @@ export class Mainframe {
         reject(error);
       });
     });
+  }
+
+  public addReportCallback(
+    callback: (payload: IReporterClientMessage) => any
+  ): void {
+    this.reporterCallbacks.add(callback);
+  }
+
+  public removeReportCallback(
+    callback: (payload: IReporterClientMessage) => any
+  ): void {
+    this.reporterCallbacks.delete(callback);
   }
 
   /** 暂时只支持写完整的 topic，不支持使用通配符 */
