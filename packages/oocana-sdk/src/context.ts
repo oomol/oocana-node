@@ -226,13 +226,35 @@ export class ContextImpl implements Context {
 
   preview = async (payload: PreviewPayload) => {
     if (payload) {
-      if (payload.type === "table") {
+      if (
+        payload.type === "table" &&
+        payload.data &&
+        typeof payload.data === "object"
+      ) {
         if (Array.isArray(payload.data.rows) && payload.data.rows.length > 10) {
-          payload.data.rows.splice(
-            5,
-            payload.data.rows.length - 10,
-            [...payload.data.columns].fill("...")
+          // write data to csv format file
+          const csvRows = payload.data.rows.map(row =>
+            row.map(cell => String(cell)).join(",")
           );
+          const csvContent = [
+            payload.data.columns.map(col => String(col)).join(","),
+            ...csvRows,
+          ].join("\n");
+          const randomStr = Math.random().toString(36).substring(2, 10);
+          const filePath = path.join(
+            this.tmpDir,
+            this.jobId,
+            `${randomStr}.csv`
+          );
+          try {
+            mkdirSync(dirname(filePath), { recursive: true });
+            await writeFile(filePath, csvContent);
+            payload.data = filePath;
+          } catch (error) {
+            throw new Error(
+              `write preview csv to file error: ${error}, path: ${filePath}`
+            );
+          }
         }
       }
     }

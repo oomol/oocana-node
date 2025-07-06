@@ -27,11 +27,13 @@ export type PreviewPayload =
     }
   | {
       type: "table";
-      data: {
-        columns: Array<string | number>;
-        rows: Array<Array<string | number | boolean>>;
-        row_count?: number;
-      };
+      data:
+        | {
+            columns: Array<string | number>;
+            rows: Array<Array<string | number | boolean>>;
+            row_count?: number;
+          }
+        | string;
     };
 
 export type KeepAlive = symbol;
