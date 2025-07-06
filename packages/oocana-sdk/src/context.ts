@@ -240,7 +240,7 @@ export class ContextImpl implements Context {
             payload.data.columns.map(col => String(col)).join(","),
             ...csvRows,
           ].join("\n");
-          const randomStr = Math.random().toString(36).substring(2, 10);
+          const randomStr = crypto.randomUUID();
           const filePath = path.join(
             this.tmpDir,
             this.jobId,
