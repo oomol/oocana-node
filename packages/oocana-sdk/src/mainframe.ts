@@ -22,7 +22,7 @@ export class Mainframe {
   private mqtt: MqttClient;
 
   private hashMap: Map<string, OnMessageCallback> = new Map();
-  private reporterCallbacks: Set<any> = new Set();
+  private reporterCallbacks: Set<(payload: IReporterClientMessage) => void> = new Set();
   public connectingPromise: Promise<void>;
 
   public constructor(address: string, clientId?: string) {
