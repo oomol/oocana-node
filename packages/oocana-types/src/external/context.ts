@@ -27,6 +27,7 @@ export type PreviewPayload =
     }
   | {
       type: "table";
+      /** table data or csv file path */
       data:
         | {
             columns: Array<string | number>;
