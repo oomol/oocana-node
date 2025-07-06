@@ -116,6 +116,8 @@ export class ContextImpl implements Context {
 
     this.hostEndpoint = process.env.OO_HOST_ENDPOINT;
   }
+  reportLog: (payload: string, stdio: "stdout" | "stderr") => Promise<void>;
+  reportProgress: (progress: number) => Promise<void>;
 
   private createObjectRef = (handle: string): StoreKeyRef => {
     return {
@@ -230,13 +232,30 @@ export class ContextImpl implements Context {
         if (
           typeof payload.data !== "string" &&
           Array.isArray(payload.data?.rows) &&
-          payload.data.rows.length > 10
+          payload.data.rows.length > 100
         ) {
-          payload.data.rows.splice(
-            5,
-            payload.data.rows.length - 10,
-            [...payload.data.columns].fill("...")
+          // write data to csv format file
+          const csvRows = payload.data.rows.map(row =>
+            row.map(cell => String(cell)).join(",")
           );
+          const csvContent = [
+            payload.data.columns.map(col => String(col)).join(","),
+            ...csvRows,
+          ].join("\n");
+          const randomStr = crypto.randomUUID();
+          const filePath = path.join(
+            this.tmpDir,
+            this.jobId,
+            `${randomStr}.csv`
+          );
+          try {
+            mkdirSync(dirname(filePath), { recursive: true });
+            await writeFile(filePath, csvContent);
+            payload.data = filePath;
+          } catch (error) {
+            throw new Error(
+              `write preview csv to file error: ${error}, path: ${filePath}`
+            );
         }
       }
     }
