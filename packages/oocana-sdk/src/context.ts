@@ -231,7 +231,7 @@ export class ContextImpl implements Context {
         payload.data &&
         typeof payload.data === "object"
       ) {
-        if (Array.isArray(payload.data.rows) && payload.data.rows.length > 10) {
+        if (Array.isArray(payload.data.rows)) {
           // write data to csv format file
           const csvRows = payload.data.rows.map(row =>
             row.map(cell => String(cell)).join(",")
