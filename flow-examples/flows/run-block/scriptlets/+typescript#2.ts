@@ -1,4 +1,4 @@
-import type { Context } from "@oomol/types/oocana";
+import type { Context } from "@oomol/oocana-types";
 
 type Inputs = {
   a: string;
