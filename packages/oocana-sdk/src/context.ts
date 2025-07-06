@@ -116,8 +116,6 @@ export class ContextImpl implements Context {
 
     this.hostEndpoint = process.env.OO_HOST_ENDPOINT;
   }
-  reportLog: (payload: string, stdio: "stdout" | "stderr") => Promise<void>;
-  reportProgress: (progress: number) => Promise<void>;
 
   private createObjectRef = (handle: string): StoreKeyRef => {
     return {
@@ -256,6 +254,7 @@ export class ContextImpl implements Context {
             throw new Error(
               `write preview csv to file error: ${error}, path: ${filePath}`
             );
+          }
         }
       }
     }
