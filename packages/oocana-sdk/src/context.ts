@@ -204,7 +204,7 @@ export class ContextImpl implements Context {
   };
 
   runBlock = async (blockName: string, inputs: Record<string, any>) => {
-    const block_job_id = `${this.jobId}-${blockName}`;
+    const block_job_id = `${this.jobId}-${blockName}-${Date.now()}`;
     await this.mainframe.sendRun({
       type: "RunBlock",
       session_id: this.sessionId,
