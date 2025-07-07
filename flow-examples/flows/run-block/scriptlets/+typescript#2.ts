@@ -10,7 +10,17 @@ type Outputs = {
 
 export default async function (
   _inputs: Inputs,
-  _context: Context<Inputs, Outputs>
+  context: Context<Inputs, Outputs>
 ): Promise<Outputs> {
+  const res = await context.runBlock("counter11", { input: "test" });
+  const data = await res.finish;
+  console.log("Result from counter block:", data);
+  if (data.error) {
+    console.error("Error in counter block:", data.error);
+  } else {
+    throw new Error(
+      "Expected an error, but got result: " + JSON.stringify(data.result)
+    );
+  }
   return { out: "out" };
 }
