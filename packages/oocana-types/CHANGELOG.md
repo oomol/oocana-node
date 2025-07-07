@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.45](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.44...@oomol/oocana-types-v0.20.45) (2025-07-07)
+
+
+### Features
+
+* add csv type ([#232](https://github.com/oomol/oocana-node/issues/232)) ([5fe043e](https://github.com/oomol/oocana-node/commit/5fe043e9ba262065c83778b477bc9e0a7aa101f5))
+
 ## [0.20.44](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.43...@oomol/oocana-types-v0.20.44) (2025-07-07)
 
 
