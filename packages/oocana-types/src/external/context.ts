@@ -27,11 +27,14 @@ export type PreviewPayload =
     }
   | {
       type: "table";
-      data: {
-        columns: Array<string | number>;
-        rows: Array<Array<string | number | boolean>>;
-        row_count?: number;
-      };
+      /** table data or csv file path */
+      data:
+        | {
+            columns: Array<string | number>;
+            rows: Array<Array<string | number | boolean>>;
+            row_count?: number;
+          }
+        | string;
     };
 
 export type KeepAlive = symbol;
