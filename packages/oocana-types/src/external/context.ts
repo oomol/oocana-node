@@ -27,7 +27,6 @@ export type PreviewPayload =
     }
   | {
       type: "table";
-      /** table data or csv file path */
       data:
         | {
             columns: Array<string | number>;
@@ -35,6 +34,10 @@ export type PreviewPayload =
             row_count?: number;
           }
         | string;
+    }
+  | {
+      type: "csv";
+      data: string; // csv file path
     };
 
 export type KeepAlive = symbol;
