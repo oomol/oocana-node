@@ -218,21 +218,12 @@ export class ContextImpl implements Context {
       inputs,
     });
 
-    let resolveResult: (value: any) => void;
+    let resolver: (data: {
+      result?: Record<string, unknown>;
+      error?: string;
+    }) => void;
     const events = new EventEmitter();
     const onOutput = event<{ handle: string; value: any }>();
-
-    const response: RunResponse = {
-      events,
-      onOutput,
-      result: new Promise<{
-        result?: Record<string, unknown>;
-        error?: unknown;
-      }>(resolve => {
-        resolveResult = resolve;
-      }),
-    };
-
     const blockEvent = (payload: IMainframeClientMessage) => {
       if (payload.type === "ExecutorReady" || payload.type === "RunBlock") {
         return;
@@ -249,15 +240,25 @@ export class ContextImpl implements Context {
           send(onOutput, { handle, value });
         }
       } else if (payload.type === "BlockFinished") {
-        this.mainframe.removeSessionCallback(this.sessionId, blockEvent);
         if (payload.result) {
           for (const [handle, value] of Object.entries(payload.result)) {
             send(onOutput, { handle, value });
           }
-
-          resolveResult({ result: payload.result });
         }
+        resolver({ result: payload.result, error: payload.error });
       }
+    };
+
+    const response: RunResponse = {
+      events,
+      onOutput,
+      finish: new Promise<{
+        result?: Record<string, unknown>;
+        error?: unknown;
+      }>(resolve => {
+        this.mainframe.removeSessionCallback(this.sessionId, blockEvent);
+        resolver = resolve;
+      }),
     };
 
     return response;

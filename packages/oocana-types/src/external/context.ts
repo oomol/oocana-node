@@ -77,7 +77,7 @@ export type HostInfo = {
 export type RunResponse = {
   events: EventEmitter;
   onOutput(listener: (data: { handle: string; value: unknown }) => void): void;
-  result: Promise<{ result?: Record<string, unknown>; error?: unknown }>;
+  finish: Promise<{ result?: Record<string, unknown>; error?: unknown }>;
 };
 
 export interface Context<
