@@ -14,11 +14,11 @@ export default async function (
 ): Promise<Outputs> {
   context.outputs({ a: "a", b: "b" });
   console.log("Running block with inputs:", _inputs);
-  const events = await context.runBlock("counter", { input: "test" });
-  const p = new Promise(resolve => {
-    events.on("BlockFinished", payload => {
-      resolve(payload);
-    });
+  const res = await context.runBlock("counter", { input: "test" });
+  res.onOutput(data => {
+    console.log("Output from counter block:", data);
   });
+  const result = await res.result;
+  console.log("Result from counter block:", result);
   return { a: "a", b: "b" };
 }
