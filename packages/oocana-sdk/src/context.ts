@@ -208,15 +208,6 @@ export class ContextImpl implements Context {
 
   runBlock = async (blockName: string, inputs: Record<string, any>) => {
     const block_job_id = `${this.jobId}-${blockName}-${Date.now()}`;
-    await this.mainframe.sendRun({
-      type: "RunBlock",
-      session_id: this.sessionId,
-      job_id: this.jobId,
-      stacks: this.stacks,
-      block: blockName,
-      block_job_id,
-      inputs,
-    });
 
     let resolver: (data: {
       result?: Record<string, unknown>;
@@ -258,6 +249,11 @@ export class ContextImpl implements Context {
     };
     this.mainframe.addRunBlockCallback(this.sessionId, errorEvent);
 
+    let dispose = () => {
+      this.mainframe.removeSessionCallback(this.sessionId, blockEvent);
+      this.mainframe.removeRunBlockCallback(this.sessionId, errorEvent);
+    };
+
     const response: RunResponse = {
       events,
       onOutput,
@@ -265,11 +261,23 @@ export class ContextImpl implements Context {
         result?: Record<string, unknown>;
         error?: unknown;
       }>(resolve => {
-        this.mainframe.removeSessionCallback(this.sessionId, blockEvent);
-        this.mainframe.removeRunBlockCallback(this.sessionId, errorEvent);
         resolver = resolve;
       }),
     };
+
+    response.finish.then(_data => {
+      dispose();
+    });
+
+    await this.mainframe.sendRun({
+      type: "RunBlock",
+      session_id: this.sessionId,
+      job_id: this.jobId,
+      stacks: this.stacks,
+      block: blockName,
+      block_job_id,
+      inputs,
+    });
 
     return response;
   };
