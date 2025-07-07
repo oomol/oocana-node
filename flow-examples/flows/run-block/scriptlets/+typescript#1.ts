@@ -18,7 +18,7 @@ export default async function (
   res.onOutput(data => {
     console.log("Output from counter block:", data);
   });
-  const result = await res.result;
+  const result = await res.finish;
   console.log("Result from counter block:", result);
   return { a: "a", b: "b" };
 }
