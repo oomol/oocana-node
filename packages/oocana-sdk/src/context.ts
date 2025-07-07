@@ -248,6 +248,15 @@ export class ContextImpl implements Context {
         resolver({ result: payload.result, error: payload.error });
       }
     };
+    this.mainframe.addSessionCallback(this.sessionId, blockEvent);
+
+    const errorEvent = (payload: any) => {
+      if (payload?.job_id !== block_job_id) {
+        return;
+      }
+      resolver({ error: payload.error });
+    };
+    this.mainframe.addRunBlockCallback(this.sessionId, errorEvent);
 
     const response: RunResponse = {
       events,
@@ -257,6 +266,7 @@ export class ContextImpl implements Context {
         error?: unknown;
       }>(resolve => {
         this.mainframe.removeSessionCallback(this.sessionId, blockEvent);
+        this.mainframe.removeRunBlockCallback(this.sessionId, errorEvent);
         resolver = resolve;
       }),
     };

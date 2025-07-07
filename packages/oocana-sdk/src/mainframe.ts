@@ -28,6 +28,9 @@ export class Mainframe {
     string,
     Set<(payload: IMainframeClientMessage) => void>
   > = new Map();
+  private sessionRunBlockCallbacks: Map<string, Set<(payload: any) => void>> =
+    new Map();
+
   public connectingPromise: Promise<void>;
 
   public constructor(address: string, clientId?: string) {
@@ -141,6 +144,40 @@ export class Mainframe {
     if (this.sessionCallbacks.get(sessionId)?.size === 0) {
       this.sessionCallbacks.delete(sessionId);
       this.unsubscribe(topic);
+    }
+  }
+
+  public addRunBlockCallback(
+    sessionId: string,
+    callback: (payload: any) => void
+  ): void {
+    if (!this.sessionRunBlockCallbacks.has(sessionId)) {
+      this.sessionRunBlockCallbacks.set(sessionId, new Set());
+      // todo: refactor this to use a common topic
+      this.subscribe(`session/${sessionId}/run_block/error`, (payload: any) => {
+        const callbacks = this.sessionRunBlockCallbacks.get(sessionId);
+        if (callbacks) {
+          for (const cb of callbacks) {
+            try {
+              cb(payload);
+            } catch (error) {
+              console.error("Error in run block callback:", error);
+            }
+          }
+        }
+      });
+    }
+    this.sessionRunBlockCallbacks.get(sessionId)?.add(callback);
+  }
+
+  public removeRunBlockCallback(
+    sessionId: string,
+    callback: (payload: any) => void
+  ): void {
+    this.sessionRunBlockCallbacks.get(sessionId)?.delete(callback);
+    if (this.sessionRunBlockCallbacks.get(sessionId)?.size === 0) {
+      this.sessionRunBlockCallbacks.delete(sessionId);
+      this.unsubscribe(`session/${sessionId}/run_block/error`);
     }
   }
 
