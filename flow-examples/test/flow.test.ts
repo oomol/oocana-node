@@ -66,8 +66,8 @@ describe(
         events.filter(e => e.event === "BlockStarted").length,
         `start ${events
           .filter(e => e.event === "BlockStarted")
-          .map(e => JSON.stringify(e.data.stacks))}`
-      ).toBe(3);
+          .map(e => JSON.stringify(e.data))}`
+      ).toBe(4);
 
       expect(
         events
