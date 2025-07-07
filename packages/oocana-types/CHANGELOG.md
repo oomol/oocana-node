@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.44](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.43...@oomol/oocana-types-v0.20.44) (2025-07-07)
+
+
+### Features
+
+* save table payload to csv file for better preview ([#229](https://github.com/oomol/oocana-node/issues/229)) ([b9ca553](https://github.com/oomol/oocana-node/commit/b9ca55344c014311c71368979e201ee6e77e724b))
+
 ## [0.20.43](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.42...@oomol/oocana-types-v0.20.43) (2025-07-01)
 
 

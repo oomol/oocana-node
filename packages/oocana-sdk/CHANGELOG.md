@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.19.18](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.17...@oomol/oocana-sdk-v0.19.18) (2025-07-07)
+
+
+### Features
+
+* save table payload to csv file for better preview ([#229](https://github.com/oomol/oocana-node/issues/229)) ([b9ca553](https://github.com/oomol/oocana-node/commit/b9ca55344c014311c71368979e201ee6e77e724b))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.20.44
+
 ## [0.19.17](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.16...@oomol/oocana-sdk-v0.19.17) (2025-07-01)
 
 
