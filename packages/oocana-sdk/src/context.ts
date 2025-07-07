@@ -226,35 +226,29 @@ export class ContextImpl implements Context {
 
   preview = async (payload: PreviewPayload) => {
     if (payload) {
-      if (payload.type === "table") {
-        if (
-          typeof payload.data !== "string" &&
-          Array.isArray(payload.data?.rows) &&
-          payload.data.rows.length > 100
-        ) {
-          // write data to csv format file
-          const csvRows = payload.data.rows.map(row =>
-            row.map(cell => String(cell)).join(",")
+      // convert table data to CSV
+      if (
+        payload.type === "table" &&
+        typeof payload.data !== "string" &&
+        Array.isArray(payload.data?.rows)
+      ) {
+        const csvRows = payload.data.rows.map(row =>
+          row.map(cell => String(cell)).join(",")
+        );
+        const csvContent = [
+          payload.data.columns.map(col => String(col)).join(","),
+          ...csvRows,
+        ].join("\n");
+        const randomStr = crypto.randomUUID();
+        const filePath = path.join(this.tmpDir, this.jobId, `${randomStr}.csv`);
+        try {
+          mkdirSync(dirname(filePath), { recursive: true });
+          await writeFile(filePath, csvContent);
+          payload.data = filePath;
+        } catch (error) {
+          throw new Error(
+            `write preview csv to file error: ${error}, path: ${filePath}`
           );
-          const csvContent = [
-            payload.data.columns.map(col => String(col)).join(","),
-            ...csvRows,
-          ].join("\n");
-          const randomStr = crypto.randomUUID();
-          const filePath = path.join(
-            this.tmpDir,
-            this.jobId,
-            `${randomStr}.csv`
-          );
-          try {
-            mkdirSync(dirname(filePath), { recursive: true });
-            await writeFile(filePath, csvContent);
-            payload.data = filePath;
-          } catch (error) {
-            throw new Error(
-              `write preview csv to file error: ${error}, path: ${filePath}`
-            );
-          }
         }
       }
     }
