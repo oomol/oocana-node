@@ -154,6 +154,9 @@ importers:
       '@types/lodash.throttle':
         specifier: ^4.1.9
         version: 4.1.9
+      '@wopjs/event':
+        specifier: ^0.1.5
+        version: 0.1.5
       lodash.throttle:
         specifier: ^4.1.1
         version: 4.1.1
@@ -1099,6 +1102,9 @@ packages:
 
   '@wopjs/disposable@0.1.19':
     resolution: {integrity: sha512-0vFOH+ltWFrP9yF8I+8CWUJstl2/b0dPFsEAeTK4UGsSgXhsECT2uPszsUfJSZqwhS2YVaMuYhB3rB2pIsU3HA==}
+
+  '@wopjs/event@0.1.5':
+    resolution: {integrity: sha512-x5U0NQgTpZyTmyQ8AaI5I/xNSHYlMUE/0y0/34jpgKZY4gYgKybgFOGUrTvc7zDX1/0MhFxVjl/6wZNHEqIW9w==}
 
   '@xmldom/xmldom@0.8.10':
     resolution: {integrity: sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==}
@@ -3783,6 +3789,8 @@ snapshots:
   '@wopjs/disposable@0.1.12': {}
 
   '@wopjs/disposable@0.1.19': {}
+
+  '@wopjs/event@0.1.5': {}
 
   '@xmldom/xmldom@0.8.10': {}
 

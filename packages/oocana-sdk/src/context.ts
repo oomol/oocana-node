@@ -9,7 +9,10 @@ import {
   BinaryValue,
   StoreKeyRef,
   VarValue,
+  RunResponse,
+  IMainframeClientMessage,
 } from "@oomol/oocana-types";
+import { event, send } from "@wopjs/event";
 import { Mainframe } from "./mainframe";
 import { isBinHandle, isValHandle, outputRefKey } from "./utils";
 import throttle from "lodash.throttle";
@@ -215,20 +218,49 @@ export class ContextImpl implements Context {
       inputs,
     });
 
+    let resolveResult: (value: any) => void;
     const events = new EventEmitter();
+    const onOutput = event<{ handle: string; value: any }>();
 
-    const onMessage = (payload: any) => {
-      if (payload.job_id !== block_job_id) {
+    const response: RunResponse = {
+      events,
+      onOutput,
+      result: new Promise<{
+        result?: Record<string, unknown>;
+        error?: unknown;
+      }>(resolve => {
+        resolveResult = resolve;
+      }),
+    };
+
+    const blockEvent = (payload: IMainframeClientMessage) => {
+      if (payload.type === "ExecutorReady" || payload.type === "RunBlock") {
+        return;
+      }
+      if (payload?.job_id !== block_job_id) {
         return;
       }
       events.emit(payload.type, payload);
-      if (payload.type === "BlockFinished") {
-        this.mainframe.removeReportCallback(onMessage);
+
+      if (payload.type === "BlockOutput") {
+        send(onOutput, { handle: payload.handle, value: payload.output });
+      } else if (payload.type === "BlockOutputs") {
+        for (const [handle, value] of Object.entries(payload.outputs)) {
+          send(onOutput, { handle, value });
+        }
+      } else if (payload.type === "BlockFinished") {
+        this.mainframe.removeSessionCallback(this.sessionId, blockEvent);
+        if (payload.result) {
+          for (const [handle, value] of Object.entries(payload.result)) {
+            send(onOutput, { handle, value });
+          }
+
+          resolveResult({ result: payload.result });
+        }
       }
     };
-    this.mainframe.addReportCallback(onMessage);
 
-    return events;
+    return response;
   };
 
   warning = async (msg: string) => {

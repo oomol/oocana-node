@@ -22,7 +22,12 @@ export class Mainframe {
   private mqtt: MqttClient;
 
   private hashMap: Map<string, OnMessageCallback> = new Map();
-  private reporterCallbacks: Set<(payload: IReporterClientMessage) => void> = new Set();
+  private reporterCallbacks: Set<(payload: IReporterClientMessage) => void> =
+    new Set();
+  private sessionCallbacks: Map<
+    string,
+    Set<(payload: IMainframeClientMessage) => void>
+  > = new Map();
   public connectingPromise: Promise<void>;
 
   public constructor(address: string, clientId?: string) {
@@ -102,6 +107,41 @@ export class Mainframe {
         reject(error);
       });
     });
+  }
+
+  public addSessionCallback(
+    sessionId: string,
+    callback: (payload: IMainframeClientMessage) => void
+  ): void {
+    const topic = `session/${sessionId}`;
+    if (!this.sessionCallbacks.has(sessionId)) {
+      this.sessionCallbacks.set(sessionId, new Set());
+      this.subscribe(topic, (payload: IMainframeClientMessage) => {
+        const callbacks = this.sessionCallbacks.get(sessionId);
+        if (callbacks) {
+          for (const cb of callbacks) {
+            try {
+              cb(payload);
+            } catch (error) {
+              console.error("Error in session callback:", error);
+            }
+          }
+        }
+      });
+    }
+    this.sessionCallbacks.get(sessionId)?.add(callback);
+  }
+
+  public removeSessionCallback(
+    sessionId: string,
+    callback: (payload: IMainframeClientMessage) => void
+  ): void {
+    const topic = `session/${sessionId}`;
+    this.sessionCallbacks.get(sessionId)?.delete(callback);
+    if (this.sessionCallbacks.get(sessionId)?.size === 0) {
+      this.sessionCallbacks.delete(sessionId);
+      this.unsubscribe(topic);
+    }
   }
 
   public addReportCallback(

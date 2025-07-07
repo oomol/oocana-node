@@ -1,6 +1,11 @@
 import type { EventEmitter } from "events";
 import { HandlesDef } from "../schema";
 import type { BlockJobStackLevel } from "./block";
+import {
+  IMainframeBlockRunPayload,
+  IMainframeClientMessage,
+  IMainframeExecutorReady,
+} from "../block";
 
 export type PreviewType =
   | "image"
@@ -69,6 +74,12 @@ export type HostInfo = {
   readonly gpuRenderer: string;
 };
 
+export type RunResponse = {
+  events: EventEmitter;
+  onOutput(listener: (data: { handle: string; value: unknown }) => void): void;
+  result: Promise<{ result?: Record<string, unknown>; error?: unknown }>;
+};
+
 export interface Context<
   TInputs = Record<string, any>,
   TOutputs = Record<string, any>
@@ -127,7 +138,7 @@ export interface Context<
   readonly runBlock: (
     blockName: string,
     inputs: Record<string, any>
-  ) => Promise<EventEmitter>;
+  ) => Promise<RunResponse>;
 
   /**
    * reporter block finish. it can contain error or result.
