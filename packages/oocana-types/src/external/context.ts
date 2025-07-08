@@ -77,7 +77,7 @@ export type HostInfo = {
 export type RunResponse = {
   events: EventEmitter;
   onOutput(listener: (data: { handle: string; value: unknown }) => void): void;
-  finish: Promise<{ result?: Record<string, unknown>; error?: unknown }>;
+  finish(): Promise<{ result?: Record<string, unknown>; error?: unknown }>;
 };
 
 export interface Context<
@@ -138,7 +138,7 @@ export interface Context<
   readonly runBlock: (
     blockName: string,
     inputs: Record<string, any>
-  ) => Promise<RunResponse>;
+  ) => RunResponse;
 
   /**
    * reporter block finish. it can contain error or result.

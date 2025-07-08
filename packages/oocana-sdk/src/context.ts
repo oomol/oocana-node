@@ -206,7 +206,7 @@ export class ContextImpl implements Context {
     });
   };
 
-  runBlock = async (blockName: string, inputs: Record<string, any>) => {
+  runBlock = (blockName: string, inputs: Record<string, any>) => {
     const block_job_id = `${this.jobId}-${blockName}-${Date.now()}`;
 
     let resolver: (data: {
@@ -254,22 +254,24 @@ export class ContextImpl implements Context {
       this.mainframe.removeRunBlockCallback(this.sessionId, errorEvent);
     };
 
+    const finishP = new Promise<{
+      result?: Record<string, unknown>;
+      error?: unknown;
+    }>(resolve => {
+      resolver = resolve;
+    });
+
     const response: RunResponse = {
       events,
       onOutput,
-      finish: new Promise<{
-        result?: Record<string, unknown>;
-        error?: unknown;
-      }>(resolve => {
-        resolver = resolve;
-      }),
+      finish: () => finishP,
     };
 
-    response.finish.then(_data => {
+    response.finish().then(_data => {
       dispose();
     });
 
-    await this.mainframe.sendRun({
+    this.mainframe.sendRun({
       type: "RunBlock",
       session_id: this.sessionId,
       job_id: this.jobId,
