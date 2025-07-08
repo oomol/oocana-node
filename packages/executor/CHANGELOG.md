@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.20.23](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.22...@oomol/executor-v0.20.23) (2025-07-08)
+
+
+### Features
+
+* add run block api ([#228](https://github.com/oomol/oocana-node/issues/228)) ([6aa517d](https://github.com/oomol/oocana-node/commit/6aa517dcbf1ec6ae298c86ddc4ee78f3d0d13853))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-sdk bumped to 0.19.20
+    * @oomol/oocana-types bumped to 0.20.46
+
 ## [0.20.22](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.21...@oomol/executor-v0.20.22) (2025-07-07)
 
 

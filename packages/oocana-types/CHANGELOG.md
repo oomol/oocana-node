@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.46](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.45...@oomol/oocana-types-v0.20.46) (2025-07-08)
+
+
+### Features
+
+* add run block api ([#228](https://github.com/oomol/oocana-node/issues/228)) ([6aa517d](https://github.com/oomol/oocana-node/commit/6aa517dcbf1ec6ae298c86ddc4ee78f3d0d13853))
+
 ## [0.20.45](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.44...@oomol/oocana-types-v0.20.45) (2025-07-07)
 
 
