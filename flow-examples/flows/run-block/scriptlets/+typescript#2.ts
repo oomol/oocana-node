@@ -13,7 +13,7 @@ export default async function (
   context: Context<Inputs, Outputs>
 ): Promise<Outputs> {
   const res = await context.runBlock("counter11", { input: "test" });
-  const data = await res.finish;
+  const data = await res.finish();
   console.log("Result from counter block:", data);
   if (data.error) {
     console.error("Error in counter block:", data.error);
