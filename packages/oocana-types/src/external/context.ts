@@ -72,7 +72,9 @@ export type HostInfo = {
 
 export type RunResponse = {
   events: EventReceiver<BlockActionEvent>;
-  onOutput(listener: (data: { handle: string; value: unknown }) => void): void;
+  onOutput(
+    listener: (data: { handle: string; value: unknown }) => void
+  ): () => void;
   finish(): Promise<{ result?: Record<string, unknown>; error?: unknown }>;
 };
 
