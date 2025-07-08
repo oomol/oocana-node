@@ -1,11 +1,7 @@
-import type { EventEmitter } from "events";
+import type { Remitter } from "remitter";
 import { HandlesDef } from "../schema";
 import type { BlockJobStackLevel } from "./block";
-import {
-  IMainframeBlockRunPayload,
-  IMainframeClientMessage,
-  IMainframeExecutorReady,
-} from "../block";
+import { BlockActionEvent } from "../block";
 
 export type PreviewType =
   | "image"
@@ -75,7 +71,7 @@ export type HostInfo = {
 };
 
 export type RunResponse = {
-  events: EventEmitter;
+  events: Remitter<BlockActionEvent>;
   onOutput(listener: (data: { handle: string; value: unknown }) => void): void;
   finish(): Promise<{ result?: Record<string, unknown>; error?: unknown }>;
 };

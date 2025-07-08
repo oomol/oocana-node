@@ -160,12 +160,18 @@ importers:
       lodash.throttle:
         specifier: ^4.1.1
         version: 4.1.1
+      remitter:
+        specifier: ^0.4.6
+        version: 0.4.6
 
   packages/oocana-types:
     devDependencies:
       '@rollup/plugin-typescript':
         specifier: ^11.1.6
         version: 11.1.6(rollup@4.30.0)(tslib@2.8.1)(typescript@5.7.2)
+      remitter:
+        specifier: ^0.4.6
+        version: 0.4.6
       rollup:
         specifier: ^4.17.2
         version: 4.30.0

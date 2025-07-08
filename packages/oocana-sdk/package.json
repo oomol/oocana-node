@@ -29,9 +29,10 @@
     "mqtt": "^5.7.0"
   },
   "devDependencies": {
-    "@wopjs/event": "^0.1.5",
     "@oomol/oocana-types": "workspace:*",
     "@types/lodash.throttle": "^4.1.9",
-    "lodash.throttle": "^4.1.1"
+    "@wopjs/event": "^0.1.5",
+    "lodash.throttle": "^4.1.1",
+    "remitter": "^0.4.6"
   }
 }

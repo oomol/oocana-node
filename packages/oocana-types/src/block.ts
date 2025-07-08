@@ -64,6 +64,13 @@ export type IMainframeClientMessage =
   | IMainframeBlockRunPayload
   | IMainframeExecutorReady;
 
+export type BlockActionEvent = {
+  BlockOutput: IMainframeBlockOutput;
+  BlockOutputs: IMainframeBlockOutputs;
+  BlockFinished: IMainframeBlockFinished;
+  BlockError: IMainframeBlockError;
+};
+
 export interface ExecutorPayload extends JobInfo {
   dir: string;
   executor: {

@@ -11,6 +11,7 @@ import {
   VarValue,
   RunResponse,
   IMainframeClientMessage,
+  BlockActionEvent,
 } from "@oomol/oocana-types";
 import { event, send } from "@wopjs/event";
 import { Mainframe } from "./mainframe";
@@ -19,7 +20,7 @@ import throttle from "lodash.throttle";
 import { writeFile } from "node:fs/promises";
 import { mkdirSync } from "node:fs";
 import path, { dirname } from "node:path";
-import EventEmitter from "node:events";
+import { Remitter } from "remitter";
 
 interface ThrottleFunction<T extends (...args: any[]) => any> {
   (...args: Parameters<T>): ReturnType<T>;
@@ -213,15 +214,20 @@ export class ContextImpl implements Context {
       result?: Record<string, unknown>;
       error?: string;
     }) => void;
-    const events = new EventEmitter();
+    const events = new Remitter<BlockActionEvent>();
     const onOutput = event<{ handle: string; value: any }>();
     const blockEvent = (payload: IMainframeClientMessage) => {
-      if (payload.type === "ExecutorReady" || payload.type === "RunBlock") {
+      if (
+        payload.type === "ExecutorReady" ||
+        payload.type === "RunBlock" ||
+        payload.type === "BlockReady"
+      ) {
         return;
       }
       if (payload?.job_id !== block_job_id) {
         return;
       }
+
       events.emit(payload.type, payload);
 
       if (payload.type === "BlockOutput") {
