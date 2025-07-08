@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.22.47](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.46...@oomol/oocana-v0.22.47) (2025-07-08)
+
+
+### Features
+
+* add run block api ([#228](https://github.com/oomol/oocana-node/issues/228)) ([6aa517d](https://github.com/oomol/oocana-node/commit/6aa517dcbf1ec6ae298c86ddc4ee78f3d0d13853))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.28.25 ([#234](https://github.com/oomol/oocana-node/issues/234)) ([6a048a3](https://github.com/oomol/oocana-node/commit/6a048a34bb5ad0b3fb5113d9b34b12300755ab52))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.20.46
+
 ## [0.22.46](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.45...@oomol/oocana-v0.22.46) (2025-07-07)
 
 
