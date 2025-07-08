@@ -71,8 +71,8 @@ importers:
         version: link:../packages/oocana-types
     devDependencies:
       remitter:
-        specifier: ^0.4.6
-        version: 0.4.6
+        specifier: ^0.5.0
+        version: 0.5.0
       vitest:
         specifier: ^3.1.0
         version: 3.1.2(@types/node@22.10.5)
@@ -94,8 +94,8 @@ importers:
         specifier: ^1.2.7
         version: 1.2.8
       remitter:
-        specifier: ^0.4.6
-        version: 0.4.6
+        specifier: ^0.5.0
+        version: 0.5.0
       winston:
         specifier: ^3.13.1
         version: 3.17.0
@@ -119,8 +119,8 @@ importers:
         specifier: ^5.7.0
         version: 5.10.3
       remitter:
-        specifier: ^0.4.6
-        version: 0.4.6
+        specifier: ^0.5.0
+        version: 0.5.0
     optionalDependencies:
       '@oomol/oocana-cli-aarch64-apple-darwin':
         specifier: 0.28.25
@@ -154,15 +154,24 @@ importers:
       '@types/lodash.throttle':
         specifier: ^4.1.9
         version: 4.1.9
+      '@wopjs/event':
+        specifier: ^0.1.5
+        version: 0.1.5
       lodash.throttle:
         specifier: ^4.1.1
         version: 4.1.1
+      remitter:
+        specifier: ^0.5.0
+        version: 0.5.0
 
   packages/oocana-types:
     devDependencies:
       '@rollup/plugin-typescript':
         specifier: ^11.1.6
         version: 11.1.6(rollup@4.30.0)(tslib@2.8.1)(typescript@5.7.2)
+      remitter:
+        specifier: ^0.5.0
+        version: 0.5.0
       rollup:
         specifier: ^4.17.2
         version: 4.30.0
@@ -1094,11 +1103,11 @@ packages:
   '@vitest/utils@3.1.2':
     resolution: {integrity: sha512-5GGd0ytZ7BH3H6JTj9Kw7Prn1Nbg0wZVrIvou+UWxm54d+WoXXgAgjFJ8wn3LdagWLFSEfpPeyYrByZaGEZHLg==}
 
-  '@wopjs/disposable@0.1.12':
-    resolution: {integrity: sha512-WA4LKN+DInW65WVI9PuOyCadqzlssYFoM3Mds85ZHpLWM/tMD5/0wG4FlKiX6NqsmR9Dioq2YV01sncFNrdu8A==}
-
   '@wopjs/disposable@0.1.19':
     resolution: {integrity: sha512-0vFOH+ltWFrP9yF8I+8CWUJstl2/b0dPFsEAeTK4UGsSgXhsECT2uPszsUfJSZqwhS2YVaMuYhB3rB2pIsU3HA==}
+
+  '@wopjs/event@0.1.5':
+    resolution: {integrity: sha512-x5U0NQgTpZyTmyQ8AaI5I/xNSHYlMUE/0y0/34jpgKZY4gYgKybgFOGUrTvc7zDX1/0MhFxVjl/6wZNHEqIW9w==}
 
   '@xmldom/xmldom@0.8.10':
     resolution: {integrity: sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==}
@@ -2355,8 +2364,8 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  remitter@0.4.6:
-    resolution: {integrity: sha512-avh1nPKkv+wPS9eDjaFIOD5rSKT0W1rjK1tSoEfmX9oF+NjFC3k9Db4vow+pP4ZhY5N06sJ+CfsEZp3+Jcb6kg==}
+  remitter@0.5.0:
+    resolution: {integrity: sha512-nFsKy8xSysqazAZxAKon1pXu6rV3MRLWeYZWmq0sY3YtAlrjoR9ZpnTUyWzjgwTa4PyKtLxRBdCXUmsQ8eCW6g==}
 
   repeat-string@1.6.1:
     resolution: {integrity: sha512-PV0dzCYDNfRi1jCDbJzpW7jNNDRuCOG/jI5ctQcGKt/clZD+YcPS3yIlWuTJMmESC8aevCFmWJy5wjAFgNqN6w==}
@@ -3780,9 +3789,9 @@ snapshots:
       loupe: 3.1.3
       tinyrainbow: 2.0.0
 
-  '@wopjs/disposable@0.1.12': {}
-
   '@wopjs/disposable@0.1.19': {}
+
+  '@wopjs/event@0.1.5': {}
 
   '@xmldom/xmldom@0.8.10': {}
 
@@ -5171,9 +5180,9 @@ snapshots:
       - encoding
       - supports-color
 
-  remitter@0.4.6:
+  remitter@0.5.0:
     dependencies:
-      '@wopjs/disposable': 0.1.12
+      '@wopjs/disposable': 0.1.19
       adaptive-set: 0.1.3
 
   repeat-string@1.6.1: {}

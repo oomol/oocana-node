@@ -1,5 +1,7 @@
+import type { EventReceiver } from "remitter";
 import { HandlesDef } from "../schema";
 import type { BlockJobStackLevel } from "./block";
+import { BlockActionEvent } from "../block";
 
 export type PreviewType =
   | "image"
@@ -68,6 +70,14 @@ export type HostInfo = {
   readonly gpuRenderer: string;
 };
 
+export type RunResponse = {
+  events: EventReceiver<BlockActionEvent>;
+  onOutput(
+    listener: (data: { handle: string; value: unknown }) => void
+  ): () => void;
+  finish(): Promise<{ result?: Record<string, unknown>; error?: unknown }>;
+};
+
 export interface Context<
   TInputs = Record<string, any>,
   TOutputs = Record<string, any>
@@ -122,6 +132,11 @@ export interface Context<
    * @returns
    */
   readonly outputs: (map: Partial<TOutputs>) => Promise<void>;
+
+  readonly runBlock: (
+    blockName: string,
+    inputs: Record<string, any>
+  ) => RunResponse;
 
   /**
    * reporter block finish. it can contain error or result.

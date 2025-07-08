@@ -15,12 +15,22 @@ import type {
   IMainframeExecutorReady,
   IReporterBlockWarning,
   IMainframeBlockOutputs,
+  IMainframeBlockRunPayload,
 } from "@oomol/oocana-types";
 
 export class Mainframe {
   private mqtt: MqttClient;
 
   private hashMap: Map<string, OnMessageCallback> = new Map();
+  private reporterCallbacks: Set<(payload: IReporterClientMessage) => void> =
+    new Set();
+  private sessionCallbacks: Map<
+    string,
+    Set<(payload: IMainframeClientMessage) => void>
+  > = new Map();
+  private sessionRunBlockCallbacks: Map<string, Set<(payload: any) => void>> =
+    new Map();
+
   public connectingPromise: Promise<void>;
 
   public constructor(address: string, clientId?: string) {
@@ -75,6 +85,18 @@ export class Mainframe {
       if (callback) {
         callback(topic, payload, packet);
       }
+      if (topic === "report") {
+        for (const cb of this.reporterCallbacks) {
+          try {
+            const message = JSON.parse(
+              payload.toString()
+            ) as IReporterClientMessage;
+            cb(message);
+          } catch (error) {
+            console.error("Error parsing report message:", error);
+          }
+        }
+      }
     });
   }
 
@@ -88,6 +110,87 @@ export class Mainframe {
         reject(error);
       });
     });
+  }
+
+  public addSessionCallback(
+    sessionId: string,
+    callback: (payload: IMainframeClientMessage) => void
+  ): void {
+    const topic = `session/${sessionId}`;
+    if (!this.sessionCallbacks.has(sessionId)) {
+      this.sessionCallbacks.set(sessionId, new Set());
+      this.subscribe(topic, (payload: IMainframeClientMessage) => {
+        const callbacks = this.sessionCallbacks.get(sessionId);
+        if (callbacks) {
+          for (const cb of callbacks) {
+            try {
+              cb(payload);
+            } catch (error) {
+              console.error("Error in session callback:", error);
+            }
+          }
+        }
+      });
+    }
+    this.sessionCallbacks.get(sessionId)?.add(callback);
+  }
+
+  public removeSessionCallback(
+    sessionId: string,
+    callback: (payload: IMainframeClientMessage) => void
+  ): void {
+    const topic = `session/${sessionId}`;
+    this.sessionCallbacks.get(sessionId)?.delete(callback);
+    if (this.sessionCallbacks.get(sessionId)?.size === 0) {
+      this.sessionCallbacks.delete(sessionId);
+      this.unsubscribe(topic);
+    }
+  }
+
+  public addRunBlockCallback(
+    sessionId: string,
+    callback: (payload: any) => void
+  ): void {
+    if (!this.sessionRunBlockCallbacks.has(sessionId)) {
+      this.sessionRunBlockCallbacks.set(sessionId, new Set());
+      // todo: refactor this to use a common topic
+      this.subscribe(`session/${sessionId}/run_block/error`, (payload: any) => {
+        const callbacks = this.sessionRunBlockCallbacks.get(sessionId);
+        if (callbacks) {
+          for (const cb of callbacks) {
+            try {
+              cb(payload);
+            } catch (error) {
+              console.error("Error in run block callback:", error);
+            }
+          }
+        }
+      });
+    }
+    this.sessionRunBlockCallbacks.get(sessionId)?.add(callback);
+  }
+
+  public removeRunBlockCallback(
+    sessionId: string,
+    callback: (payload: any) => void
+  ): void {
+    this.sessionRunBlockCallbacks.get(sessionId)?.delete(callback);
+    if (this.sessionRunBlockCallbacks.get(sessionId)?.size === 0) {
+      this.sessionRunBlockCallbacks.delete(sessionId);
+      this.unsubscribe(`session/${sessionId}/run_block/error`);
+    }
+  }
+
+  public addReportCallback(
+    callback: (payload: IReporterClientMessage) => any
+  ): void {
+    this.reporterCallbacks.add(callback);
+  }
+
+  public removeReportCallback(
+    callback: (payload: IReporterClientMessage) => any
+  ): void {
+    this.reporterCallbacks.delete(callback);
   }
 
   /** 暂时只支持写完整的 topic，不支持使用通配符 */
@@ -137,6 +240,10 @@ export class Mainframe {
   }
 
   public async sendError(message: IMainframeBlockError): Promise<void> {
+    await this.send(message);
+  }
+
+  public async sendRun(message: IMainframeBlockRunPayload): Promise<void> {
     await this.send(message);
   }
 

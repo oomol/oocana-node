@@ -9,13 +9,18 @@ import {
   BinaryValue,
   StoreKeyRef,
   VarValue,
+  RunResponse,
+  IMainframeClientMessage,
+  BlockActionEvent,
 } from "@oomol/oocana-types";
+import { event, send } from "@wopjs/event";
 import { Mainframe } from "./mainframe";
 import { isBinHandle, isValHandle, outputRefKey } from "./utils";
 import throttle from "lodash.throttle";
 import { writeFile } from "node:fs/promises";
 import { mkdirSync } from "node:fs";
 import path, { dirname } from "node:path";
+import { Remitter } from "remitter";
 
 interface ThrottleFunction<T extends (...args: any[]) => any> {
   (...args: Parameters<T>): ReturnType<T>;
@@ -200,6 +205,90 @@ export class ContextImpl implements Context {
       job_id: this.jobId,
       error: error,
     });
+  };
+
+  runBlock = (blockName: string, inputs: Record<string, any>) => {
+    const block_job_id = `${this.jobId}-${blockName}-${Date.now()}`;
+
+    let resolver: (data: {
+      result?: Record<string, unknown>;
+      error?: string;
+    }) => void;
+    const events = new Remitter<BlockActionEvent>();
+    const onOutput = event<{ handle: string; value: any }>();
+    const blockEvent = (payload: IMainframeClientMessage) => {
+      if (
+        payload.type === "ExecutorReady" ||
+        payload.type === "RunBlock" ||
+        payload.type === "BlockReady"
+      ) {
+        return;
+      }
+      if (payload?.job_id !== block_job_id) {
+        return;
+      }
+
+      events.emit(payload.type, payload);
+
+      if (payload.type === "BlockOutput") {
+        send(onOutput, { handle: payload.handle, value: payload.output });
+      } else if (payload.type === "BlockOutputs") {
+        for (const [handle, value] of Object.entries(payload.outputs)) {
+          send(onOutput, { handle, value });
+        }
+      } else if (payload.type === "BlockFinished") {
+        if (payload.result) {
+          for (const [handle, value] of Object.entries(payload.result)) {
+            send(onOutput, { handle, value });
+          }
+        }
+        resolver({ result: payload.result, error: payload.error });
+      }
+    };
+    this.mainframe.addSessionCallback(this.sessionId, blockEvent);
+
+    const errorEvent = (payload: any) => {
+      if (payload?.job_id !== block_job_id) {
+        return;
+      }
+      resolver({ error: payload.error });
+    };
+    this.mainframe.addRunBlockCallback(this.sessionId, errorEvent);
+
+    let dispose = () => {
+      this.mainframe.removeSessionCallback(this.sessionId, blockEvent);
+      this.mainframe.removeRunBlockCallback(this.sessionId, errorEvent);
+    };
+
+    const finishP = new Promise<{
+      result?: Record<string, unknown>;
+      error?: unknown;
+    }>(resolve => {
+      resolver = resolve;
+    });
+
+    // remitter Symbol issue.
+    const response = {
+      events,
+      onOutput,
+      finish: () => finishP,
+    } as any;
+
+    response.finish().then(() => {
+      dispose();
+    });
+
+    this.mainframe.sendRun({
+      type: "RunBlock",
+      session_id: this.sessionId,
+      job_id: this.jobId,
+      stacks: this.stacks,
+      block: blockName,
+      block_job_id,
+      inputs,
+    });
+
+    return response;
   };
 
   warning = async (msg: string) => {
