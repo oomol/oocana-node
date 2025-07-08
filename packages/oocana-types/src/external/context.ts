@@ -1,4 +1,4 @@
-import type { Remitter } from "remitter";
+import type { EventReceiver } from "remitter";
 import { HandlesDef } from "../schema";
 import type { BlockJobStackLevel } from "./block";
 import { BlockActionEvent } from "../block";
@@ -71,7 +71,7 @@ export type HostInfo = {
 };
 
 export type RunResponse = {
-  events: Remitter<BlockActionEvent>;
+  events: EventReceiver<BlockActionEvent>;
   onOutput(listener: (data: { handle: string; value: unknown }) => void): void;
   finish(): Promise<{ result?: Record<string, unknown>; error?: unknown }>;
 };

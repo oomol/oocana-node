@@ -267,13 +267,14 @@ export class ContextImpl implements Context {
       resolver = resolve;
     });
 
-    const response: RunResponse = {
+    // remitter Symbol issue.
+    const response = {
       events,
       onOutput,
       finish: () => finishP,
-    };
+    } as any;
 
-    response.finish().then(_data => {
+    response.finish().then(() => {
       dispose();
     });
 
