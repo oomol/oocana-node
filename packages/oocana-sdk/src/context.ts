@@ -279,8 +279,10 @@ export class ContextImpl implements Context {
     });
 
     this.mainframe.sendRun({
-      type: "RunBlock",
+      type: "BlockRequest",
+      action: "RunBlock",
       session_id: this.sessionId,
+      request_id: crypto.randomUUID(),
       job_id: this.jobId,
       stacks: this.stacks,
       block: blockName,

@@ -15,9 +15,11 @@ export interface IMainframeBlockReady extends JobInfo {
 }
 
 export interface IMainframeBlockRunPayload extends JobInfo {
-  type: "RunBlock";
+  type: "BlockRequest";
+  action: "RunBlock";
   block: string;
   block_job_id: string;
+  request_id: string;
   inputs: Record<string, unknown>;
   stacks: readonly BlockJobStackLevel[];
 }
