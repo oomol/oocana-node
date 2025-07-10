@@ -28,7 +28,7 @@ export class Mainframe {
     string,
     Set<(payload: IMainframeClientMessage) => void>
   > = new Map();
-  private sessionRunBlockCallbacks: Map<string, Set<(payload: any) => void>> =
+  private requestResponseCallbacks: Map<string, Set<(payload: any) => void>> =
     new Map();
 
   public connectingPromise: Promise<void>;
@@ -147,37 +147,47 @@ export class Mainframe {
     }
   }
 
-  public addRunBlockCallback(
+  public addRequestResponseCallback(
     sessionId: string,
+    jobId: string,
     callback: (payload: any) => void
   ): void {
-    if (!this.sessionRunBlockCallbacks.has(sessionId)) {
-      this.sessionRunBlockCallbacks.set(sessionId, new Set());
-      // todo: refactor this to use a common topic
-      this.subscribe(`session/${sessionId}/run_block/error`, (payload: any) => {
-        const callbacks = this.sessionRunBlockCallbacks.get(sessionId);
-        if (callbacks) {
-          for (const cb of callbacks) {
-            try {
-              cb(payload);
-            } catch (error) {
-              console.error("Error in run block callback:", error);
+    if (!this.requestResponseCallbacks.has(`${sessionId}-${jobId}`)) {
+      this.requestResponseCallbacks.set(`${sessionId}-${jobId}`, new Set());
+      this.subscribe(
+        `session/${sessionId}/job/${jobId}/response`,
+        (payload: any) => {
+          const callbacks = this.requestResponseCallbacks.get(
+            `${sessionId}-${jobId}`
+          );
+          if (callbacks) {
+            for (const cb of callbacks) {
+              try {
+                cb(payload);
+              } catch (error) {
+                console.error("Error in run block callback:", error);
+              }
             }
           }
         }
-      });
+      );
     }
-    this.sessionRunBlockCallbacks.get(sessionId)?.add(callback);
+    this.requestResponseCallbacks.get(sessionId)?.add(callback);
   }
 
   public removeRunBlockCallback(
     sessionId: string,
+    jobId: string,
     callback: (payload: any) => void
   ): void {
-    this.sessionRunBlockCallbacks.get(sessionId)?.delete(callback);
-    if (this.sessionRunBlockCallbacks.get(sessionId)?.size === 0) {
-      this.sessionRunBlockCallbacks.delete(sessionId);
-      this.unsubscribe(`session/${sessionId}/run_block/error`);
+    this.requestResponseCallbacks
+      .get(`${sessionId}-${jobId}`)
+      ?.delete(callback);
+    if (
+      this.requestResponseCallbacks.get(`${sessionId}-${jobId}`)?.size === 0
+    ) {
+      this.requestResponseCallbacks.delete(`${sessionId}-${jobId}`);
+      this.unsubscribe(`session/${sessionId}/job/${jobId}/response`);
     }
   }
 

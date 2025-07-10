@@ -209,6 +209,7 @@ export class ContextImpl implements Context {
 
   runBlock = (blockName: string, inputs: Record<string, any>) => {
     const block_job_id = `${this.jobId}-${blockName}-${Date.now()}`;
+    let request_id = crypto.randomUUID();
 
     let resolver: (data: {
       result?: Record<string, unknown>;
@@ -247,20 +248,28 @@ export class ContextImpl implements Context {
     };
     this.mainframe.addSessionCallback(this.sessionId, blockEvent);
 
-    const errorEvent = (payload: any) => {
-      if (payload?.job_id !== block_job_id) {
+    const responseEvent = (payload: any) => {
+      if (payload?.request_id !== request_id) {
         return;
       }
       resolver({ error: payload.error });
     };
-    this.mainframe.addRunBlockCallback(this.sessionId, errorEvent);
+    this.mainframe.addRequestResponseCallback(
+      this.sessionId,
+      this.jobId,
+      responseEvent
+    );
 
     let dispose = () => {
       this.mainframe.removeSessionCallback(this.sessionId, blockEvent);
-      this.mainframe.removeRunBlockCallback(this.sessionId, errorEvent);
+      this.mainframe.removeRunBlockCallback(
+        this.sessionId,
+        this.jobId,
+        responseEvent
+      );
     };
 
-    const finishP = new Promise<{
+    const finishPromise = new Promise<{
       result?: Record<string, unknown>;
       error?: unknown;
     }>(resolve => {
@@ -271,7 +280,7 @@ export class ContextImpl implements Context {
     const response = {
       events,
       onOutput,
-      finish: () => finishP,
+      finish: () => finishPromise,
     } as any;
 
     response.finish().then(() => {
@@ -282,7 +291,7 @@ export class ContextImpl implements Context {
       type: "BlockRequest",
       action: "RunBlock",
       session_id: this.sessionId,
-      request_id: crypto.randomUUID(),
+      request_id,
       job_id: this.jobId,
       stacks: this.stacks,
       block: blockName,
