@@ -36,7 +36,7 @@
   "dependencies": {
     "@wopjs/disposable": "^0.1.11",
     "mqtt": "^5.7.0",
-    "remitter": "^0.5.0"
+    "remitter": "^0.5.1"
   },
   "devDependencies": {
     "@oomol/oocana-types": "workspace:*",
