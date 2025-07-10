@@ -149,17 +149,15 @@ export class Mainframe {
 
   public addRequestResponseCallback(
     sessionId: string,
-    jobId: string,
+    requestId: string,
     callback: (payload: any) => void
   ): void {
-    if (!this.requestResponseCallbacks.has(`${sessionId}-${jobId}`)) {
-      this.requestResponseCallbacks.set(`${sessionId}-${jobId}`, new Set());
+    if (!this.requestResponseCallbacks.has(requestId)) {
+      this.requestResponseCallbacks.set(requestId, new Set());
       this.subscribe(
-        `session/${sessionId}/job/${jobId}/response`,
+        `session/${sessionId}/request/${requestId}/response`,
         (payload: any) => {
-          const callbacks = this.requestResponseCallbacks.get(
-            `${sessionId}-${jobId}`
-          );
+          const callbacks = this.requestResponseCallbacks.get(requestId);
           if (callbacks) {
             for (const cb of callbacks) {
               try {
@@ -172,22 +170,18 @@ export class Mainframe {
         }
       );
     }
-    this.requestResponseCallbacks.get(sessionId)?.add(callback);
+    this.requestResponseCallbacks.get(requestId)?.add(callback);
   }
 
   public removeRunBlockCallback(
     sessionId: string,
-    jobId: string,
+    requestId: string,
     callback: (payload: any) => void
   ): void {
-    this.requestResponseCallbacks
-      .get(`${sessionId}-${jobId}`)
-      ?.delete(callback);
-    if (
-      this.requestResponseCallbacks.get(`${sessionId}-${jobId}`)?.size === 0
-    ) {
-      this.requestResponseCallbacks.delete(`${sessionId}-${jobId}`);
-      this.unsubscribe(`session/${sessionId}/job/${jobId}/response`);
+    this.requestResponseCallbacks.get(requestId)?.delete(callback);
+    if (this.requestResponseCallbacks.get(requestId)?.size === 0) {
+      this.requestResponseCallbacks.delete(requestId);
+      this.unsubscribe(`session/${sessionId}/request/${requestId}/response`);
     }
   }
 
