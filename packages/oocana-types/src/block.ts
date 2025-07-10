@@ -14,7 +14,7 @@ export interface IMainframeBlockReady extends JobInfo {
   type: "BlockReady";
 }
 
-export interface IMainframeBlockRunPayload extends JobInfo {
+export interface IMainframeBlockRequest extends JobInfo {
   type: "BlockRequest";
   action: "RunBlock";
   block: string;
@@ -63,7 +63,7 @@ export type IMainframeClientMessage =
   | IMainframeBlockOutputs
   | IMainframeBlockError
   | IMainframeBlockFinished
-  | IMainframeBlockRunPayload
+  | IMainframeBlockRequest
   | IMainframeExecutorReady;
 
 export type BlockActionEvent = {

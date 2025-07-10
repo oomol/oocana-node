@@ -15,7 +15,7 @@ import type {
   IMainframeExecutorReady,
   IReporterBlockWarning,
   IMainframeBlockOutputs,
-  IMainframeBlockRunPayload,
+  IMainframeBlockRequest,
 } from "@oomol/oocana-types";
 
 export class Mainframe {
@@ -243,7 +243,7 @@ export class Mainframe {
     await this.send(message);
   }
 
-  public async sendRun(message: IMainframeBlockRunPayload): Promise<void> {
+  public async sendRun(message: IMainframeBlockRequest): Promise<void> {
     await this.send(message);
   }
 

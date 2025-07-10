@@ -219,7 +219,7 @@ export class ContextImpl implements Context {
     const blockEvent = (payload: IMainframeClientMessage) => {
       if (
         payload.type === "ExecutorReady" ||
-        payload.type === "RunBlock" ||
+        payload.type === "BlockRequest" ||
         payload.type === "BlockReady"
       ) {
         return;
