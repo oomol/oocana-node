@@ -262,7 +262,7 @@ export class ContextImpl implements Context {
 
     let dispose = () => {
       this.mainframe.removeSessionCallback(this.sessionId, blockEvent);
-      this.mainframe.removeRunBlockCallback(
+      this.mainframe.removeRequestResponseCallback(
         this.sessionId,
         request_id,
         responseEvent

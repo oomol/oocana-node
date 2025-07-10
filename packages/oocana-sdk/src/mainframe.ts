@@ -173,7 +173,7 @@ export class Mainframe {
     this.requestResponseCallbacks.get(requestId)?.add(callback);
   }
 
-  public removeRunBlockCallback(
+  public removeRequestResponseCallback(
     sessionId: string,
     requestId: string,
     callback: (payload: any) => void
