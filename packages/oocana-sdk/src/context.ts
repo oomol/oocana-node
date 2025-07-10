@@ -256,7 +256,7 @@ export class ContextImpl implements Context {
     };
     this.mainframe.addRequestResponseCallback(
       this.sessionId,
-      this.jobId,
+      request_id,
       responseEvent
     );
 
@@ -264,7 +264,7 @@ export class ContextImpl implements Context {
       this.mainframe.removeSessionCallback(this.sessionId, blockEvent);
       this.mainframe.removeRunBlockCallback(
         this.sessionId,
-        this.jobId,
+        request_id,
         responseEvent
       );
     };
