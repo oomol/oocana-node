@@ -252,10 +252,7 @@ describe("stop flow", () => {
 
     const task = await cli.runFlow({
       flowPath: path.join(flow_example, "flows", "progress", "flow.oo.yaml"),
-      searchPaths: [
-        path.join(flow_example, "blocks"),
-        path.join(flow_example, "packages"),
-      ].join(","),
+      searchPaths: [path.join(flow_example, "packages")].join(","),
       bindPaths: [`src=${homedir()}/.oocana,dst=/root/.oocana`],
       sessionId: "stop",
       oomolEnvs: {
