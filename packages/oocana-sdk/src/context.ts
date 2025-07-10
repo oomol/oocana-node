@@ -211,6 +211,12 @@ export class ContextImpl implements Context {
     const block_job_id = `${this.jobId}-${blockName}-${Date.now()}`;
     let request_id = crypto.randomUUID();
 
+    if (!blockName || inputs === undefined || inputs === null) {
+      throw new Error(
+        `Invalid parameters for runBlock: blockName: ${blockName}, inputs: ${inputs}`
+      );
+    }
+
     let resolver: (data: {
       result?: Record<string, unknown>;
       error?: string;
