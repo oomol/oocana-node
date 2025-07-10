@@ -22,7 +22,7 @@ nodes:
     node_id: node-sub
     slots:
       - slot_node_id: replace
-        task: counter
+        task: self::counter
     inputs_from:
       - handle: input
         from_node:
