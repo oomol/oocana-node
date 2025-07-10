@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.21.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.46...@oomol/oocana-types-v0.21.0) (2025-07-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* make block request and response more flexible to support more request in the future  ([#236](https://github.com/oomol/oocana-node/issues/236))
+
+### Code Refactoring
+
+* make block request and response more flexible to support more request in the future  ([#236](https://github.com/oomol/oocana-node/issues/236)) ([85b4280](https://github.com/oomol/oocana-node/commit/85b42801cb659c23f7ef435d06748582bb4fc879))
+
 ## [0.20.46](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.45...@oomol/oocana-types-v0.20.46) (2025-07-08)
 
 
