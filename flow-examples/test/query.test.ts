@@ -21,10 +21,7 @@ describe(
     it("query upstream", async () => {
       const res = await queryUpstream({
         flowPath: path.join(__dirname, "flows", "pkg", "flow.oo.yaml"),
-        searchPaths: [
-          path.join(__dirname, "blocks"),
-          path.join(__dirname, "packages"),
-        ].join(","),
+        searchPaths: [path.join(__dirname, "packages")].join(","),
         nodes: ["c"],
       });
       expect(res).toEqual({
@@ -38,10 +35,7 @@ describe(
     it("query service", async () => {
       const res = await queryService({
         flowPath: path.join(__dirname, "flows", "service", "flow.oo.yaml"),
-        searchPaths: [
-          path.join(__dirname, "blocks"),
-          path.join(__dirname, "packages"),
-        ].join(","),
+        searchPaths: [path.join(__dirname, "packages")].join(","),
       });
 
       expect(res.length).toBe(1);
@@ -51,10 +45,7 @@ describe(
     it("query package", async () => {
       const cli = await queryPackage({
         flowPath: path.join(__dirname, "flows", "triple", "flow.oo.yaml"),
-        searchPaths: [
-          path.join(__dirname, "blocks"),
-          path.join(__dirname, "packages"),
-        ].join(","),
+        searchPaths: [path.join(__dirname, "packages")].join(","),
       });
 
       expect(Object.keys(cli).length).toBe(2);
@@ -63,10 +54,7 @@ describe(
     it("query flow absence input", async () => {
       const result = await queryInput({
         flowPath: path.join(__dirname, "flows", "absence", "flow.oo.yaml"),
-        searchPaths: [
-          path.join(__dirname, "blocks"),
-          path.join(__dirname, "packages"),
-        ].join(","),
+        searchPaths: [path.join(__dirname, "packages")].join(","),
       });
 
       expect(result).toEqual({
