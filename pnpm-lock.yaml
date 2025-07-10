@@ -71,8 +71,8 @@ importers:
         version: link:../packages/oocana-types
     devDependencies:
       remitter:
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.5.1
+        version: 0.5.1
       vitest:
         specifier: ^3.1.0
         version: 3.1.2(@types/node@22.10.5)
@@ -94,8 +94,8 @@ importers:
         specifier: ^1.2.7
         version: 1.2.8
       remitter:
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.5.1
+        version: 0.5.1
       winston:
         specifier: ^3.13.1
         version: 3.17.0
@@ -119,8 +119,8 @@ importers:
         specifier: ^5.7.0
         version: 5.10.3
       remitter:
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.5.1
+        version: 0.5.1
     optionalDependencies:
       '@oomol/oocana-cli-aarch64-apple-darwin':
         specifier: 0.28.26
@@ -161,8 +161,8 @@ importers:
         specifier: ^4.1.1
         version: 4.1.1
       remitter:
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.5.1
+        version: 0.5.1
 
   packages/oocana-types:
     devDependencies:
@@ -170,8 +170,8 @@ importers:
         specifier: ^11.1.6
         version: 11.1.6(rollup@4.30.0)(tslib@2.8.1)(typescript@5.7.2)
       remitter:
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.5.1
+        version: 0.5.1
       rollup:
         specifier: ^4.17.2
         version: 4.30.0
@@ -2364,8 +2364,8 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  remitter@0.5.0:
-    resolution: {integrity: sha512-nFsKy8xSysqazAZxAKon1pXu6rV3MRLWeYZWmq0sY3YtAlrjoR9ZpnTUyWzjgwTa4PyKtLxRBdCXUmsQ8eCW6g==}
+  remitter@0.5.1:
+    resolution: {integrity: sha512-tV7+RVJjnXC4gCo1htYsxI4jT/QngeBZ5wEUyxSeiLgxxxVkqBqnUGNV/vU0FnFTfVI156QAlHkEswWPSY5uMg==}
 
   repeat-string@1.6.1:
     resolution: {integrity: sha512-PV0dzCYDNfRi1jCDbJzpW7jNNDRuCOG/jI5ctQcGKt/clZD+YcPS3yIlWuTJMmESC8aevCFmWJy5wjAFgNqN6w==}
@@ -5180,7 +5180,7 @@ snapshots:
       - encoding
       - supports-color
 
-  remitter@0.5.0:
+  remitter@0.5.1:
     dependencies:
       '@wopjs/disposable': 0.1.19
       adaptive-set: 0.1.3

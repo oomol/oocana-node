@@ -276,12 +276,11 @@ export class ContextImpl implements Context {
       resolver = resolve;
     });
 
-    // remitter Symbol issue.
     const response = {
       events,
       onOutput,
       finish: () => finishPromise,
-    } as any;
+    };
 
     response.finish().then(() => {
       dispose();
