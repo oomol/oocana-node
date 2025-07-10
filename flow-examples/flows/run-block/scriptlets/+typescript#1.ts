@@ -16,7 +16,7 @@ export default async function (
   console.log("Running block with inputs:", _inputs);
 
   // Run the "counter" block with some input
-  const res = await context.runBlock("counter", { input: "test" });
+  const res = await context.runBlock("self::counter", { input: "test" });
   res.onOutput(data => {
     const { handle, value } = data;
     console.log(
