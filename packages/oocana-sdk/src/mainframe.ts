@@ -15,7 +15,7 @@ import type {
   IMainframeExecutorReady,
   IReporterBlockWarning,
   IMainframeBlockOutputs,
-  IMainframeBlockRunPayload,
+  IMainframeBlockRequest,
 } from "@oomol/oocana-types";
 
 export class Mainframe {
@@ -28,7 +28,7 @@ export class Mainframe {
     string,
     Set<(payload: IMainframeClientMessage) => void>
   > = new Map();
-  private sessionRunBlockCallbacks: Map<string, Set<(payload: any) => void>> =
+  private requestResponseCallbacks: Map<string, Set<(payload: any) => void>> =
     new Map();
 
   public connectingPromise: Promise<void>;
@@ -147,37 +147,41 @@ export class Mainframe {
     }
   }
 
-  public addRunBlockCallback(
+  public addRequestResponseCallback(
     sessionId: string,
+    requestId: string,
     callback: (payload: any) => void
   ): void {
-    if (!this.sessionRunBlockCallbacks.has(sessionId)) {
-      this.sessionRunBlockCallbacks.set(sessionId, new Set());
-      // todo: refactor this to use a common topic
-      this.subscribe(`session/${sessionId}/run_block/error`, (payload: any) => {
-        const callbacks = this.sessionRunBlockCallbacks.get(sessionId);
-        if (callbacks) {
-          for (const cb of callbacks) {
-            try {
-              cb(payload);
-            } catch (error) {
-              console.error("Error in run block callback:", error);
+    if (!this.requestResponseCallbacks.has(requestId)) {
+      this.requestResponseCallbacks.set(requestId, new Set());
+      this.subscribe(
+        `session/${sessionId}/request/${requestId}/response`,
+        (payload: any) => {
+          const callbacks = this.requestResponseCallbacks.get(requestId);
+          if (callbacks) {
+            for (const cb of callbacks) {
+              try {
+                cb(payload);
+              } catch (error) {
+                console.error("Error in run block callback:", error);
+              }
             }
           }
         }
-      });
+      );
     }
-    this.sessionRunBlockCallbacks.get(sessionId)?.add(callback);
+    this.requestResponseCallbacks.get(requestId)?.add(callback);
   }
 
-  public removeRunBlockCallback(
+  public removeRequestResponseCallback(
     sessionId: string,
+    requestId: string,
     callback: (payload: any) => void
   ): void {
-    this.sessionRunBlockCallbacks.get(sessionId)?.delete(callback);
-    if (this.sessionRunBlockCallbacks.get(sessionId)?.size === 0) {
-      this.sessionRunBlockCallbacks.delete(sessionId);
-      this.unsubscribe(`session/${sessionId}/run_block/error`);
+    this.requestResponseCallbacks.get(requestId)?.delete(callback);
+    if (this.requestResponseCallbacks.get(requestId)?.size === 0) {
+      this.requestResponseCallbacks.delete(requestId);
+      this.unsubscribe(`session/${sessionId}/request/${requestId}/response`);
     }
   }
 
@@ -243,7 +247,7 @@ export class Mainframe {
     await this.send(message);
   }
 
-  public async sendRun(message: IMainframeBlockRunPayload): Promise<void> {
+  public async sendRun(message: IMainframeBlockRequest): Promise<void> {
     await this.send(message);
   }
 

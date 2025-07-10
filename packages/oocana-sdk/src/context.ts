@@ -209,6 +209,7 @@ export class ContextImpl implements Context {
 
   runBlock = (blockName: string, inputs: Record<string, any>) => {
     const block_job_id = `${this.jobId}-${blockName}-${Date.now()}`;
+    let request_id = crypto.randomUUID();
 
     let resolver: (data: {
       result?: Record<string, unknown>;
@@ -219,7 +220,7 @@ export class ContextImpl implements Context {
     const blockEvent = (payload: IMainframeClientMessage) => {
       if (
         payload.type === "ExecutorReady" ||
-        payload.type === "RunBlock" ||
+        payload.type === "BlockRequest" ||
         payload.type === "BlockReady"
       ) {
         return;
@@ -247,20 +248,28 @@ export class ContextImpl implements Context {
     };
     this.mainframe.addSessionCallback(this.sessionId, blockEvent);
 
-    const errorEvent = (payload: any) => {
-      if (payload?.job_id !== block_job_id) {
+    const responseEvent = (payload: any) => {
+      if (payload?.request_id !== request_id) {
         return;
       }
       resolver({ error: payload.error });
     };
-    this.mainframe.addRunBlockCallback(this.sessionId, errorEvent);
+    this.mainframe.addRequestResponseCallback(
+      this.sessionId,
+      request_id,
+      responseEvent
+    );
 
     let dispose = () => {
       this.mainframe.removeSessionCallback(this.sessionId, blockEvent);
-      this.mainframe.removeRunBlockCallback(this.sessionId, errorEvent);
+      this.mainframe.removeRequestResponseCallback(
+        this.sessionId,
+        request_id,
+        responseEvent
+      );
     };
 
-    const finishP = new Promise<{
+    const finishPromise = new Promise<{
       result?: Record<string, unknown>;
       error?: unknown;
     }>(resolve => {
@@ -271,7 +280,7 @@ export class ContextImpl implements Context {
     const response = {
       events,
       onOutput,
-      finish: () => finishP,
+      finish: () => finishPromise,
     } as any;
 
     response.finish().then(() => {
@@ -279,8 +288,10 @@ export class ContextImpl implements Context {
     });
 
     this.mainframe.sendRun({
-      type: "RunBlock",
+      type: "BlockRequest",
+      action: "RunBlock",
       session_id: this.sessionId,
+      request_id,
       job_id: this.jobId,
       stacks: this.stacks,
       block: blockName,

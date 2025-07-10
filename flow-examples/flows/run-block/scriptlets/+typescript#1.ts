@@ -23,12 +23,28 @@ export default async function (
       `Received output from counter block: handle=${handle}, output=${value}`
     );
   });
-  const { result, error } = await res.finish();
-  if (error) {
-    console.error("Error in counter block:", error);
-    throw new Error("Counter block failed with error: " + error);
-  } else {
-    console.log("Result from counter block:", result);
+
+  try {
+    const resolve: any = await Promise.race([
+      res.finish(),
+      new Promise((_, reject) =>
+        setTimeout(
+          () => reject(new Error("Timeout waiting for counter block")),
+          5000
+        )
+      ),
+    ]);
+    const { result, error } = resolve;
+    if (error) {
+      throw new Error("Counter block failed with error: " + error);
+    } else {
+      console.log("Result from counter block:", result);
+    }
+  } catch (error) {
+    throw new Error(
+      "run block timeout error: " +
+        (error instanceof Error ? error.message : String(error))
+    );
   }
   return { a: "a", b: "b" };
 }
