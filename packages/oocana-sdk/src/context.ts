@@ -9,7 +9,6 @@ import {
   BinaryValue,
   StoreKeyRef,
   VarValue,
-  RunResponse,
   IMainframeClientMessage,
   BlockActionEvent,
 } from "@oomol/oocana-types";
@@ -204,6 +203,64 @@ export class ContextImpl implements Context {
       session_id: this.sessionId,
       job_id: this.jobId,
       error: error,
+    });
+  };
+
+  queryBlock = async (
+    block_name: string
+  ): Promise<{
+    description?: string;
+    inputs_def?: HandlesDef;
+    outputs_def?: HandlesDef;
+    additional_inputs?: boolean;
+    additional_outputs?: boolean;
+  }> => {
+    if (!block_name) {
+      throw new Error(`Invalid block_name: ${block_name}`);
+    }
+    const request_id = crypto.randomUUID();
+
+    return new Promise((resolve, reject) => {
+      const cleanupCallback = () => {
+        this.mainframe.removeRequestResponseCallback(
+          this.sessionId,
+          request_id,
+          responseEvent
+        );
+      };
+
+      const responseEvent = (payload: any) => {
+        if (payload?.request_id !== request_id) {
+          return;
+        }
+
+        if (payload.error) {
+          cleanupCallback();
+          reject(new Error(`Query block error: ${payload.error}`));
+          return;
+        }
+
+        if (payload.result) {
+          cleanupCallback();
+          resolve(payload.result);
+          return;
+        }
+        cleanupCallback();
+        reject(new Error("Block info not found in response"));
+      };
+      this.mainframe.addRequestResponseCallback(
+        this.sessionId,
+        request_id,
+        responseEvent
+      );
+      this.mainframe.sendRequest({
+        type: "BlockRequest",
+        action: "QueryBlock",
+        session_id: this.sessionId,
+        request_id,
+        job_id: this.jobId,
+        block: block_name,
+      });
     });
   };
 

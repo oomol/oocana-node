@@ -138,6 +138,14 @@ export interface Context<
     inputs: Record<string, any>
   ) => RunResponse;
 
+  readonly queryBlock: (blockName: string) => Promise<{
+    description?: string;
+    inputs_def?: HandlesDef;
+    outputs_def?: HandlesDef;
+    additional_inputs?: boolean;
+    additional_outputs?: boolean;
+  }>;
+
   /**
    * reporter block finish. it can contain error or result.
    * if contains error, it will be treated as block failed and ignore result argument
