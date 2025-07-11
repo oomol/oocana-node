@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.21.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.21.0...@oomol/oocana-types-v0.21.1) (2025-07-11)
+
+
+### Features
+
+* query block api ([#242](https://github.com/oomol/oocana-node/issues/242)) ([7df35b6](https://github.com/oomol/oocana-node/commit/7df35b65e965494eebf2ac15819b4ef2df180724))
+
 ## [0.21.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.20.46...@oomol/oocana-types-v0.21.0) (2025-07-10)
 
 

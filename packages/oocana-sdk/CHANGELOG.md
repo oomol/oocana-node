@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.20.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.20.0...@oomol/oocana-sdk-v0.20.1) (2025-07-11)
+
+
+### Features
+
+* query block api ([#242](https://github.com/oomol/oocana-node/issues/242)) ([7df35b6](https://github.com/oomol/oocana-node/commit/7df35b65e965494eebf2ac15819b4ef2df180724))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.21.1
+
 ## [0.20.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.19.20...@oomol/oocana-sdk-v0.20.0) (2025-07-10)
 
 
