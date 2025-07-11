@@ -207,6 +207,67 @@ export class ContextImpl implements Context {
     });
   };
 
+  queryBlock = async (
+    block_name: string
+  ): Promise<{
+    description?: string;
+    inputs_def?: HandlesDef;
+    outputs_def?: HandlesDef;
+    additional_inputs?: boolean;
+    additional_outputs?: boolean;
+  }> => {
+    if (!block_name) {
+      throw new Error(`Invalid block_name: ${block_name}`);
+    }
+    const request_id = crypto.randomUUID();
+
+    return new Promise((resolve, reject) => {
+      const responseEvent = (payload: any) => {
+        if (payload?.request_id !== request_id) {
+          return;
+        }
+        if (payload.error) {
+          this.mainframe.removeRequestResponseCallback(
+            this.sessionId,
+            request_id,
+            responseEvent
+          );
+          reject(new Error(`Query block error: ${payload.error}`));
+          return;
+        }
+
+        if (payload.result) {
+          this.mainframe.removeRequestResponseCallback(
+            this.sessionId,
+            request_id,
+            responseEvent
+          );
+          resolve(payload.result);
+          return;
+        }
+        this.mainframe.removeRequestResponseCallback(
+          this.sessionId,
+          request_id,
+          responseEvent
+        );
+        reject(new Error("Block info not found in response"));
+      };
+      this.mainframe.addRequestResponseCallback(
+        this.sessionId,
+        request_id,
+        responseEvent
+      );
+      this.mainframe.sendRequest({
+        type: "BlockRequest",
+        action: "QueryBlock",
+        session_id: this.sessionId,
+        request_id,
+        job_id: this.jobId,
+        block: block_name,
+      });
+    });
+  };
+
   runBlock = (blockName: string, inputs: Record<string, any>) => {
     const block_job_id = `${this.jobId}-${blockName}-${Date.now()}`;
     let request_id = crypto.randomUUID();
