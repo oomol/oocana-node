@@ -222,34 +222,30 @@ export class ContextImpl implements Context {
     const request_id = crypto.randomUUID();
 
     return new Promise((resolve, reject) => {
-      const responseEvent = (payload: any) => {
-        if (payload?.request_id !== request_id) {
-          return;
-        }
-        if (payload.error) {
-          this.mainframe.removeRequestResponseCallback(
-            this.sessionId,
-            request_id,
-            responseEvent
-          );
-          reject(new Error(`Query block error: ${payload.error}`));
-          return;
-        }
-
-        if (payload.result) {
-          this.mainframe.removeRequestResponseCallback(
-            this.sessionId,
-            request_id,
-            responseEvent
-          );
-          resolve(payload.result);
-          return;
-        }
+      const cleanupCallback = () => {
         this.mainframe.removeRequestResponseCallback(
           this.sessionId,
           request_id,
           responseEvent
         );
+      };
+
+      const responseEvent = (payload: any) => {
+        if (payload?.request_id !== request_id) {
+          return;
+        }
+        if (payload.error) {
+          cleanupCallback();
+          reject(new Error(`Query block error: ${payload.error}`));
+          return;
+        }
+
+        if (payload.result) {
+          cleanupCallback();
+          resolve(payload.result);
+          return;
+        }
+        cleanupCallback();
         reject(new Error("Block info not found in response"));
       };
       this.mainframe.addRequestResponseCallback(
