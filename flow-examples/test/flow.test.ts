@@ -100,6 +100,13 @@ describe(
       expect(sessionFinished[0].data.partial).not.toBeUndefined();
     });
 
+    it("run query-block flow", async () => {
+      const { code, events } = await runFlow("query-block");
+      const latestFinished = events.findLast(e => e.event === "BlockFinished");
+      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      expect(code).toBe(0);
+    });
+
     it("run pkg flow", async () => {
       const { code, events } = await runFlow("pkg");
       expect(code).toBe(0);
