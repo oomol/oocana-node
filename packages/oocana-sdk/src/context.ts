@@ -9,7 +9,6 @@ import {
   BinaryValue,
   StoreKeyRef,
   VarValue,
-  RunResponse,
   IMainframeClientMessage,
   BlockActionEvent,
 } from "@oomol/oocana-types";
@@ -234,6 +233,7 @@ export class ContextImpl implements Context {
         if (payload?.request_id !== request_id) {
           return;
         }
+
         if (payload.error) {
           cleanupCallback();
           reject(new Error(`Query block error: ${payload.error}`));
