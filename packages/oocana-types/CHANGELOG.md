@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.21.2](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.21.1...@oomol/oocana-types-v0.21.2) (2025-07-13)
+
+
+### Code Refactoring
+
+* update docs ([#246](https://github.com/oomol/oocana-node/issues/246)) ([9ebc1e2](https://github.com/oomol/oocana-node/commit/9ebc1e2a65a69e658bf0b07663f61b25541063e1))
+
 ## [0.21.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.21.0...@oomol/oocana-types-v0.21.1) (2025-07-11)
 
 
