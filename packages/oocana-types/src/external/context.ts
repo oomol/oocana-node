@@ -71,9 +71,9 @@ export type HostInfo = {
 };
 
 export type RunResponse = {
-  /** Block events which is emitted during the block execution on executor. it is not same as events as log events. because log events are optional. */
+  /** Events emitted during block execution on the executor. Not to be confused with log events, which are optional. */
   events: EventReceiver<BlockActionEvent>;
-  /** Block outputs event. block use context.outputs, context.output and return object will trigger this event. for outputs and return object, the event will fire the output handle and value one by one */
+  /** Event emitted for each block output. When using `context.outputs`, `context.output`, or returning an object, this event fires for each handle and value pair. */
   onOutput(
     listener: (data: { handle: string; value: unknown }) => void
   ): () => void;
@@ -139,7 +139,7 @@ export interface Context<
   /**
    * This function is experimental and may change in the future.
    * @param blockName Block name to run. format `self::<blockName>` or `<packageName>::<blockName>`
-   * @param inputs block's inputs, it can need to be contained in `inputs_def` field of block. if missing some inputs, it will fail to run.
+   * @param inputs Block inputs matching the block's `inputs_def`. Missing required inputs will cause execution to fail.
    * @returns RunResponse.
    *
    * example:
@@ -168,7 +168,7 @@ export interface Context<
    * Query block information.
    * @param blockName Block name to query. format `self::<blockName>` or `<packageName>::<blockName>`
    * @returns Block information, including description, inputs_def, outputs_def, additional_inputs, and additional_outputs.
-   * * example:
+   * example:
    * ```ts
    * async function main(inputs, context) {
    *   const blockInfo = await context.queryBlock("self::myBlock");
