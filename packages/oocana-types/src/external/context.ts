@@ -71,10 +71,13 @@ export type HostInfo = {
 };
 
 export type RunResponse = {
+  /** Block events which is emitted during the block execution on executor. it is not same as events as log events. because log events are optional. */
   events: EventReceiver<BlockActionEvent>;
+  /** Block outputs event. block use context.outputs, context.output and return object will trigger this event. for outputs and return object, the event will fire the output handle and value one by one */
   onOutput(
     listener: (data: { handle: string; value: unknown }) => void
   ): () => void;
+  /** await block execution and return result or error. */
   finish(): Promise<{ result?: Record<string, unknown>; error?: unknown }>;
 };
 
@@ -133,11 +136,46 @@ export interface Context<
    */
   readonly outputs: (map: Partial<TOutputs>) => Promise<void>;
 
+  /**
+   * This function is experimental and may change in the future.
+   * @param blockName Block name to run. format `self::<blockName>` or `<packageName>::<blockName>`
+   * @param inputs block's inputs, it can need to be contained in `inputs_def` field of block. if missing some inputs, it will fail to run.
+   * @returns RunResponse.
+   *
+   * example:
+   * ```ts
+   * async function main(inputs, context) {
+   *   const response = await context.runBlock("self::myBlock", {
+   *     input1: "value1",
+   *     input2: "value2",
+   *   });
+   *   response.onOutput((data) => {
+   *     console.log("output:", data.handle, data.value);
+   *   });
+   *   const { result, error } = await response.finish();
+   *   if (error) {
+   *     console.error("Block failed:", error);
+   *   } else {
+   *    console.log("Block finished successfully with result:", result);
+   *   }
+   */
   readonly runBlock: (
     blockName: string,
     inputs: Record<string, any>
   ) => RunResponse;
 
+  /**
+   * Query block information.
+   * @param blockName Block name to query. format `self::<blockName>` or `<packageName>::<blockName>`
+   * @returns Block information, including description, inputs_def, outputs_def, additional_inputs, and additional_outputs.
+   * * example:
+   * ```ts
+   * async function main(inputs, context) {
+   *   const blockInfo = await context.queryBlock("self::myBlock");
+   *   console.log("Block Info:", blockInfo);
+   *   // Do something with blockInfo
+   * }
+   */
   readonly queryBlock: (blockName: string) => Promise<{
     description?: string;
     inputs_def?: HandlesDef;
