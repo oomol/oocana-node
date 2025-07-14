@@ -32,7 +32,7 @@ export default async function (
       new Promise((_, reject) =>
         setTimeout(
           () => reject(new Error("Timeout waiting for counter block")),
-          5000
+          20000
         )
       ),
     ]);
