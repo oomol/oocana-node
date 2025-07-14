@@ -59,6 +59,11 @@ describe(
       expect(sessionFinished[0].data.partial).not.toBeUndefined();
     });
 
+    it("run run-pkg-block", async () => {
+      const { code } = await runFlow("run-pkg-block");
+      expect(code).toBe(0);
+    });
+
     it("run run-block flow", async () => {
       const { code, events } = await runFlow("run-block");
       expect(code).toBe(0);

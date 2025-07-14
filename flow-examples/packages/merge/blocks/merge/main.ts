@@ -9,7 +9,7 @@ interface CounterOutput {}
 
 const main: MainFunction<CounterInputs, CounterOutput> = async (
   _inputs,
-  context
+  _context
 ) => {
   console.log("merge", merge({ a: 1 }, { b: 2 }));
 };
