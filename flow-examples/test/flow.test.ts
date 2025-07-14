@@ -59,13 +59,6 @@ describe(
       expect(sessionFinished[0].data.partial).not.toBeUndefined();
     });
 
-    it("run run-pkg-block", async () => {
-      if (await isPackageLayerEnable()) {
-        const { code } = await runFlow("run-pkg-block");
-        expect(code).toBe(0);
-      }
-    });
-
     it("run run-block flow", async () => {
       const { code, events } = await runFlow("run-block");
       expect(code).toBe(0);
@@ -174,6 +167,13 @@ describe(
 
       const events_list = events.map(e => e.event);
       expect(events_list).toContain("SessionFinished");
+    });
+
+    it("run run-pkg-block", async () => {
+      if (await isPackageLayerEnable()) {
+        const { code } = await runFlow("run-pkg-block");
+        expect(code).toBe(0);
+      }
     });
 
     it("run var flow", async () => {
