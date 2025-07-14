@@ -17,13 +17,14 @@ import type {
   IMainframeBlockOutputs,
   IMainframeRunBlockRequest,
   IMainframeQueryBlockRequest,
+  ReporterMessage,
 } from "@oomol/oocana-types";
 
 export class Mainframe {
   private mqtt: MqttClient;
 
   private hashMap: Map<string, OnMessageCallback> = new Map();
-  private reporterCallbacks: Set<(payload: IReporterClientMessage) => void> =
+  private reporterCallbacks: Set<(payload: ReporterMessage) => void> =
     new Set();
   private sessionCallbacks: Map<
     string,
@@ -89,9 +90,7 @@ export class Mainframe {
       if (topic === "report") {
         for (const cb of this.reporterCallbacks) {
           try {
-            const message = JSON.parse(
-              payload.toString()
-            ) as IReporterClientMessage;
+            const message = JSON.parse(payload.toString()) as ReporterMessage;
             cb(message);
           } catch (error) {
             console.error("Error parsing report message:", error);
@@ -186,14 +185,12 @@ export class Mainframe {
     }
   }
 
-  public addReportCallback(
-    callback: (payload: IReporterClientMessage) => any
-  ): void {
+  public addReportCallback(callback: (payload: ReporterMessage) => any): void {
     this.reporterCallbacks.add(callback);
   }
 
   public removeReportCallback(
-    callback: (payload: IReporterClientMessage) => any
+    callback: (payload: ReporterMessage) => any
   ): void {
     this.reporterCallbacks.delete(callback);
   }

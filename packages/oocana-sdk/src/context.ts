@@ -11,6 +11,8 @@ import {
   VarValue,
   IMainframeClientMessage,
   BlockActionEvent,
+  HandleDef,
+  ReporterMessage,
 } from "@oomol/oocana-types";
 import { event, send } from "@wopjs/event";
 import { Mainframe } from "./mainframe";
@@ -264,13 +266,20 @@ export class ContextImpl implements Context {
     });
   };
 
-  runBlock = (blockName: string, inputs: Record<string, any>) => {
-    const block_job_id = `${this.jobId}-${blockName}-${Date.now()}`;
+  runBlock = (
+    blockName: string,
+    payload: {
+      inputs: Record<string, any>;
+      additional_inputs_def?: HandleDef[];
+      additional_outputs_def?: HandleDef[];
+    }
+  ) => {
+    const block_job_id = crypto.randomUUID();
     let request_id = crypto.randomUUID();
 
-    if (!blockName || inputs === undefined || inputs === null) {
+    if (!blockName || payload.inputs === undefined || payload.inputs === null) {
       throw new Error(
-        `Invalid parameters for runBlock: blockName: ${blockName}, inputs: ${inputs}`
+        `Invalid parameters for runBlock: blockName: ${blockName}, inputs: ${payload.inputs}`
       );
     }
 
@@ -280,42 +289,55 @@ export class ContextImpl implements Context {
     }) => void;
     const events = new Remitter<BlockActionEvent>();
     const onOutput = event<{ handle: string; value: any }>();
-    const blockEvent = (payload: IMainframeClientMessage) => {
+    const blockEvent = (msgPayload: ReporterMessage) => {
+      if (msgPayload?.session_id !== this.sessionId) {
+        return;
+      }
       if (
-        payload.type === "ExecutorReady" ||
-        payload.type === "BlockRequest" ||
-        payload.type === "BlockReady"
+        msgPayload?.type !== "BlockOutput" &&
+        msgPayload?.type !== "BlockOutputs" &&
+        msgPayload?.type !== "BlockFinished" &&
+        msgPayload?.type !== "SubflowBlockFinished" &&
+        msgPayload?.type !== "SubflowBlockOutput"
       ) {
         return;
       }
-      if (payload?.job_id !== block_job_id) {
+      if (msgPayload?.job_id !== block_job_id) {
         return;
       }
 
-      events.emit(payload.type, payload);
+      events.emit(msgPayload.type, msgPayload);
 
-      if (payload.type === "BlockOutput") {
-        send(onOutput, { handle: payload.handle, value: payload.output });
-      } else if (payload.type === "BlockOutputs") {
-        for (const [handle, value] of Object.entries(payload.outputs)) {
+      if (msgPayload.type === "BlockOutput") {
+        send(onOutput, { handle: msgPayload.handle, value: msgPayload.output });
+      } else if (msgPayload.type === "SubflowBlockOutput") {
+        send(onOutput, { handle: msgPayload.handle, value: msgPayload.output });
+      } else if (msgPayload.type === "BlockOutputs") {
+        for (const [handle, value] of Object.entries(msgPayload.outputs)) {
           send(onOutput, { handle, value });
         }
-      } else if (payload.type === "BlockFinished") {
-        if (payload.result) {
-          for (const [handle, value] of Object.entries(payload.result)) {
+      } else if (msgPayload.type === "BlockFinished") {
+        if (msgPayload.result) {
+          for (const [handle, value] of Object.entries(msgPayload.result)) {
             send(onOutput, { handle, value });
           }
         }
-        resolver({ result: payload.result, error: payload.error });
+        resolver({ result: msgPayload.result, error: msgPayload.error });
+      } else if (msgPayload.type === "SubflowBlockFinished") {
+        if (msgPayload.error) {
+          resolver({ error: msgPayload.error });
+        } else {
+          resolver({ result: {} });
+        }
       }
     };
-    this.mainframe.addSessionCallback(this.sessionId, blockEvent);
+    this.mainframe.addReportCallback(blockEvent);
 
-    const responseEvent = (payload: any) => {
-      if (payload?.request_id !== request_id) {
+    const responseEvent = (eventPayload: any) => {
+      if (eventPayload?.request_id !== request_id) {
         return;
       }
-      resolver({ error: payload.error });
+      resolver({ error: eventPayload.error });
     };
     this.mainframe.addRequestResponseCallback(
       this.sessionId,
@@ -324,7 +346,7 @@ export class ContextImpl implements Context {
     );
 
     let dispose = () => {
-      this.mainframe.removeSessionCallback(this.sessionId, blockEvent);
+      this.mainframe.removeReportCallback(blockEvent);
       this.mainframe.removeRequestResponseCallback(
         this.sessionId,
         request_id,
@@ -358,7 +380,7 @@ export class ContextImpl implements Context {
       stacks: this.stacks,
       block: blockName,
       block_job_id,
-      inputs,
+      payload,
     });
 
     return response;

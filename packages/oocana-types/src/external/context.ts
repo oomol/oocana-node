@@ -1,5 +1,5 @@
 import type { EventReceiver } from "remitter";
-import { HandlesDef } from "../schema";
+import { HandlesDef, HandleDef } from "../schema";
 import type { BlockJobStackLevel } from "./block";
 import { BlockActionEvent } from "../block";
 
@@ -143,7 +143,7 @@ export interface Context<
 
   /**
    * This function is experimental and may change in the future.
-   * @param blockName Block name to run. format `self::<blockName>` or `<packageName>::<blockName>`
+   * @param blockName Block name to run. format `self::<blockName>` or `<packageName>::<blockName>`. support block and subflow, if block is subflow, it will run the subflow. block will be used first if both block and subflow exist.
    * @param inputs Block inputs matching the block's `inputs_def`. Missing required inputs will cause execution to fail.
    * @returns RunResponse.
    *
@@ -166,13 +166,17 @@ export interface Context<
    */
   readonly runBlock: (
     blockName: string,
-    inputs: Record<string, any>
+    payload: {
+      inputs: Record<string, any>;
+      additional_inputs_def?: HandleDef[];
+      additional_outputs_def?: HandleDef[];
+    }
   ) => RunResponse;
 
   /**
    * Query block information.
-   * @param blockName Block name to query. format `self::<blockName>` or `<packageName>::<blockName>`
-   * @returns Block information, including description, inputs_def, outputs_def, additional_inputs, and additional_outputs.
+   * @param blockName Block name to query. format `self::<blockName>` or `<packageName>::<blockName>`. support block and subflow, if block is subflow, it will query the subflow. block will be used first if both block and subflow exist.
+   * @returns Block information, including description, inputs_def, outputs_def, additional_inputs, and additional_outputs. only block may contain additional field.
    * example:
    * ```ts
    * async function main(inputs, context) {

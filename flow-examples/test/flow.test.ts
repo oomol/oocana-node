@@ -100,8 +100,56 @@ describe(
       expect(sessionFinished[0].data.partial).not.toBeUndefined();
     });
 
+    it("run run-subflow flow", async () => {
+      const { code, events } = await runFlow("run-subflow");
+      expect(code).toBe(0);
+      expect(
+        events.filter(e => e.event === "BlockStarted").length,
+        `start ${events
+          .filter(e => e.event === "BlockStarted")
+          .map(e => JSON.stringify(e.data))}`
+      ).toBe(4);
+
+      expect(
+        events
+          .filter(e => e.event === "BlockOutputs")
+          .filter(e => e.data.outputs?.a === "a" && e.data.outputs?.b === "b")
+          .length,
+        `finish ${events
+          .filter(e => e.event === "BlockFinished")
+          .map(e => JSON.stringify(e.data.stacks))}`
+      ).toBe(1);
+
+      expect(
+        events
+          .filter(e => e.event === "BlockFinished")
+          .filter(e => e.data.result?.a === "a" && e.data.result?.b === "b")
+          .length,
+        `finish ${events
+          .filter(e => e.event === "BlockFinished")
+          .map(e => JSON.stringify(e.data.stacks))}`
+      ).toBe(1);
+
+      const events_list = events.map(e => e.event);
+
+      const sessionStarted = events.filter(e => e.event === "SessionStarted");
+      const sessionFinished = events.filter(e => e.event === "SessionFinished");
+      expect(sessionStarted.length).toBe(1);
+      expect(sessionFinished.length).toBe(1);
+
+      expect(sessionStarted[0].data.partial).not.toBeUndefined();
+      expect(sessionFinished[0].data.partial).not.toBeUndefined();
+    });
+
     it("run query-block flow", async () => {
       const { code, events } = await runFlow("query-block");
+      const latestFinished = events.findLast(e => e.event === "BlockFinished");
+      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      expect(code).toBe(0);
+    });
+
+    it("run query-subflow flow", async () => {
+      const { code, events } = await runFlow("query-subflow");
       const latestFinished = events.findLast(e => e.event === "BlockFinished");
       expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
       expect(code).toBe(0);
@@ -119,6 +167,13 @@ describe(
 
       const events_list = events.map(e => e.event);
       expect(events_list).toContain("SessionFinished");
+    });
+
+    it("run run-pkg-block", async () => {
+      if (await isPackageLayerEnable()) {
+        const { code } = await runFlow("run-pkg-block");
+        expect(code).toBe(0);
+      }
     });
 
     it("run var flow", async () => {

@@ -12,7 +12,7 @@ export default async function (
   _inputs: Inputs,
   context: Context<Inputs, Outputs>
 ): Promise<Outputs> {
-  const res = await context.runBlock("counter11", {
+  const res = await context.runBlock("self::basic11", {
     inputs: { input: "test" },
   });
 

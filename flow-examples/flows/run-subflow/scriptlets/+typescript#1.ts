@@ -16,7 +16,7 @@ export default async function (
   console.log("Running block with inputs:", _inputs);
 
   // Run the "counter" block with some input
-  const res = await context.runBlock("self::counter", {
+  const res = await context.runBlock("self::basic", {
     inputs: { input: "test" },
   });
   res.onOutput(data => {
@@ -32,7 +32,7 @@ export default async function (
       new Promise((_, reject) =>
         setTimeout(
           () => reject(new Error("Timeout waiting for counter block")),
-          5000
+          20000
         )
       ),
     ]);
