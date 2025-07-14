@@ -406,7 +406,7 @@ export class ContextImpl implements Context {
         try {
           mkdirSync(dirname(filePath), { recursive: true });
           await writeFile(filePath, csvContent);
-          payload.data = filePath;
+          payload = { ...payload, data: filePath };
         } catch (error) {
           throw new Error(
             `write preview csv to file error: ${error}, path: ${filePath}`
