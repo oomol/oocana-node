@@ -18,14 +18,17 @@ export type PreviewPayload =
   | {
       type: "video" | "audio" | "markdown" | "iframe" | "html";
       data: string;
+      id?: string;
     }
   | {
       type: "json" | "text" | `text/${string}`;
       data: any;
+      id?: string;
     }
   | {
       type: "image";
       data: string | string[];
+      id?: string;
     }
   | {
       type: "table";
@@ -36,10 +39,12 @@ export type PreviewPayload =
             row_count?: number;
           }
         | string;
+      id?: string;
     }
   | {
       type: "csv";
       data: string; // csv file path
+      id?: string;
     };
 
 export type KeepAlive = symbol;
