@@ -319,11 +319,11 @@ export class ContextImpl implements Context {
     };
     this.mainframe.addSessionCallback(this.sessionId, blockEvent);
 
-    const responseEvent = (payload: any) => {
-      if (payload?.request_id !== request_id) {
+    const responseEvent = (eventPayload: any) => {
+      if (eventPayload?.request_id !== request_id) {
         return;
       }
-      resolver({ error: payload.error });
+      resolver({ error: eventPayload.error });
     };
     this.mainframe.addRequestResponseCallback(
       this.sessionId,
