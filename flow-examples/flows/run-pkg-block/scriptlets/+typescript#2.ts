@@ -18,7 +18,7 @@ export default async function (
   res.onOutput(data => {
     const { handle, value } = data;
     console.log(
-      `Received output from counter block: handle=${handle}, output=${value}`
+      `Received output from sub::basic: handle=${handle}, output=${value}`
     );
   });
 
@@ -27,16 +27,16 @@ export default async function (
       res.finish(),
       new Promise((_, reject) =>
         setTimeout(
-          () => reject(new Error("Timeout waiting for counter block")),
+          () => reject(new Error("Timeout waiting for sub::basic block")),
           5000
         )
       ),
     ]);
     const { result, error } = resolve;
     if (error) {
-      throw new Error("Counter block failed with error: " + error);
+      throw new Error("sub::basic block failed with error: " + error);
     } else {
-      console.log("Result from counter block:", result);
+      console.log("Result from sub::basic block:", result);
     }
   } catch (error) {
     throw new Error(
