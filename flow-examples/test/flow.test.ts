@@ -148,6 +148,13 @@ describe(
       expect(code).toBe(0);
     });
 
+    it("run query-subflow flow", async () => {
+      const { code, events } = await runFlow("query-subflow");
+      const latestFinished = events.findLast(e => e.event === "BlockFinished");
+      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      expect(code).toBe(0);
+    });
+
     it("run pkg flow", async () => {
       const { code, events } = await runFlow("pkg");
       expect(code).toBe(0);
