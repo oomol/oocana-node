@@ -273,7 +273,7 @@ export class ContextImpl implements Context {
       additional_outputs_def?: HandleDef[];
     }
   ) => {
-    const block_job_id = `${this.jobId}-${blockName}-${Date.now()}`;
+    const block_job_id = crypto.randomUUID();
     let request_id = crypto.randomUUID();
 
     if (!blockName || payload.inputs === undefined || payload.inputs === null) {
