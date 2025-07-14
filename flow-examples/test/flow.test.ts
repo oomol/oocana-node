@@ -60,8 +60,10 @@ describe(
     });
 
     it("run run-pkg-block", async () => {
-      const { code } = await runFlow("run-pkg-block");
-      expect(code).toBe(0);
+      if (await isPackageLayerEnable()) {
+        const { code } = await runFlow("run-pkg-block");
+        expect(code).toBe(0);
+      }
     });
 
     it("run run-block flow", async () => {
