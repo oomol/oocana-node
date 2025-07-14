@@ -213,7 +213,7 @@ export interface Context<
   readonly sendMessage: (payload: unknown) => Promise<void>;
 
   /** Send to Preview */
-  readonly preview: (payload: PreviewPayload) => Promise<void>;
+  readonly preview: (payload: PreviewPayload, id?: string) => Promise<void>;
 
   /** Report Block's stdio and stdout message. */
   readonly reportLog: (
