@@ -1,3 +1,10 @@
+import {
+  BlockFinished,
+  BlockOutput,
+  BlockOutputs,
+  SubflowBlockFinished,
+  SubflowBlockOutput,
+} from "./external";
 import { BlockInfo, BlockJobStackLevel, JobInfo } from "./external/block";
 import type { HandleDef, HandlesDef, HandlesDefPatch } from "./schema";
 
@@ -79,10 +86,11 @@ export type IMainframeClientMessage =
   | IMainframeExecutorReady;
 
 export type BlockActionEvent = {
-  BlockOutput: IMainframeBlockOutput;
-  BlockOutputs: IMainframeBlockOutputs;
-  BlockFinished: IMainframeBlockFinished;
-  BlockError: IMainframeBlockError;
+  BlockOutput: BlockOutput;
+  BlockOutputs: BlockOutputs;
+  BlockFinished: BlockFinished;
+  SubflowBlockOutput: SubflowBlockOutput;
+  SubflowBlockFinished: SubflowBlockFinished;
 };
 
 export interface ExecutorPayload extends JobInfo {

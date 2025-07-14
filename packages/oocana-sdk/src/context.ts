@@ -12,6 +12,7 @@ import {
   IMainframeClientMessage,
   BlockActionEvent,
   HandleDef,
+  ReporterMessage,
 } from "@oomol/oocana-types";
 import { event, send } from "@wopjs/event";
 import { Mainframe } from "./mainframe";
@@ -288,11 +289,16 @@ export class ContextImpl implements Context {
     }) => void;
     const events = new Remitter<BlockActionEvent>();
     const onOutput = event<{ handle: string; value: any }>();
-    const blockEvent = (msgPayload: IMainframeClientMessage) => {
+    const blockEvent = (msgPayload: ReporterMessage) => {
+      if (msgPayload?.session_id !== this.sessionId) {
+        return;
+      }
       if (
-        msgPayload.type === "ExecutorReady" ||
-        msgPayload.type === "BlockRequest" ||
-        msgPayload.type === "BlockReady"
+        msgPayload?.type !== "BlockOutput" &&
+        msgPayload?.type !== "BlockOutputs" &&
+        msgPayload?.type !== "BlockFinished" &&
+        msgPayload?.type !== "SubflowBlockFinished" &&
+        msgPayload?.type !== "SubflowBlockOutput"
       ) {
         return;
       }
@@ -303,6 +309,8 @@ export class ContextImpl implements Context {
       events.emit(msgPayload.type, msgPayload);
 
       if (msgPayload.type === "BlockOutput") {
+        send(onOutput, { handle: msgPayload.handle, value: msgPayload.output });
+      } else if (msgPayload.type === "SubflowBlockOutput") {
         send(onOutput, { handle: msgPayload.handle, value: msgPayload.output });
       } else if (msgPayload.type === "BlockOutputs") {
         for (const [handle, value] of Object.entries(msgPayload.outputs)) {
@@ -315,9 +323,15 @@ export class ContextImpl implements Context {
           }
         }
         resolver({ result: msgPayload.result, error: msgPayload.error });
+      } else if (msgPayload.type === "SubflowBlockFinished") {
+        if (msgPayload.error) {
+          resolver({ error: msgPayload.error });
+        } else {
+          resolver({ result: {} });
+        }
       }
     };
-    this.mainframe.addSessionCallback(this.sessionId, blockEvent);
+    this.mainframe.addReportCallback(blockEvent);
 
     const responseEvent = (eventPayload: any) => {
       if (eventPayload?.request_id !== request_id) {
@@ -332,7 +346,7 @@ export class ContextImpl implements Context {
     );
 
     let dispose = () => {
-      this.mainframe.removeSessionCallback(this.sessionId, blockEvent);
+      this.mainframe.removeReportCallback(blockEvent);
       this.mainframe.removeRequestResponseCallback(
         this.sessionId,
         request_id,
