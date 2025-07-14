@@ -1,5 +1,5 @@
 import { BlockInfo, BlockJobStackLevel, JobInfo } from "./external/block";
-import type { HandlesDef, HandlesDefPatch } from "./schema";
+import type { HandleDef, HandlesDef, HandlesDefPatch } from "./schema";
 
 export interface IMainframeBlockInputs<
   TInputs extends Record<string, unknown> = Record<string, unknown>
@@ -20,7 +20,11 @@ export interface IMainframeRunBlockRequest extends JobInfo {
   block: string;
   block_job_id: string;
   request_id: string;
-  inputs: Record<string, unknown>;
+  payload: {
+    inputs: Record<string, any>;
+    additional_inputs_def?: HandleDef[];
+    additional_outputs_def?: HandleDef[];
+  };
   stacks: readonly BlockJobStackLevel[];
 }
 

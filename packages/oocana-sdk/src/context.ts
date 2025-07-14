@@ -11,6 +11,7 @@ import {
   VarValue,
   IMainframeClientMessage,
   BlockActionEvent,
+  HandleDef,
 } from "@oomol/oocana-types";
 import { event, send } from "@wopjs/event";
 import { Mainframe } from "./mainframe";
@@ -264,13 +265,20 @@ export class ContextImpl implements Context {
     });
   };
 
-  runBlock = (blockName: string, inputs: Record<string, any>) => {
+  runBlock = (
+    blockName: string,
+    payload: {
+      inputs: Record<string, any>;
+      additional_inputs_def?: HandleDef[];
+      additional_outputs_def?: HandleDef[];
+    }
+  ) => {
     const block_job_id = `${this.jobId}-${blockName}-${Date.now()}`;
     let request_id = crypto.randomUUID();
 
-    if (!blockName || inputs === undefined || inputs === null) {
+    if (!blockName || payload.inputs === undefined || payload.inputs === null) {
       throw new Error(
-        `Invalid parameters for runBlock: blockName: ${blockName}, inputs: ${inputs}`
+        `Invalid parameters for runBlock: blockName: ${blockName}, inputs: ${payload.inputs}`
       );
     }
 
@@ -280,33 +288,33 @@ export class ContextImpl implements Context {
     }) => void;
     const events = new Remitter<BlockActionEvent>();
     const onOutput = event<{ handle: string; value: any }>();
-    const blockEvent = (payload: IMainframeClientMessage) => {
+    const blockEvent = (msgPayload: IMainframeClientMessage) => {
       if (
-        payload.type === "ExecutorReady" ||
-        payload.type === "BlockRequest" ||
-        payload.type === "BlockReady"
+        msgPayload.type === "ExecutorReady" ||
+        msgPayload.type === "BlockRequest" ||
+        msgPayload.type === "BlockReady"
       ) {
         return;
       }
-      if (payload?.job_id !== block_job_id) {
+      if (msgPayload?.job_id !== block_job_id) {
         return;
       }
 
-      events.emit(payload.type, payload);
+      events.emit(msgPayload.type, msgPayload);
 
-      if (payload.type === "BlockOutput") {
-        send(onOutput, { handle: payload.handle, value: payload.output });
-      } else if (payload.type === "BlockOutputs") {
-        for (const [handle, value] of Object.entries(payload.outputs)) {
+      if (msgPayload.type === "BlockOutput") {
+        send(onOutput, { handle: msgPayload.handle, value: msgPayload.output });
+      } else if (msgPayload.type === "BlockOutputs") {
+        for (const [handle, value] of Object.entries(msgPayload.outputs)) {
           send(onOutput, { handle, value });
         }
-      } else if (payload.type === "BlockFinished") {
-        if (payload.result) {
-          for (const [handle, value] of Object.entries(payload.result)) {
+      } else if (msgPayload.type === "BlockFinished") {
+        if (msgPayload.result) {
+          for (const [handle, value] of Object.entries(msgPayload.result)) {
             send(onOutput, { handle, value });
           }
         }
-        resolver({ result: payload.result, error: payload.error });
+        resolver({ result: msgPayload.result, error: msgPayload.error });
       }
     };
     this.mainframe.addSessionCallback(this.sessionId, blockEvent);
@@ -358,7 +366,7 @@ export class ContextImpl implements Context {
       stacks: this.stacks,
       block: blockName,
       block_job_id,
-      inputs,
+      payload,
     });
 
     return response;
