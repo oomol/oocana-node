@@ -12,7 +12,9 @@ export default async function (
   _inputs: Inputs,
   context: Context<Inputs, Outputs>
 ): Promise<Outputs> {
-  const res = await context.runBlock("counter11", { input: "test" });
+  const res = await context.runBlock("counter11", {
+    inputs: { input: "test" },
+  });
 
   try {
     const data: any = await Promise.race([
