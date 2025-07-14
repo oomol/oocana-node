@@ -408,7 +408,7 @@ export class ContextImpl implements Context {
     });
   };
 
-  preview = async (payload: PreviewPayload) => {
+  preview = async (payload: PreviewPayload, id?: string) => {
     if (payload) {
       // convert table data to CSV
       if (
@@ -442,7 +442,7 @@ export class ContextImpl implements Context {
       job_id: this.jobId,
       block_path: this.block_path,
       stacks: this.stacks,
-      payload,
+      payload: id ? { ...payload, id } : payload,
     });
   };
 
