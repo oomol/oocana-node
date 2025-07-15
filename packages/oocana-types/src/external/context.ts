@@ -212,7 +212,11 @@ export interface Context<
   /** Report extra Block messages. */
   readonly sendMessage: (payload: unknown) => Promise<void>;
 
-  /** Send to Preview */
+  /**
+   * Send to Preview.
+   * @param payload - preview payload
+   * @param id - optional id for multiple previews.
+   */
   readonly preview: (payload: PreviewPayload, id?: string) => Promise<void>;
 
   /** Report Block's stdio and stdout message. */
