@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.22.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.21.2...@oomol/oocana-types-v0.22.0) (2025-07-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* change run block parameters ([#248](https://github.com/oomol/oocana-node/issues/248))
+
+### Features
+
+* **preview:** add preview id ([#249](https://github.com/oomol/oocana-node/issues/249)) ([a5a1a97](https://github.com/oomol/oocana-node/commit/a5a1a97f33c5d93fd4fbbd9e4754fcb156567530))
+* update preview api interface ([#253](https://github.com/oomol/oocana-node/issues/253)) ([3441f4a](https://github.com/oomol/oocana-node/commit/3441f4a01fdd39df1bc8a2810229b6eab858e9fd))
+
+
+### Code Refactoring
+
+* change run block parameters ([#248](https://github.com/oomol/oocana-node/issues/248)) ([73ba9ad](https://github.com/oomol/oocana-node/commit/73ba9adb33ee68046db82fe28487a04fe3b432dc))
+
 ## [0.21.2](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.21.1...@oomol/oocana-types-v0.21.2) (2025-07-13)
 
 

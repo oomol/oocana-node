@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.21.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.20.2...@oomol/oocana-sdk-v0.21.0) (2025-07-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* change run block parameters ([#248](https://github.com/oomol/oocana-node/issues/248))
+
+### Features
+
+* **preview:** add optional preview id param ([#251](https://github.com/oomol/oocana-node/issues/251)) ([0fc2e01](https://github.com/oomol/oocana-node/commit/0fc2e01191d626cbc2a047440af48fcb2315568c))
+* **preview:** add preview id ([#249](https://github.com/oomol/oocana-node/issues/249)) ([a5a1a97](https://github.com/oomol/oocana-node/commit/a5a1a97f33c5d93fd4fbbd9e4754fcb156567530))
+
+
+### Code Refactoring
+
+* change run block parameters ([#248](https://github.com/oomol/oocana-node/issues/248)) ([73ba9ad](https://github.com/oomol/oocana-node/commit/73ba9adb33ee68046db82fe28487a04fe3b432dc))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.22.0
+
 ## [0.20.2](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.20.1...@oomol/oocana-sdk-v0.20.2) (2025-07-13)
 
 
