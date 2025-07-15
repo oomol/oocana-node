@@ -132,11 +132,11 @@ export interface Context<
       handle: THandle,
       output: TOutputs[THandle],
       /** if toFlowOutputs or toNodeInputs is provided, the output will be sent to the specified handles. if none of these is provided, the output will be sent to the all. */
-      option?: {
-        toFlowOutputs?: {
+      options?: {
+        to_flow?: {
           output_handle: string;
         }[];
-        toNodeInputs?: {
+        to_node?: {
           node_id: string;
           input_handle: string;
         }[];

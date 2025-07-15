@@ -533,9 +533,9 @@ export class ContextImpl implements Context {
   output = async <THandle extends string>(
     handle: THandle,
     output: any,
-    option: {
-      toFlowOutputs?: { output_handle: string }[];
-      toNodeInputs?: { node_id: string; input_handle: string }[];
+    options: {
+      to_flow?: { output_handle: string }[];
+      to_node?: { node_id: string; input_handle: string }[];
     } = {}
   ) => {
     if (!(handle in this.outputsDef)) {
@@ -559,12 +559,12 @@ export class ContextImpl implements Context {
       job_id: this.jobId,
       handle,
       output: value,
-      option:
-        option.toFlowOutputs || option.toNodeInputs
+      options:
+        options.to_flow || options.to_node
           ? {
               target: {
-                toFlowOutputs: option.toFlowOutputs,
-                toNodeInputs: option.toNodeInputs,
+                to_flow: options.to_flow,
+                to_node: options.to_node,
               },
             }
           : undefined,

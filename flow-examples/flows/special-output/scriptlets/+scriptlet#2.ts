@@ -12,7 +12,7 @@ export default async function (
   context: Context<Inputs, Outputs>
 ): Promise<Partial<Outputs> | undefined | void> {
   context.output("output", "aaa", {
-    toNodeInputs: [
+    to_node: [
       {
         node_id: "end",
         input_handle: "a",
