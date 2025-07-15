@@ -530,7 +530,14 @@ export class ContextImpl implements Context {
     });
   };
 
-  output = async <THandle extends string>(handle: THandle, output: any) => {
+  output = async <THandle extends string>(
+    handle: THandle,
+    output: any,
+    option: {
+      toFlowOutputs?: { output_handle: string }[];
+      toNodeInputs?: { node_id: string; input_handle: string }[];
+    } = {}
+  ) => {
     if (!(handle in this.outputsDef)) {
       await this.warning(
         `Output handle key: [${handle}] is not defined in Block outputs schema.`
@@ -552,6 +559,15 @@ export class ContextImpl implements Context {
       job_id: this.jobId,
       handle,
       output: value,
+      option:
+        option.toFlowOutputs || option.toNodeInputs
+          ? {
+              target: {
+                toFlowOutputs: option.toFlowOutputs,
+                toNodeInputs: option.toNodeInputs,
+              },
+            }
+          : undefined,
     });
 
     this.reportProgress.flush();
