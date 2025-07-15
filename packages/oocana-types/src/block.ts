@@ -56,6 +56,12 @@ export interface IMainframeBlockOutput<TOutput = any> extends JobInfo {
   type: "BlockOutput";
   handle: string;
   output: TOutput;
+  options?: {
+    target?: {
+      to_flow?: { output_handle: string }[];
+      to_node?: { node_id: string; input_handle: string }[];
+    };
+  };
 }
 
 export interface IMainframeBlockOutputs<TOutput = any> extends JobInfo {

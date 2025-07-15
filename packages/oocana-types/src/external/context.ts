@@ -130,7 +130,17 @@ export interface Context<
      */
     <THandle extends Extract<keyof TOutputs, string>>(
       handle: THandle,
-      output: TOutputs[THandle]
+      output: TOutputs[THandle],
+      /** if toFlowOutputs or toNodeInputs is provided, the output will be sent to the specified handles. if none of these is provided, the output will be sent to the all. */
+      options?: {
+        to_flow?: {
+          output_handle: string;
+        }[];
+        to_node?: {
+          node_id: string;
+          input_handle: string;
+        }[];
+      }
     ): Promise<void>;
   };
 
