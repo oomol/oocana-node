@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.21.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.0...@oomol/oocana-sdk-v0.21.1) (2025-07-15)
+
+
+### Features
+
+* output api add options parameter ([#254](https://github.com/oomol/oocana-node/issues/254)) ([46974ef](https://github.com/oomol/oocana-node/commit/46974efba140b74b615fa780475af466f591efc9))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.22.1
+
 ## [0.21.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.20.2...@oomol/oocana-sdk-v0.21.0) (2025-07-15)
 
 
