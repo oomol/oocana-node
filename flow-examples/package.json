@@ -17,6 +17,7 @@
     "@oomol/oocana-types": "workspace:*"
   },
   "devDependencies": {
+    "dequal": "^2.0.3",
     "remitter": "^0.5.1",
     "vitest": "^3.1.0"
   }

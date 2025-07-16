@@ -152,6 +152,27 @@ export interface Context<
   readonly outputs: (map: Partial<TOutputs>) => Promise<void>;
 
   /**
+   * Query current node's downstream connection.
+   * @param handles node's outputs handles. if undefined or null, will query all handles's downstream
+   * @returns
+   */
+  readonly queryDownstream: (handles?: string[]) => Promise<{
+    [handle: string]: {
+      to_node: {
+        node_id: string;
+        /** node's description */
+        description?: string;
+        input_handle: string;
+        input_handle_def?: HandleDef;
+      }[];
+      to_flow: {
+        output_handle: string;
+        output_handle_def?: HandleDef;
+      }[];
+    };
+  }>;
+
+  /**
    * This function is experimental and may change in the future.
    * @param blockName Block name to run. format `self::<blockName>` or `<packageName>::<blockName>`. support block and subflow, if block is subflow, it will run the subflow. block will be used first if both block and subflow exist.
    * @param inputs Block inputs matching the block's `inputs_def`. Missing required inputs will cause execution to fail.
