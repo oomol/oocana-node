@@ -19,9 +19,11 @@ export default async function (
     to_node: [
       {
         node_id: "end",
+        description: "node description",
         input_handle: "a",
         input_handle_def: {
           handle: "a",
+          value: "input value",
         },
       },
     ],
