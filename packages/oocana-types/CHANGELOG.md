@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.2](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.22.1...@oomol/oocana-types-v0.22.2) (2025-07-16)
+
+
+### Features
+
+* add query downstream api ([#257](https://github.com/oomol/oocana-node/issues/257)) ([dc1c155](https://github.com/oomol/oocana-node/commit/dc1c155860fc32af1f082708aa3118c6f06cd953))
+
 ## [0.22.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.22.0...@oomol/oocana-types-v0.22.1) (2025-07-15)
 
 
