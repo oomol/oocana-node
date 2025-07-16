@@ -5,6 +5,7 @@
     "corepack",
     "coverallsapp",
     "CRIMX",
+    "dequal",
     "devcontainers",
     "eabi",
     "esbuild",
