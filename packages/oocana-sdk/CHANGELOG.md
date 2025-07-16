@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.21.2](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.1...@oomol/oocana-sdk-v0.21.2) (2025-07-16)
+
+
+### Features
+
+* add query downstream api ([#257](https://github.com/oomol/oocana-node/issues/257)) ([dc1c155](https://github.com/oomol/oocana-node/commit/dc1c155860fc32af1f082708aa3118c6f06cd953))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.22.2
+
 ## [0.21.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.0...@oomol/oocana-sdk-v0.21.1) (2025-07-15)
 
 
