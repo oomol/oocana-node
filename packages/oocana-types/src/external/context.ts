@@ -156,7 +156,21 @@ export interface Context<
    * @param handles node's outputs handles. if undefined or null, will query all handles's downstream
    * @returns
    */
-  readonly queryDownstream: (handles?: string[]) => Promise<any>;
+  readonly queryDownstream: (handles?: string[]) => Promise<{
+    [handle: string]: {
+      to_node: {
+        node_id: string;
+        /** node's description */
+        description?: string;
+        input_handle: string;
+        input_handle_def?: HandleDef;
+      }[];
+      to_flow: {
+        output_handle: string;
+        output_handle_def?: HandleDef;
+      }[];
+    };
+  }>;
 
   /**
    * This function is experimental and may change in the future.

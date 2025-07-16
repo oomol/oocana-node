@@ -266,7 +266,22 @@ export class ContextImpl implements Context {
     });
   };
 
-  queryDownstream = async (handles?: string[]) => {
+  queryDownstream = async (
+    handles?: string[]
+  ): Promise<{
+    [handle: string]: {
+      to_node: {
+        node_id: string;
+        description?: string;
+        input_handle: string;
+        input_handle_def?: HandleDef;
+      }[];
+      to_flow: {
+        output_handle: string;
+        output_handle_def?: HandleDef;
+      }[];
+    };
+  }> => {
     const request_id = crypto.randomUUID();
     if (handles && !Array.isArray(handles)) {
       throw new Error(`Invalid handles: ${handles}`);
