@@ -266,6 +266,56 @@ export class ContextImpl implements Context {
     });
   };
 
+  queryDownstream = async (handles?: string[]) => {
+    const request_id = crypto.randomUUID();
+    if (handles && !Array.isArray(handles)) {
+      throw new Error(`Invalid handles: ${handles}`);
+    }
+
+    return new Promise((resolve, reject) => {
+      const cleanupCallback = () => {
+        this.mainframe.removeRequestResponseCallback(
+          this.sessionId,
+          request_id,
+          responseEvent
+        );
+      };
+
+      const responseEvent = (payload: any) => {
+        if (payload?.request_id !== request_id) {
+          return;
+        }
+
+        if (payload.error) {
+          cleanupCallback();
+          reject(new Error(`Query downstream error: ${payload.error}`));
+          return;
+        }
+
+        if (payload.result) {
+          cleanupCallback();
+          resolve(payload.result);
+          return;
+        }
+        cleanupCallback();
+        reject(new Error("Downstream info not found in response"));
+      };
+      this.mainframe.addRequestResponseCallback(
+        this.sessionId,
+        request_id,
+        responseEvent
+      );
+      this.mainframe.sendRequest({
+        type: "BlockRequest",
+        action: "QueryDownstream",
+        session_id: this.sessionId,
+        request_id,
+        job_id: this.jobId,
+        handles,
+      });
+    });
+  };
+
   runBlock = (
     blockName: string,
     payload: {
