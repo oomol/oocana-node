@@ -1,5 +1,6 @@
 //#region generated meta
-type Inputs = {};
+type Inputs = {
+};
 type Outputs = {
   output: any;
 };
