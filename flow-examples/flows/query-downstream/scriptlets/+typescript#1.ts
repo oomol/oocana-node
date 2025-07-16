@@ -13,6 +13,7 @@ export default async function (
   context: Context<Inputs, Outputs>
 ): Promise<Outputs> {
   const downstream = await context.queryDownstream();
+  console.log("Downstream query result:", downstream);
 
   let eq = dequal(downstream["a"], {
     to_node: [
@@ -28,7 +29,8 @@ export default async function (
 
   if (!eq) {
     throw new Error(
-      "Downstream query did not return expected value for 'a'" + downstream["a"]
+      "Downstream query did not return expected value for 'a'" +
+        JSON.stringify(downstream["a"])
     );
   }
 
