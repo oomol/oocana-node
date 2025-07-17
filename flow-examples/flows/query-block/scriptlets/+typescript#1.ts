@@ -26,5 +26,15 @@ export default async function (
     );
   }
 
+  try {
+    const res = await context.queryBlock("merge-two::merge");
+    console.log("Query result from 'merge-two::merge':", res);
+  } catch (error) {
+    throw new Error(
+      "Error querying block 'merge-two::merge': " +
+        (error instanceof Error ? error.message : String(error))
+    );
+  }
+
   return { a: "a", b: "b" };
 }

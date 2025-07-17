@@ -1,0 +1,4 @@
+version: 0.0.1
+scripts:
+  bootstrap: pnpm i lodash.merge
+name: merge-two
