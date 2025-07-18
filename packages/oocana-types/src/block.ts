@@ -33,6 +33,7 @@ export interface IMainframeRunBlockRequest extends JobInfo {
     additional_outputs_def?: HandleDef[];
   };
   stacks: readonly BlockJobStackLevel[];
+  strict?: boolean;
 }
 
 export interface IMainframeQueryBlockRequest extends JobInfo {

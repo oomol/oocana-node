@@ -175,7 +175,8 @@ export interface Context<
   /**
    * This function is experimental and may change in the future.
    * @param blockName Block name to run. format `self::<blockName>` or `<packageName>::<blockName>`. support block and subflow, if block is subflow, it will run the subflow. block will be used first if both block and subflow exist.
-   * @param inputs Block inputs matching the block's `inputs_def`. Missing required inputs will cause execution to fail.
+   * @param payload payload matching the block's field. Missing required inputs will cause execution to fail.
+   * @param strict if true, oocana will check the payload's inputs by block's inputs_def, if payload's inputs is not match the block's inputs_def, it will throw error. if false, oocana will not check the payload's inputs by block's inputs_def. default is false.
    * @returns RunResponse.
    *
    * example:
@@ -201,7 +202,8 @@ export interface Context<
       inputs: Record<string, any>;
       additional_inputs_def?: HandleDef[];
       additional_outputs_def?: HandleDef[];
-    }
+    },
+    strict?: boolean
   ) => RunResponse;
 
   /**
