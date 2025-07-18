@@ -337,7 +337,8 @@ export class ContextImpl implements Context {
       inputs: Record<string, any>;
       additional_inputs_def?: HandleDef[];
       additional_outputs_def?: HandleDef[];
-    }
+    },
+    strict: boolean = false
   ) => {
     const block_job_id = crypto.randomUUID();
     let request_id = crypto.randomUUID();
@@ -446,6 +447,7 @@ export class ContextImpl implements Context {
       block: blockName,
       block_job_id,
       payload,
+      strict,
     });
 
     return response;
