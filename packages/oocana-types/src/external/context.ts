@@ -179,7 +179,7 @@ export interface Context<
    * - inputs: inputs for the block, it must match the block's inputs_def.
    *           some missing inputs will be filled:
    *                1. with the default value if the block's input_def has a default value (which is defined in the value field).
-   *                2. input_def's nullable is true, the missing input will filled with Null.
+   *                2. input_def's nullable is true, the missing input will be filled with Null.
    * - additional_inputs_def: additional inputs for the block, it will be used to extend the block's inputs_def. it is optional, if not provided, it will use the block's inputs_def.
    * - additional_outputs_def: additional outputs for the block, it will be used to extend the block's outputs_def. it is optional, if not provided, it will use the block's outputs_def.
    * @param strict strict if true, validates payload inputs against the block's inputs_def and throws an error on mismatch. Defaults to false.
