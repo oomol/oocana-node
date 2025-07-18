@@ -1,24 +1,23 @@
-import type { Context } from "@oomol/oocana-types";
+//#region generated meta
+type Inputs = {};
+type Outputs = {};
+//#endregion
 
-type Inputs = {
-  in: unknown;
-};
-type Outputs = {
-  a: string;
-  b: string;
-};
+import type { Context } from "@oomol/oocana-types";
+import { strict } from "assert";
 
 export default async function (
-  _inputs: Inputs,
+  params: Inputs,
   context: Context<Inputs, Outputs>
-): Promise<Outputs> {
-  context.outputs({ a: "a", b: "b" });
-  console.log("Running block with inputs:", _inputs);
-
-  // Run the "counter" block with some input
-  const res = await context.runBlock("self::counter", {
-    inputs: { input: "test" },
-  });
+): Promise<Partial<Outputs> | undefined | void> {
+  // wrong input type
+  const res = await context.runBlock(
+    "self::additional",
+    {
+      inputs: { input: 1 },
+    },
+    true
+  );
   res.onOutput(data => {
     const { handle, value } = data;
     console.log(
@@ -26,6 +25,7 @@ export default async function (
     );
   });
 
+  let failed = false;
   try {
     const resolve: any = await Promise.race([
       res.finish(),
@@ -38,17 +38,16 @@ export default async function (
     ]);
     const { result, error } = resolve;
     if (error) {
+      failed = true;
       throw new Error("Counter block failed with error: " + error);
     } else {
       console.log("Result from counter block:", result);
     }
   } catch (error) {
-    if ((error as any).message.includes("Timeout")) {
-      console.error(error);
-      throw new Error("run block timed out");
-    } else {
-      throw error;
-    }
+    console.error("Error:", error);
   }
-  return { a: "a", b: "b" };
+
+  if (failed == false) {
+    throw new Error("except error");
+  }
 }
