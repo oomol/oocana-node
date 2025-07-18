@@ -3,17 +3,21 @@ type Inputs = {};
 type Outputs = {};
 //#endregion
 
-import type { Context } from "@oomol/types/oocana";
+import type { Context } from "@oomol/oocana-types";
+import { strict } from "assert";
 
 export default async function (
   params: Inputs,
   context: Context<Inputs, Outputs>
 ): Promise<Partial<Outputs> | undefined | void> {
   // wrong input type
-  const res = await context.runBlock("self::additional", {
-    inputs: { input: 1 },
-    strict: true,
-  });
+  const res = await context.runBlock(
+    "self::additional",
+    {
+      inputs: { input: 1 },
+    },
+    true
+  );
   res.onOutput(data => {
     const { handle, value } = data;
     console.log(
