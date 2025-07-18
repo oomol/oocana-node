@@ -43,10 +43,12 @@ export default async function (
       console.log("Result from counter block:", result);
     }
   } catch (error) {
-    throw new Error(
-      "run block timeout error: " +
-        (error instanceof Error ? error.message : String(error))
-    );
+    if ((error as any).message.includes("Timeout")) {
+      console.error(error);
+      throw new Error("run block timed out");
+    } else {
+      throw error;
+    }
   }
   return { a: "a", b: "b" };
 }
