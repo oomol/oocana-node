@@ -1,19 +1,16 @@
 //#region generated meta
-type Inputs = {
-};
-type Outputs = {
-};
+type Inputs = {};
+type Outputs = {};
 //#endregion
 
 import type { Context } from "@oomol/types/oocana";
 
-export default async function(
-    params: Inputs,
-    context: Context<Inputs, Outputs>
+export default async function (
+  params: Inputs,
+  context: Context<Inputs, Outputs>
 ): Promise<Partial<Outputs> | undefined | void> {
-
   // wrong input type
-  const res = await context.runBlock("self::counter", {
+  const res = await context.runBlock("self::additional", {
     inputs: { input: 1 },
   });
   res.onOutput(data => {
@@ -22,7 +19,6 @@ export default async function(
       `Received output from counter block: handle=${handle}, output=${value}`
     );
   });
-
 
   let failed = false;
   try {
@@ -47,6 +43,6 @@ export default async function(
   }
 
   if (failed == false) {
-    throw new Error("except error")
+    throw new Error("except error");
   }
-};
+}
