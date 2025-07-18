@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.3](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.22.2...@oomol/oocana-types-v0.22.3) (2025-07-18)
+
+
+### Features
+
+* run block add strict parameter ([#271](https://github.com/oomol/oocana-node/issues/271)) ([9e61abc](https://github.com/oomol/oocana-node/commit/9e61abc59df80e26679b61f73b950476f1d98450))
+
 ## [0.22.2](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.22.1...@oomol/oocana-types-v0.22.2) (2025-07-16)
 
 

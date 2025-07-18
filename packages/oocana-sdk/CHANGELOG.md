@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.21.3](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.2...@oomol/oocana-sdk-v0.21.3) (2025-07-18)
+
+
+### Features
+
+* run block add strict parameter ([#271](https://github.com/oomol/oocana-node/issues/271)) ([9e61abc](https://github.com/oomol/oocana-node/commit/9e61abc59df80e26679b61f73b950476f1d98450))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.22.3
+
 ## [0.21.2](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.1...@oomol/oocana-sdk-v0.21.2) (2025-07-16)
 
 
