@@ -67,7 +67,7 @@ describe(
         `start ${events
           .filter(e => e.event === "BlockStarted")
           .map(e => JSON.stringify(e.data))}`
-      ).toBe(4);
+      ).toBe(5);
 
       expect(
         events
