@@ -12,6 +12,7 @@ export default async function (
   // wrong input type
   const res = await context.runBlock("self::additional", {
     inputs: { input: 1 },
+    strict: true,
   });
   res.onOutput(data => {
     const { handle, value } = data;
