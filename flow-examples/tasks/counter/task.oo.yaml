@@ -5,5 +5,8 @@ executor:
     function: main
 inputs_def:
   - handle: input
+    json_schema:
+      type: string
+      contentMediaType: oomol/var
 outputs_def:
   - handle: output
