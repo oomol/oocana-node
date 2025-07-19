@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.22.58](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.57...@oomol/oocana-v0.22.58) (2025-07-19)
+
+
+### Features
+
+* add projectData pkgDataRoot require ([#276](https://github.com/oomol/oocana-node/issues/276)) ([9691301](https://github.com/oomol/oocana-node/commit/9691301ccd7f39a43317a09d70a5bd777044f95c))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.29.7 ([#277](https://github.com/oomol/oocana-node/issues/277)) ([ee193b4](https://github.com/oomol/oocana-node/commit/ee193b4dfd365f98a82aa73f5aaddaecba9eb462))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.22.4
+
 ## [0.22.57](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.56...@oomol/oocana-v0.22.57) (2025-07-18)
 
 

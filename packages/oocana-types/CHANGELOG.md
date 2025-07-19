@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.22.4](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.22.3...@oomol/oocana-types-v0.22.4) (2025-07-19)
+
+
+### Features
+
+* add projectData pkgDataRoot require ([#276](https://github.com/oomol/oocana-node/issues/276)) ([9691301](https://github.com/oomol/oocana-node/commit/9691301ccd7f39a43317a09d70a5bd777044f95c))
+
+
+### Code Refactoring
+
+* **sdk:** update runBlock api ([#274](https://github.com/oomol/oocana-node/issues/274)) ([7655ec6](https://github.com/oomol/oocana-node/commit/7655ec66943de54eef23cbcca8bcea3a45d3e026))
+
 ## [0.22.3](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.22.2...@oomol/oocana-types-v0.22.3) (2025-07-18)
 
 
