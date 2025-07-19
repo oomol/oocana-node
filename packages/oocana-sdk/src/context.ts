@@ -49,6 +49,7 @@ export class ContextImpl implements Context {
   public readonly tmpPkgDir: string;
   public readonly packageName: string;
   public readonly pkgDir: string;
+  public readonly pkgDataDir: string;
   public readonly hostEndpoint: string | undefined;
   public node_id: string;
 
@@ -97,6 +98,7 @@ export class ContextImpl implements Context {
     this.packageName = packageName;
     this.tmpPkgDir = path.join(this.tmpDir, this.packageName);
     this.pkgDir = pkgDir;
+    this.pkgDataDir = pkgDir;
 
     this.OOMOL_LLM_ENV = Object.freeze({
       baseUrl: process.env.OOMOL_LLM_BASE_URL || "",

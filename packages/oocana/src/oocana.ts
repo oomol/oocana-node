@@ -51,6 +51,10 @@ export interface RunFlowConfig {
   envs?: Record<string, string>;
   /** .env file path, better use absolute path, format should be <key>=<value> line by line. These variables will pass to executor when oocana spawn. If not given oocana will search OOCANA_BIND_PATH_FILE to see if it has one. */
   envFile?: string;
+  /** A directory that can be used for persistent data storage. Flows and blocks that are not part of a package will use this directory */
+  projectData: string;
+  /** a directory that can be used for persistent package data, all package's data will store in this directory. it can persist across sessions */
+  pkgDataRoot: string;
 }
 
 export const DEFAULT_PORT = 47688;
@@ -108,6 +112,8 @@ export class Oocana implements IDisposable, OocanaInterface {
     oomolEnvs,
     envFile,
     envs,
+    projectData,
+    pkgDataRoot,
   }: RunFlowConfig): Promise<Cli> {
     if (!this.#address) {
       throw new Error("Cannot run flow without connecting to a broker");
@@ -117,6 +123,14 @@ export class Oocana implements IDisposable, OocanaInterface {
 
     if (searchPaths) {
       args.push("--search-paths", searchPaths);
+    }
+
+    if (projectData) {
+      args.push("--project-data", projectData);
+    }
+
+    if (pkgDataRoot) {
+      args.push("--pkg-data-root", pkgDataRoot);
     }
 
     if (sessionId) {

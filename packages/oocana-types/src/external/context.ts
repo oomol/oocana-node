@@ -322,8 +322,11 @@ export interface Context<
 
   readonly keepAlive: KeepAlive;
 
-  /** Directory for persistent package files across sessions; not cleared when a session ends. The same package will utilize the same directory, while different packages will utilize distinct directories. */
+  /** @deprecated use pkgDataDir instead */
   readonly pkgDir: string;
+
+  /** Directory for persistent package files across sessions; not cleared when a session ends. The same package will utilize the same directory, while different packages will utilize distinct directories. */
+  readonly pkgDataDir: string;
 
   /** Temporary directory for the current flow, all blocks in this flow will share the same directory. This directory will be cleaned if this session finishes successfully; otherwise, it will be kept for debugging or other purposes. */
   readonly tmpDir: string;
