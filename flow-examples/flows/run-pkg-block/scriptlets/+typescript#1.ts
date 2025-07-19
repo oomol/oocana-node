@@ -16,37 +16,24 @@ export default async function (
   console.log("Running block with inputs:", _inputs);
 
   // Run the "counter" block with some input
-  const res = await context.runBlock("merge::merge", {
+  const blockJob = context.runBlock("merge::merge", {
     inputs: { one: "111" },
   });
-  res.onOutput(data => {
+  blockJob.onOutput(data => {
     const { handle, value } = data;
     console.log(
       `Received output from merge block: handle=${handle}, output=${value}`
     );
   });
 
-  try {
-    const resolve: any = await Promise.race([
-      res.finish(),
-      new Promise((_, reject) =>
-        setTimeout(
-          () => reject(new Error("Timeout waiting for merge block")),
-          5000
-        )
-      ),
-    ]);
-    const { result, error } = resolve;
-    if (error) {
-      throw new Error("Counter merge failed with error: " + error);
-    } else {
-      console.log("Result from merge block:", result);
-    }
-  } catch (error) {
-    throw new Error(
-      "run block timeout error: " +
-        (error instanceof Error ? error.message : String(error))
-    );
-  }
+  await Promise.race([
+    blockJob.finish(),
+    new Promise((_, reject) =>
+      setTimeout(
+        () => reject(new Error("Timeout waiting for merge block")),
+        5000
+      )
+    ),
+  ]);
   return { a: "a", b: "b" };
 }

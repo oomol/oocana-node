@@ -16,39 +16,24 @@ export default async function (
   console.log("Running block with inputs:", _inputs);
 
   // Run the "counter" block with some input
-  const res = await context.runBlock("self::counter", {
+  const blockJob = context.runBlock("self::counter", {
     inputs: { input: "test" },
   });
-  res.onOutput(data => {
-    const { handle, value } = data;
+  blockJob.onOutput(data => {
+    const entries = Object.entries(data);
     console.log(
-      `Received output from counter block: handle=${handle}, output=${value}`
+      `Received output from counter block: handle=${entries[0][0]}, output=${entries[0][1]}`
     );
   });
 
-  try {
-    const resolve: any = await Promise.race([
-      res.finish(),
-      new Promise((_, reject) =>
-        setTimeout(
-          () => reject(new Error("Timeout waiting for counter block")),
-          5000
-        )
-      ),
-    ]);
-    const { result, error } = resolve;
-    if (error) {
-      throw new Error("Counter block failed with error: " + error);
-    } else {
-      console.log("Result from counter block:", result);
-    }
-  } catch (error) {
-    if ((error as any).message.includes("Timeout")) {
-      console.error(error);
-      throw new Error("run block timed out");
-    } else {
-      throw error;
-    }
-  }
+  await Promise.race([
+    blockJob.finish(),
+    new Promise((_, reject) =>
+      setTimeout(
+        () => reject(new Error("Timeout waiting for counter block")),
+        5000
+      )
+    ),
+  ]);
   return { a: "a", b: "b" };
 }

@@ -9,19 +9,19 @@ import {
   BinaryValue,
   StoreKeyRef,
   VarValue,
-  IMainframeClientMessage,
-  BlockActionEvent,
   HandleDef,
   ReporterMessage,
+  BlockJob,
+  EventListener,
+  MapStandaloneOutputEventToValue,
 } from "@oomol/oocana-types";
-import { event, send } from "@wopjs/event";
+import { AddEventListener, event, send } from "@wopjs/event";
 import { Mainframe } from "./mainframe";
 import { isBinHandle, isValHandle, outputRefKey } from "./utils";
 import throttle from "lodash.throttle";
 import { writeFile } from "node:fs/promises";
 import { mkdirSync } from "node:fs";
 import path, { dirname } from "node:path";
-import { Remitter } from "remitter";
 
 interface ThrottleFunction<T extends (...args: any[]) => any> {
   (...args: Parameters<T>): ReturnType<T>;
@@ -331,79 +331,74 @@ export class ContextImpl implements Context {
     });
   };
 
-  runBlock = (
-    blockName: string,
-    payload: {
-      inputs: Record<string, any>;
+  runBlock = <
+    TOutputs extends Record<string, unknown> = { [handle: string]: unknown }
+  >(
+    blockResourceName: `${string}::${string}`,
+    payload?: {
+      inputs?: Record<string, any>;
       additional_inputs_def?: HandleDef[];
       additional_outputs_def?: HandleDef[];
     },
-    strict: boolean = false
-  ) => {
+    strict = false
+  ): BlockJob<TOutputs> => {
     const block_job_id = crypto.randomUUID();
     let request_id = crypto.randomUUID();
 
-    if (!blockName || payload.inputs === undefined || payload.inputs === null) {
+    if (!blockResourceName) {
       throw new Error(
-        `Invalid parameters for runBlock: blockName: ${blockName}, inputs: ${payload.inputs}`
+        `Invalid parameters for runBlock: blockName: ${blockResourceName}${
+          payload?.inputs ? `, inputs: ${payload.inputs}` : ""
+        }`
       );
     }
 
-    let resolver: (data: {
-      result?: Record<string, unknown>;
-      error?: string;
-    }) => void;
-    const events = new Remitter<BlockActionEvent>();
-    const onOutput = event<{ handle: string; value: any }>();
+    let resolve: () => void;
+    let reject: (reason?: any) => void;
+    const finishPromise = new Promise<void>((res, rej) => {
+      resolve = res;
+      reject = rej;
+    });
+
+    const onOutputInternal = event<TOutputs>();
     const blockEvent = (msgPayload: ReporterMessage) => {
       if (msgPayload?.session_id !== this.sessionId) {
         return;
       }
       if (
-        msgPayload?.type !== "BlockOutput" &&
-        msgPayload?.type !== "BlockOutputs" &&
-        msgPayload?.type !== "BlockFinished" &&
-        msgPayload?.type !== "SubflowBlockFinished" &&
-        msgPayload?.type !== "SubflowBlockOutput"
+        msgPayload.type !== "BlockOutput" &&
+        msgPayload.type !== "BlockOutputs" &&
+        msgPayload.type !== "BlockFinished" &&
+        msgPayload.type !== "SubflowBlockFinished" &&
+        msgPayload.type !== "SubflowBlockOutput"
       ) {
         return;
       }
-      if (msgPayload?.job_id !== block_job_id) {
+      if (msgPayload.job_id !== block_job_id) {
         return;
       }
 
-      events.emit(msgPayload.type, msgPayload);
-
       if (msgPayload.type === "BlockOutput") {
-        send(onOutput, { handle: msgPayload.handle, value: msgPayload.output });
+        send(onOutputInternal, { [msgPayload.handle]: msgPayload.output });
       } else if (msgPayload.type === "SubflowBlockOutput") {
-        send(onOutput, { handle: msgPayload.handle, value: msgPayload.output });
+        send(onOutputInternal, { [msgPayload.handle]: msgPayload.output });
       } else if (msgPayload.type === "BlockOutputs") {
-        for (const [handle, value] of Object.entries(msgPayload.outputs)) {
-          send(onOutput, { handle, value });
-        }
+        send(onOutputInternal, msgPayload.outputs);
       } else if (msgPayload.type === "BlockFinished") {
         if (msgPayload.result) {
-          for (const [handle, value] of Object.entries(msgPayload.result)) {
-            send(onOutput, { handle, value });
-          }
+          send(onOutputInternal, msgPayload.result);
         }
-        resolver({ result: msgPayload.result, error: msgPayload.error });
+        msgPayload.error ? reject(msgPayload.error) : resolve();
       } else if (msgPayload.type === "SubflowBlockFinished") {
-        if (msgPayload.error) {
-          resolver({ error: msgPayload.error });
-        } else {
-          resolver({ result: {} });
-        }
+        msgPayload.error ? reject(msgPayload.error) : resolve();
       }
     };
     this.mainframe.addReportCallback(blockEvent);
 
     const responseEvent = (eventPayload: any) => {
-      if (eventPayload?.request_id !== request_id) {
-        return;
+      if (eventPayload?.request_id === request_id) {
+        reject(eventPayload.error);
       }
-      resolver({ error: eventPayload.error });
     };
     this.mainframe.addRequestResponseCallback(
       this.sessionId,
@@ -411,31 +406,58 @@ export class ContextImpl implements Context {
       responseEvent
     );
 
-    let dispose = () => {
+    let standaloneOutputEvents: Map<string, AddEventListener<any>> | undefined;
+    const onOutput = <K extends Extract<keyof TOutputs, string>>(
+      handleName: K | ((outputs: TOutputs) => void)
+    ): EventListener<TOutputs[K]> | (() => void) => {
+      if (typeof handleName === "function") {
+        return onOutputInternal.on(handleName);
+      } else {
+        let ev = standaloneOutputEvents?.get(handleName);
+        if (!ev) {
+          (standaloneOutputEvents ??= new Map()).set(
+            handleName,
+            (ev = event<TOutputs[K]>())
+          );
+          const disposer = onOutputInternal.on((outputs: TOutputs) => {
+            if (outputs[handleName] !== undefined) {
+              send(ev!, outputs[handleName]);
+            }
+          });
+          const evDispose = ev.dispose;
+          ev.dispose = () => {
+            disposer();
+            evDispose.call(ev);
+            standaloneOutputEvents?.delete(handleName);
+          };
+        }
+        return ev;
+      }
+    };
+
+    const dispose = () => {
       this.mainframe.removeReportCallback(blockEvent);
       this.mainframe.removeRequestResponseCallback(
         this.sessionId,
         request_id,
         responseEvent
       );
+      if (standaloneOutputEvents) {
+        for (const ev of standaloneOutputEvents.values()) {
+          ev.dispose();
+        }
+        standaloneOutputEvents.clear();
+      }
     };
 
-    const finishPromise = new Promise<{
-      result?: Record<string, unknown>;
-      error?: unknown;
-    }>(resolve => {
-      resolver = resolve;
-    });
-
-    const response = {
-      events,
-      onOutput,
-      finish: () => finishPromise,
+    const blockJob: BlockJob<TOutputs> = {
+      blockJobId: block_job_id,
+      onOutput: onOutput as any,
+      finish: async () => finishPromise,
+      dispose,
     };
 
-    response.finish().then(() => {
-      dispose();
-    });
+    blockJob.finish().then(dispose);
 
     this.mainframe.sendRun({
       type: "BlockRequest",
@@ -444,13 +466,42 @@ export class ContextImpl implements Context {
       request_id,
       job_id: this.jobId,
       stacks: this.stacks,
-      block: blockName,
+      block: blockResourceName,
       block_job_id,
-      payload,
+      payload: payload
+        ? payload.inputs
+          ? (payload as { inputs: Record<string, any> })
+          : { ...payload, inputs: {} }
+        : { inputs: {} },
       strict,
     });
 
-    return response;
+    return blockJob;
+  };
+
+  joinOutputs = <T extends Array<EventListener>>(
+    ...onOutputs: T
+  ): EventListener<MapStandaloneOutputEventToValue<T>> => {
+    const queue: any[] = [];
+
+    const ev = event<MapStandaloneOutputEventToValue<T>>();
+    const disposers = onOutputs.map((onOutput, index) =>
+      onOutput(output => {
+        (queue[index] ??= []).push(output);
+        if (onOutputs.every((_, i) => queue[i].length)) {
+          const data = onOutputs.map((_, i) => queue[i].shift());
+          send(ev, data);
+        }
+      })
+    );
+    const evDispose = ev.dispose;
+    ev.dispose = () => {
+      for (const disposer of disposers) {
+        disposer();
+      }
+      evDispose.call(ev);
+    };
+    return ev;
   };
 
   warning = async (msg: string) => {

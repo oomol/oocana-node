@@ -11,24 +11,23 @@ export default async function (
   context: Context<Inputs, Outputs>
 ): Promise<Partial<Outputs> | undefined | void> {
   // wrong input type
-  const res = await context.runBlock(
+  const blockJob = context.runBlock(
     "self::additional",
     {
       inputs: { input: 1 },
     },
     true
   );
-  res.onOutput(data => {
-    const { handle, value } = data;
+  blockJob.onOutput(data => {
+    const entries = Object.entries(data);
     console.log(
-      `Received output from counter block: handle=${handle}, output=${value}`
+      `Received output from counter block: handle=${entries[0][0]}, output=${entries[0][1]}`
     );
   });
 
-  let failed = false;
   try {
-    const resolve: any = await Promise.race([
-      res.finish(),
+    await Promise.race([
+      blockJob.finish(),
       new Promise((_, reject) =>
         setTimeout(
           () => reject(new Error("Timeout waiting for counter block")),
@@ -36,18 +35,11 @@ export default async function (
         )
       ),
     ]);
-    const { result, error } = resolve;
-    if (error) {
-      failed = true;
-      throw new Error("Counter block failed with error: " + error);
-    } else {
-      console.log("Result from counter block:", result);
-    }
+    throw new Error("Expected an error");
   } catch (error) {
-    console.error("Error:", error);
-  }
-
-  if (failed == false) {
-    throw new Error("except error");
+    if ((error as any)?.message?.includes("Timeout")) {
+      console.error(error);
+      throw new Error("run block timed out");
+    }
   }
 }

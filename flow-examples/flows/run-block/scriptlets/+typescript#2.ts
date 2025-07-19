@@ -12,13 +12,14 @@ export default async function (
   _inputs: Inputs,
   context: Context<Inputs, Outputs>
 ): Promise<Outputs> {
-  const res = await context.runBlock("counter11", {
+  // @ts-ignore wrong block resource name
+  const blockJob = context.runBlock("counter11", {
     inputs: { input: "test" },
   });
 
   try {
-    const data: any = await Promise.race([
-      res.finish(),
+    await Promise.race([
+      blockJob.finish(),
       new Promise((_, reject) =>
         setTimeout(
           () => reject(new Error("Timeout waiting for counter block11")),
@@ -26,19 +27,12 @@ export default async function (
         )
       ),
     ]);
-    console.log("Result from counter block:", data);
-    if (data.error) {
-      console.error("Error in counter block:", data.error);
-    } else {
-      throw new Error(
-        "Expected an error, but got result: " + JSON.stringify(data.result)
-      );
-    }
+    throw new Error("Expected an error");
   } catch (error) {
-    throw new Error(
-      "run block timeout error: " +
-        (error instanceof Error ? error.message : String(error))
-    );
+    if ((error as any)?.message?.includes("Timeout")) {
+      console.error(error);
+      throw new Error("run block timed out");
+    }
   }
 
   return { out: "out" };

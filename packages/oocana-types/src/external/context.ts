@@ -1,7 +1,5 @@
-import type { EventReceiver } from "remitter";
 import { HandlesDef, HandleDef } from "../schema";
 import type { BlockJobStackLevel } from "./block";
-import { BlockActionEvent } from "../block";
 
 export type PreviewType =
   | "image"
@@ -62,6 +60,14 @@ export type MainFunction<
   context: Context<TInputs, TOutputs>
 ) => ReturnObject | Promise<ReturnObject>;
 
+export type EventListener<T = any> = (
+  listener: (value: T) => void
+) => () => void;
+
+export type MapStandaloneOutputEventToValue<T extends Array<EventListener>> = {
+  [K in keyof T]: Parameters<Parameters<T[K]>[0]>[0];
+};
+
 export type OOMOL_LLM_ENV = {
   readonly baseUrl: string;
   /** {basUrl}/v1 openai compatible endpoint */
@@ -75,16 +81,22 @@ export type HostInfo = {
   readonly gpuRenderer: string;
 };
 
-export type RunResponse = {
-  /** Events emitted during block execution on the executor. Not to be confused with log events, which are optional. */
-  events: EventReceiver<BlockActionEvent>;
+export interface BlockJob<
+  TOutputs extends Record<string, unknown> = { [handle: string]: unknown }
+> {
+  readonly blockJobId: string;
   /** Event emitted for each block output. When using `context.outputs`, `context.output`, or returning an object, this event fires for each handle and value pair. */
-  onOutput(
-    listener: (data: { handle: string; value: unknown }) => void
-  ): () => void;
-  /** await block execution and return result or error. */
-  finish(): Promise<{ result?: Record<string, unknown>; error?: unknown }>;
-};
+  onOutput<K extends Extract<keyof TOutputs, string>>(
+    handleName: K
+  ): EventListener<TOutputs[K]>;
+  onOutput(listener: (outputs: TOutputs) => void): () => void;
+  /**
+   * await block execution and return result or error.
+   * @throws Error if block execution failed.
+   */
+  finish(): Promise<void>;
+  dispose(): void;
+}
 
 export interface Context<
   TInputs = Record<string, any>,
@@ -174,7 +186,7 @@ export interface Context<
 
   /**
    * This function is experimental and may change in the future.
-   * @param blockName Block name to run. format `self::<blockName>` or `<packageName>::<blockName>`. support block and subflow, if block is subflow, it will run the subflow. block will be used first if both block and subflow exist.
+   * @param blockResourceName Block name to run. format `self::<blockName>` or `<packageName>::<blockName>`. support block and subflow, if block is subflow, it will run the subflow. block will be used first if both block and subflow exist.
    * @param payload payload is used for run block, inputs is required, additional_inputs_def and additional_outputs_def is optional.
    * - inputs: inputs for the block, it must match the block's inputs_def.
    *           some missing inputs will be filled:
@@ -183,34 +195,66 @@ export interface Context<
    * - additional_inputs_def: additional inputs for the block, it will be used to extend the block's inputs_def. it is optional, if not provided, it will use the block's inputs_def.
    * - additional_outputs_def: additional outputs for the block, it will be used to extend the block's outputs_def. it is optional, if not provided, it will use the block's outputs_def.
    * @param strict strict if true, validates payload inputs against the block's inputs_def and throws an error on mismatch. Defaults to false.
-   * @returns RunResponse.
+   * @returns BlockJob.
    *
    * example:
    * ```ts
    * async function main(inputs, context) {
-   *   const response = await context.runBlock("self::myBlock", {
+   *   const blockJob = context.runBlock("self::myBlock", {
    *     input1: "value1",
    *     input2: "value2",
    *   });
-   *   response.onOutput((data) => {
-   *     console.log("output:", data.handle, data.value);
+   *   blockJob.onOutput((data) => {
+   *     console.log("output:", data);
    *   });
-   *   const { result, error } = await response.finish();
-   *   if (error) {
+   *   try {
+   *     await blockJob.finish();
+   *   } catch (error) {
    *     console.error("Block failed:", error);
-   *   } else {
-   *    console.log("Block finished successfully with result:", result);
    *   }
    */
-  readonly runBlock: (
-    blockName: string,
-    payload: {
-      inputs: Record<string, any>;
+  readonly runBlock: <
+    TOutputs extends Record<string, unknown> = { [handle: string]: unknown }
+  >(
+    blockResourceName: `${string}::${string}`,
+    payload?: {
+      inputs?: Record<string, any>;
       additional_inputs_def?: HandleDef[];
       additional_outputs_def?: HandleDef[];
     },
     strict?: boolean
-  ) => RunResponse;
+  ) => BlockJob<TOutputs>;
+
+  /**
+   * Subscribe to multiple output events and emit an array of values corresponding to the provided EventListener functions.
+   * @param onOutputList a list of EventListener functions, each corresponding to a handle output.
+   * @returns an EventListener that emits an array of values corresponding to the provided EventListener functions.
+   *
+   * @example
+   * ```ts
+   * async function main(inputs, context) {
+   *   const blockJobFoo = context.runBlock("self::fooBlock");
+   *   const blockJobBar = context.runBlock("self::barBlock");
+   *
+   *   const onCombinedOutputs = context.joinOutputs(
+   *     blockJobFoo.onOutput("output1"),
+   *     blockJobBar.onOutput("output2")
+   *   );
+   *   onCombinedOutputs((outputs) => {
+   *     console.log("Combined Outputs:", outputs); // [valueFromOutput1, valueFromOutput2]
+   *   });
+   *
+   *   try {
+   *     await Promise.all([blockJobFoo.finish(), blockJobBar.finish()]);
+   *   } catch (error) {
+   *    console.error("Block failed:", error);
+   *   }
+   * }
+   * ```
+   */
+  readonly joinOutputs: <T extends Array<EventListener>>(
+    ...onOutputList: T
+  ) => EventListener<MapStandaloneOutputEventToValue<T>>;
 
   /**
    * Query block information.
