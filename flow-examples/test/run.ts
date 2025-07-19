@@ -51,6 +51,8 @@ export async function runFlow(
       VAR: "1",
     },
     envFile: path.join(flow_example, "executor.env"),
+    pkgDataRoot: path.join(flow_example, ".data"),
+    projectData: flow_example,
   });
 
   cli.events.on("BlockFinished", event => {

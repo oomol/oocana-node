@@ -337,6 +337,8 @@ describe("stop flow", () => {
       envs: {
         VAR: "1",
       },
+      pkgDataRoot: path.join(flow_example, ".data"),
+      projectData: flow_example,
     });
 
     task.kill();
