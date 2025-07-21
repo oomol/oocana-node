@@ -85,6 +85,9 @@ export interface BlockJob<
   TOutputs extends Record<string, unknown> = { [handle: string]: unknown }
 > {
   readonly blockJobId: string;
+  onProgress: EventListener<number>;
+  onMessage: EventListener<unknown>;
+  onPreview: EventListener<PreviewPayload>;
   /** Event emitted for each block output. When using `context.outputs`, `context.output`, or returning an object, this event fires for each handle and value pair. */
   onOutput<K extends Extract<keyof TOutputs, string>>(
     handleName: K
