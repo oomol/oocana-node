@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.21.5](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.4...@oomol/oocana-sdk-v0.21.5) (2025-07-21)
+
+
+### Code Refactoring
+
+* **sdk:** clean code runBlock onOutput ([#278](https://github.com/oomol/oocana-node/issues/278)) ([af9d13c](https://github.com/oomol/oocana-node/commit/af9d13cb6716712180b2fde33fd5c1401596abe5))
+
 ## [0.21.4](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.3...@oomol/oocana-sdk-v0.21.4) (2025-07-19)
 
 
