@@ -408,32 +408,21 @@ export class ContextImpl implements Context {
       responseEvent
     );
 
-    let standaloneOutputEvents: Map<string, AddEventListener<any>> | undefined;
     const onOutput = <K extends Extract<keyof TOutputs, string>>(
       handleName: K | ((outputs: TOutputs) => void)
     ): EventListener<TOutputs[K]> | (() => void) => {
       if (typeof handleName === "function") {
         return onOutputInternal.on(handleName);
       } else {
-        let ev = standaloneOutputEvents?.get(handleName);
-        if (!ev) {
-          (standaloneOutputEvents ??= new Map()).set(
-            handleName,
-            (ev = event<TOutputs[K]>())
-          );
-          const disposer = onOutputInternal.on((outputs: TOutputs) => {
-            if (outputs[handleName] !== undefined) {
-              send(ev!, outputs[handleName]);
+        return listener =>
+          onOutputInternal.on(outputs => {
+            if (
+              Object.prototype.hasOwnProperty.call(outputs, handleName) &&
+              outputs[handleName] !== undefined
+            ) {
+              listener(outputs[handleName]);
             }
           });
-          const evDispose = ev.dispose;
-          ev.dispose = () => {
-            disposer();
-            evDispose.call(ev);
-            standaloneOutputEvents?.delete(handleName);
-          };
-        }
-        return ev;
       }
     };
 
@@ -444,12 +433,6 @@ export class ContextImpl implements Context {
         request_id,
         responseEvent
       );
-      if (standaloneOutputEvents) {
-        for (const ev of standaloneOutputEvents.values()) {
-          ev.dispose();
-        }
-        standaloneOutputEvents.clear();
-      }
     };
 
     const blockJob: BlockJob<TOutputs> = {
@@ -484,26 +467,25 @@ export class ContextImpl implements Context {
   joinOutputs = <T extends Array<EventListener>>(
     ...onOutputs: T
   ): EventListener<MapStandaloneOutputEventToValue<T>> => {
-    const queue: any[] = [];
-
-    const ev = event<MapStandaloneOutputEventToValue<T>>();
-    const disposers = onOutputs.map((onOutput, index) =>
-      onOutput(output => {
-        (queue[index] ??= []).push(output);
-        if (onOutputs.every((_, i) => queue[i].length)) {
-          const data = onOutputs.map((_, i) => queue[i].shift());
-          send(ev, data);
+    return listener => {
+      const queue: any[] = [];
+      const disposers = onOutputs.map((onOutput, index) =>
+        onOutput(output => {
+          (queue[index] ??= []).push(output);
+          if (onOutputs.every((_, i) => queue[i].length)) {
+            const data = onOutputs.map(
+              (_, i) => queue[i].shift()!
+            ) as MapStandaloneOutputEventToValue<T>;
+            listener(data);
+          }
+        })
+      );
+      return () => {
+        for (const disposer of disposers) {
+          disposer();
         }
-      })
-    );
-    const evDispose = ev.dispose;
-    ev.dispose = () => {
-      for (const disposer of disposers) {
-        disposer();
-      }
-      evDispose.call(ev);
+      };
     };
-    return ev;
   };
 
   warning = async (msg: string) => {
