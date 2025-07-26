@@ -20,7 +20,7 @@ export default async function (
     const res = await context.queryBlock("self::counter");
     console.log("Query result from 'self::counter':", res);
 
-    if (res.type !== "block") {
+    if (res.type !== "task") {
       throw new Error(
         "Expected 'self::counter' to be a block, but got: " + res.type
       );
