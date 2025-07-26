@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.21.7](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.6...@oomol/oocana-sdk-v0.21.7) (2025-07-26)
+
+
+### Features
+
+* add progress 100 when finish ([#297](https://github.com/oomol/oocana-node/issues/297)) ([49ca966](https://github.com/oomol/oocana-node/commit/49ca96624e213e54a7c2c41ec8fcaa32f3abaf12))
+
 ## [0.21.6](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.5...@oomol/oocana-sdk-v0.21.6) (2025-07-26)
 
 
