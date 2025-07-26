@@ -404,10 +404,12 @@ export class ContextImpl implements Context {
         case "BlockFinished": {
           send(onOutputInternal, msg.result);
           msg.error ? reject(msg.error) : resolve();
+          msg.error ? null : send(onProgress, 100);
           break;
         }
         case "SubflowBlockFinished": {
           msg.error ? reject(msg.error) : resolve();
+          msg.error ? null : send(onProgress, 100);
           break;
         }
         default:
