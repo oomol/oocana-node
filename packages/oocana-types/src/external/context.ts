@@ -272,6 +272,7 @@ export interface Context<
    * }
    */
   readonly queryBlock: (blockName: string) => Promise<{
+    type: "task" | "subflow";
     description?: string;
     inputs_def?: HandlesDef;
     outputs_def?: HandlesDef;

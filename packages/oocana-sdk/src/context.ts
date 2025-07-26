@@ -213,6 +213,7 @@ export class ContextImpl implements Context {
   queryBlock = async (
     block_name: string
   ): Promise<{
+    type: "task" | "subflow";
     description?: string;
     inputs_def?: HandlesDef;
     outputs_def?: HandlesDef;
@@ -386,6 +387,10 @@ export class ContextImpl implements Context {
         }
         case "BlockProgress": {
           send(onProgress, msg.rate);
+          break;
+        }
+        case "SubflowBlockProgress": {
+          send(onProgress, msg.progress);
           break;
         }
         case "BlockPreview": {
