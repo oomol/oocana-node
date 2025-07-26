@@ -1,12 +1,15 @@
 import type { MqttClient, OnMessageCallback } from "mqtt";
 import mqtt from "mqtt";
 import type { ReporterMessageKeys, ReporterMessage } from "@oomol/oocana-types";
+import crypto from "node:crypto";
 
 export class Reporter {
   public static async connect(address: string): Promise<Reporter> {
     address = address.includes("://") ? address : `mqtt://${address}`;
 
-    const client = mqtt.connect(address);
+    const client = mqtt.connect(address, {
+      clientId: `oocana-node-reporter-${crypto.randomUUID()}`,
+    });
     await client.subscribeAsync("report");
 
     return new Reporter(client, address);
