@@ -15,7 +15,7 @@ import {
   EventListener,
   MapStandaloneOutputEventToValue,
 } from "@oomol/oocana-types";
-import { AddEventListener, event, send } from "@wopjs/event";
+import { event, send } from "@wopjs/event";
 import { Mainframe } from "./mainframe";
 import { isBinHandle, isValHandle, outputRefKey } from "./utils";
 import throttle from "lodash.throttle";
