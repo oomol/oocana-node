@@ -213,6 +213,7 @@ export class ContextImpl implements Context {
   queryBlock = async (
     block_name: string
   ): Promise<{
+    type: "block" | "subflow";
     description?: string;
     inputs_def?: HandlesDef;
     outputs_def?: HandlesDef;
