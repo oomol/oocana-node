@@ -19,6 +19,7 @@ import type {
   IMainframeQueryBlockRequest,
   ReporterMessage,
   IMainframeQueryDownstreamRequest,
+  IMainframeBlockProgress,
 } from "@oomol/oocana-types";
 
 export class Mainframe {
@@ -269,6 +270,10 @@ export class Mainframe {
     await this.mqtt.publishAsync(`report`, JSON.stringify(message), {
       qos: 1,
     });
+  }
+
+  public async sendProgress(message: IMainframeBlockProgress): Promise<void> {
+    await this.send(message);
   }
 
   public async sendWarning(message: IReporterBlockWarning): Promise<void> {
