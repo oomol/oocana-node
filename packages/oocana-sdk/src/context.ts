@@ -362,37 +362,51 @@ export class ContextImpl implements Context {
       reject = rej;
     });
 
+    const onProgress = event<number>();
+    const onPreview = event<PreviewPayload>();
+    const onMessage = event<unknown>();
     const onOutputInternal = event<TOutputs>();
-    const blockEvent = (msgPayload: ReporterMessage) => {
-      if (msgPayload?.session_id !== this.sessionId) {
+    const blockEvent = (msg: ReporterMessage) => {
+      if (msg?.session_id !== this.sessionId) {
         return;
       }
-      if (
-        msgPayload.type !== "BlockOutput" &&
-        msgPayload.type !== "BlockOutputs" &&
-        msgPayload.type !== "BlockFinished" &&
-        msgPayload.type !== "SubflowBlockFinished" &&
-        msgPayload.type !== "SubflowBlockOutput"
-      ) {
-        return;
-      }
-      if (msgPayload.job_id !== block_job_id) {
+      if ((msg as any)?.job_id && (msg as any).job_id !== block_job_id) {
         return;
       }
 
-      if (msgPayload.type === "BlockOutput") {
-        send(onOutputInternal, { [msgPayload.handle]: msgPayload.output });
-      } else if (msgPayload.type === "SubflowBlockOutput") {
-        send(onOutputInternal, { [msgPayload.handle]: msgPayload.output });
-      } else if (msgPayload.type === "BlockOutputs") {
-        send(onOutputInternal, msgPayload.outputs);
-      } else if (msgPayload.type === "BlockFinished") {
-        if (msgPayload.result) {
-          send(onOutputInternal, msgPayload.result);
+      switch (msg.type) {
+        case "BlockOutput":
+        case "SubflowBlockOutput": {
+          send(onOutputInternal, { [msg.handle]: msg.output });
+          break;
         }
-        msgPayload.error ? reject(msgPayload.error) : resolve();
-      } else if (msgPayload.type === "SubflowBlockFinished") {
-        msgPayload.error ? reject(msgPayload.error) : resolve();
+        case "BlockOutputs": {
+          send(onOutputInternal, msg.outputs);
+          break;
+        }
+        case "BlockProgress": {
+          send(onProgress, msg.rate);
+          break;
+        }
+        case "BlockPreview": {
+          send(onPreview, msg.payload);
+          break;
+        }
+        case "BlockMessage": {
+          send(onMessage, msg.payload);
+          break;
+        }
+        case "BlockFinished": {
+          send(onOutputInternal, msg.result);
+          msg.error ? reject(msg.error) : resolve();
+          break;
+        }
+        case "SubflowBlockFinished": {
+          msg.error ? reject(msg.error) : resolve();
+          break;
+        }
+        default:
+          break;
       }
     };
     this.mainframe.addReportCallback(blockEvent);
@@ -427,6 +441,10 @@ export class ContextImpl implements Context {
     };
 
     const dispose = () => {
+      onOutputInternal.dispose();
+      onProgress.dispose();
+      onMessage.dispose();
+      onPreview.dispose();
       this.mainframe.removeReportCallback(blockEvent);
       this.mainframe.removeRequestResponseCallback(
         this.sessionId,
@@ -437,6 +455,9 @@ export class ContextImpl implements Context {
 
     const blockJob: BlockJob<TOutputs> = {
       blockJobId: block_job_id,
+      onProgress,
+      onMessage,
+      onPreview,
       onOutput: onOutput as any,
       finish: async () => finishPromise,
       dispose,
