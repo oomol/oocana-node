@@ -141,6 +141,19 @@ describe(
       expect(sessionFinished[0].data.partial).not.toBeUndefined();
     });
 
+    it("run subflow-progress flow", async () => {
+      const { code, events } = await runFlow("subflow-progress");
+      expect(code).toBe(0);
+      const subflowProgress = events.filter(
+        e => e.event === "SubflowBlockProgress"
+      );
+
+      expect(subflowProgress.length).greaterThanOrEqual(
+        8,
+        `subflowProgress: ${JSON.stringify(subflowProgress)}`
+      );
+    });
+
     it("run special-output flow", async () => {
       const { code, events } = await runFlow("special-output");
       const latestFinished = events.findLast(e => e.event === "BlockFinished");
