@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.21.6](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.5...@oomol/oocana-sdk-v0.21.6) (2025-07-26)
+
+
+### Features
+
+* add subflow progress event ([#291](https://github.com/oomol/oocana-node/issues/291)) ([fea2ffe](https://github.com/oomol/oocana-node/commit/fea2ffe627fe7cc6e10e21e7623762d4bd31dfb5))
+* improve run block and query block ([#296](https://github.com/oomol/oocana-node/issues/296)) ([64a3af4](https://github.com/oomol/oocana-node/commit/64a3af4be29a4edadec6a0813a9d99462654d7ed))
+* **sdk:** add onProgress, onMessage and onPreview ([#281](https://github.com/oomol/oocana-node/issues/281)) ([c6b37f8](https://github.com/oomol/oocana-node/commit/c6b37f83ce2af334a5de57ec0bd5863f1524eef3))
+
+
+### Code Refactoring
+
+* some refactor improve ([#290](https://github.com/oomol/oocana-node/issues/290)) ([5cdb5f9](https://github.com/oomol/oocana-node/commit/5cdb5f9d0d70aca38c0428a5e1fe84facce69783))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.22.5
+
 ## [0.21.5](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.4...@oomol/oocana-sdk-v0.21.5) (2025-07-21)
 
 

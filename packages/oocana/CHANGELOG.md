@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.22.64](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.63...@oomol/oocana-v0.22.64) (2025-07-26)
+
+
+### Code Refactoring
+
+* add client format to better distinguish ([#293](https://github.com/oomol/oocana-node/issues/293)) ([e8b5099](https://github.com/oomol/oocana-node/commit/e8b50992898988094509b5df60b4c51976466457))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.29.13 ([#294](https://github.com/oomol/oocana-node/issues/294)) ([25f1013](https://github.com/oomol/oocana-node/commit/25f10135b20c4462a2a7cc408d6a0d94aeabb408))
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.29.14 ([#295](https://github.com/oomol/oocana-node/issues/295)) ([9ff2e3c](https://github.com/oomol/oocana-node/commit/9ff2e3c5371cd59c835330ef012367786157d482))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.22.5
+
 ## [0.22.63](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.62...@oomol/oocana-v0.22.63) (2025-07-25)
 
 
