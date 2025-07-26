@@ -62,7 +62,7 @@ export interface SubflowBlockStarted extends BlockInfo {
 export interface SubflowBlockProgress extends BlockInfo {
   readonly type: "SubflowBlockProgress";
   /** 0 ~ 100 */
-  readonly rate: number;
+  readonly progress: number;
 }
 
 export interface SubflowBlockFinished extends BlockInfo {
