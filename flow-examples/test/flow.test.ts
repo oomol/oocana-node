@@ -148,6 +148,12 @@ describe(
         e => e.event === "SubflowBlockProgress"
       );
 
+      expect(
+        subflowProgress.every(
+          e => e.data.progress >= 0 && e.data.progress <= 100
+        )
+      ).toBe(true);
+
       expect(subflowProgress.length).greaterThanOrEqual(
         8,
         `subflowProgress: ${JSON.stringify(subflowProgress)}`
