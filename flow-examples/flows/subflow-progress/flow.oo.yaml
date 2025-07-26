@@ -1,0 +1,34 @@
+title: subflow-progress
+nodes:
+  - node_id: progress#1
+    subflow: self::progress
+    inputs_from:
+      - handle: input
+        schema_overrides:
+          - schema:
+              type: string
+        value: "1111"
+  - node_id: +typescript#1
+    title: "TypeScript #1"
+    icon: ":skill-icons:typescript:"
+    task:
+      ui:
+        default_width: 450
+      inputs_def:
+        - handle: output
+          json_schema:
+            {}
+          nullable: false
+      outputs_def:
+        - handle: output
+          json_schema:
+            {}
+      executor:
+        name: nodejs
+        options:
+          entry: scriptlets/+scriptlet#1.ts
+    inputs_from:
+      - handle: output
+        from_node:
+          - node_id: progress#1
+            output_handle: output

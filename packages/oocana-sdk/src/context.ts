@@ -566,6 +566,12 @@ export class ContextImpl implements Context {
   reportProgress: ThrottleFunction<(progress: number) => Promise<void>> =
     throttle((progress: any) => {
       progress = Number(progress) || 0;
+      this.mainframe.sendProgress({
+        type: "BlockProgress",
+        session_id: this.sessionId,
+        job_id: this.jobId,
+        progress,
+      });
       return this.mainframe.sendReport({
         type: "BlockProgress",
         session_id: this.sessionId,

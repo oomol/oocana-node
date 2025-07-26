@@ -82,6 +82,11 @@ export interface IMainframeBlockError extends JobInfo {
   error: string;
 }
 
+export interface IMainframeBlockProgress extends JobInfo {
+  type: "BlockProgress";
+  /** 0 ~ 100 */
+  progress: number;
+}
 export interface IMainframeBlockFinished extends JobInfo {
   type: "BlockFinished";
   error?: string;
@@ -94,6 +99,7 @@ export type IMainframeClientMessage =
   | IMainframeBlockOutput
   | IMainframeBlockOutputs
   | IMainframeBlockError
+  | IMainframeBlockProgress
   | IMainframeBlockFinished
   | IMainframeRunBlockRequest
   | IMainframeQueryBlockRequest
