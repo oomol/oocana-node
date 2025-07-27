@@ -15,7 +15,7 @@ export interface RunBlockConfig {
   blockPath: string;
   sessionId?: string;
   debug?: boolean;
-  blockValues?: {
+  inputs?: {
     [handleId: string]: any;
   };
   /** exclude packages, these package will not use ovm layer feature if the feature is enabled */
@@ -60,8 +60,13 @@ export interface RunFlowConfig {
   debug?: boolean;
   /** only run these nodes */
   nodes?: string[];
-  /** replace node's input value(only work on handle without connection to node or flow) */
+  /** @deprecated use nodesInputs instead */
   inputValues?: {
+    [nodeId: string]: {
+      [inputHandle: string]: any;
+    };
+  };
+  nodesInputs?: {
     [nodeId: string]: {
       [inputHandle: string]: any;
     };
@@ -133,7 +138,7 @@ export class Oocana implements IDisposable, OocanaInterface {
   public async runBlock({
     blockPath,
     sessionId,
-    blockValues,
+    inputs,
     excludePackages,
     sessionPath,
     tempRoot,
@@ -164,8 +169,8 @@ export class Oocana implements IDisposable, OocanaInterface {
     if (sessionId) {
       args.push("--session", sessionId);
     }
-    if (blockValues) {
-      args.push("--block-values", JSON.stringify(blockValues));
+    if (inputs) {
+      args.push("--inputs", JSON.stringify(inputs));
     }
 
     if (excludePackages) {
@@ -305,7 +310,7 @@ export class Oocana implements IDisposable, OocanaInterface {
     }
 
     if (inputValues) {
-      args.push("--input-values", JSON.stringify(inputValues));
+      args.push("--nodes-inputs", JSON.stringify(inputValues));
     }
 
     if (useCache) {
