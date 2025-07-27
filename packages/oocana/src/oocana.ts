@@ -267,6 +267,7 @@ export class Oocana implements IDisposable, OocanaInterface {
     useCache,
     debug,
     inputValues,
+    nodesInputs,
     excludePackages,
     sessionPath,
     tempRoot,
@@ -309,7 +310,9 @@ export class Oocana implements IDisposable, OocanaInterface {
       args.push("--nodes", nodes.join(","));
     }
 
-    if (inputValues) {
+    if (nodesInputs) {
+      args.push("--nodes-inputs", JSON.stringify(nodesInputs));
+    } else if (inputValues) {
       args.push("--nodes-inputs", JSON.stringify(inputValues));
     }
 
