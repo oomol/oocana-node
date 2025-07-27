@@ -1,0 +1,9 @@
+executor:
+  name: nodejs
+  options:
+    entry: "src/main.ts"
+    function: main
+inputs_def:
+  - handle: input
+outputs_def:
+  - handle: output

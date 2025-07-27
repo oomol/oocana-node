@@ -1,4 +1,3 @@
-type: task_block
 executor:
   name: nodejs
   options:
