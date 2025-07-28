@@ -69,6 +69,7 @@ async function runBlock(
     inputs,
     bindPaths: [`src=${homedir()}/.oocana,dst=/root/.oocana`],
     bindPathFile: await bindFile(),
+    excludePackages: [flow_example],
     tempRoot: path.join(flow_example, ".temp"),
     debug: true,
     sessionId,
