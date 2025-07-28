@@ -135,7 +135,7 @@ export interface BlockLog extends BlockInfo {
 export interface BlockProgress extends BlockInfo {
   readonly type: "BlockProgress";
   /** 0 ~ 100 */
-  readonly rate: number;
+  readonly progress: number;
 }
 
 export interface BlockError extends BlockInfo {
