@@ -10,6 +10,7 @@ export const flow_examples = path.dirname(
   path.dirname(fileURLToPath(import.meta.url))
 );
 export const workspace = path.join(flow_examples, "workspace");
+export const packages = path.join(flow_examples, "packages");
 export const executorBin = path.join(
   flow_examples,
   "..",
@@ -39,7 +40,7 @@ export async function runFlow(
 
   const task = await cli.runFlow({
     flowPath: path.join(workspace, "flows", flow, "flow.oo.yaml"),
-    searchPaths: [path.join(flow_examples, "packages")].join(","),
+    searchPaths: [packages].join(","),
     bindPaths: [`src=${homedir()}/.oocana,dst=/root/.oocana`],
     bindPathFile: await bindFile(),
     tempRoot: tmpdir(),

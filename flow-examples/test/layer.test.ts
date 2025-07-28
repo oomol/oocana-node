@@ -11,11 +11,10 @@ import { isPackageLayerEnable } from "@oomol/oocana/src/layer";
 import { readdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path, { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 import { describe, it, expect, vitest } from "vitest";
+import { packages } from "./run";
 
-const testDir = path.dirname(fileURLToPath(import.meta.url));
-const examplePackagePath = path.join(testDir, "..", "packages", "my-pkg");
+const examplePackagePath = path.join(packages, "my-pkg");
 
 vitest.setConfig({ maxConcurrency: 1 });
 describe("Layer operations", () => {
@@ -191,7 +190,7 @@ describe("Layer operations", () => {
       expect(code).toBe(0);
 
       let map = await scanPackages({
-        searchPaths: [dirname(examplePackagePath), dirname(testDir)],
+        searchPaths: [dirname(examplePackagePath)],
       });
 
       const package_number =
