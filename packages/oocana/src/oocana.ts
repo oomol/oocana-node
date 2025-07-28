@@ -18,6 +18,8 @@ export interface RunBlockConfig {
   inputs?: {
     [handleId: string]: any;
   };
+  /** search package blocks's path */
+  searchPaths?: [];
   /** exclude packages, these package will not use ovm layer feature if the feature is enabled */
   excludePackages?: string[];
   /** a path for session storage. this path will shared by all block by context.sessionDir or context.session_dir */
@@ -139,6 +141,7 @@ export class Oocana implements IDisposable, OocanaInterface {
     blockPath,
     sessionId,
     inputs,
+    searchPaths,
     excludePackages,
     sessionPath,
     tempRoot,
@@ -213,6 +216,10 @@ export class Oocana implements IDisposable, OocanaInterface {
 
     if (envFile) {
       args.push("--env-file", envFile);
+    }
+
+    if (searchPaths) {
+      args.push("--search-paths", searchPaths.join(","));
     }
 
     if (bindPathFile) {
