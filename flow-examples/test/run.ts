@@ -43,6 +43,7 @@ export async function runFlow(
     bindPathFile: await bindFile(),
     tempRoot: tmpdir(),
     debug: true,
+    excludePackages: [flow_example],
     sessionId: flow,
     oomolEnvs: {
       VAR: "1",
