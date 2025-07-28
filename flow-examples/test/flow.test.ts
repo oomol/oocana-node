@@ -3,7 +3,7 @@ import { Oocana, isPackageLayerEnable } from "@oomol/oocana";
 import path from "node:path";
 import { readdir } from "node:fs/promises";
 import { homedir } from "node:os";
-import { flow_example, runFlow } from "./run";
+import { flow_examples, runFlow, workspace } from "./run";
 
 describe(
   "Flow Tests",
@@ -14,7 +14,7 @@ describe(
     let files: string[] = [];
 
     beforeAll(async () => {
-      files = await readdir(path.join(flow_example, "flows"));
+      files = await readdir(path.join(workspace, "flows"));
       console.log("files", files);
     });
 
@@ -347,8 +347,8 @@ describe("stop flow", () => {
     await cli.connect();
 
     const task = await cli.runFlow({
-      flowPath: path.join(flow_example, "flows", "progress", "flow.oo.yaml"),
-      searchPaths: [path.join(flow_example, "packages")].join(","),
+      flowPath: path.join(workspace, "flows", "progress", "flow.oo.yaml"),
+      searchPaths: [path.join(flow_examples, "packages")].join(","),
       bindPaths: [`src=${homedir()}/.oocana,dst=/root/.oocana`],
       sessionId: "stop",
       oomolEnvs: {
@@ -357,8 +357,8 @@ describe("stop flow", () => {
       envs: {
         VAR: "1",
       },
-      pkgDataRoot: path.join(flow_example, ".data"),
-      projectData: flow_example,
+      pkgDataRoot: path.join(workspace, ".data"),
+      projectData: workspace,
     });
 
     task.kill();
