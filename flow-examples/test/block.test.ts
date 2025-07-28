@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { isPackageLayerEnable, Oocana } from "@oomol/oocana";
 import path from "node:path";
 import { homedir, tmpdir } from "node:os";
-import { flow_examples, workspace } from "./run";
+import { flow_examples, packages, workspace } from "./run";
 import { randomUUID } from "node:crypto";
 import { writeFile } from "fs/promises";
 import { OocanaEventConfig } from "@oomol/oocana-types";
@@ -69,7 +69,9 @@ async function runBlock(
     inputs,
     bindPaths: [`src=${homedir()}/.oocana,dst=/root/.oocana`],
     bindPathFile: await bindFile(),
+    searchPaths: [packages],
     excludePackages: [workspace],
+    sessionPath: path.join(workspace, ".session"),
     tempRoot: path.join(workspace, ".temp"),
     debug: true,
     sessionId,
