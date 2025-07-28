@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.66](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.65...@oomol/oocana-v0.22.66) (2025-07-28)
+
+
+### Features
+
+* add search paths parameter for run block ([#305](https://github.com/oomol/oocana-node/issues/305)) ([6906b96](https://github.com/oomol/oocana-node/commit/6906b962ccbe215bd761d6c7cfee14f13bbf223c))
+
 ## [0.22.65](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.64...@oomol/oocana-v0.22.65) (2025-07-28)
 
 
