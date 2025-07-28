@@ -6,11 +6,13 @@ import path from "path";
 import { AnyEventData } from "remitter";
 import { fileURLToPath } from "url";
 
-export const flow_example = path.dirname(
+export const flow_examples = path.dirname(
   path.dirname(fileURLToPath(import.meta.url))
 );
+export const workspace = path.join(flow_examples, "workspace");
+export const packages = path.join(flow_examples, "packages");
 export const executorBin = path.join(
-  flow_example,
+  flow_examples,
   "..",
   "packages",
   "executor",
@@ -37,13 +39,13 @@ export async function runFlow(
   });
 
   const task = await cli.runFlow({
-    flowPath: path.join(flow_example, "flows", flow, "flow.oo.yaml"),
-    searchPaths: [path.join(flow_example, "packages")].join(","),
+    flowPath: path.join(workspace, "flows", flow, "flow.oo.yaml"),
+    searchPaths: [packages].join(","),
     bindPaths: [`src=${homedir()}/.oocana,dst=/root/.oocana`],
     bindPathFile: await bindFile(),
     tempRoot: tmpdir(),
     debug: true,
-    excludePackages: [flow_example],
+    excludePackages: [workspace],
     sessionId: flow,
     oomolEnvs: {
       VAR: "1",
@@ -51,9 +53,9 @@ export async function runFlow(
     envs: {
       VAR: "1",
     },
-    envFile: path.join(flow_example, "executor.env"),
-    pkgDataRoot: path.join(flow_example, ".data"),
-    projectData: flow_example,
+    envFile: path.join(workspace, "executor.env"),
+    pkgDataRoot: path.join(workspace, ".data"),
+    projectData: workspace,
   });
 
   cli.events.on("BlockFinished", event => {
@@ -79,7 +81,7 @@ export async function runFlow(
 }
 
 async function bindFile() {
-  const content = `src=${flow_example}/executor.env,dst=/root/oocana/bind`;
+  const content = `src=${workspace}/executor.env,dst=/root/oocana/bind`;
 
   const p = `${tmpdir()}/bind.txt`;
   await writeFile(p, content);

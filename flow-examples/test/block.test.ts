@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { isPackageLayerEnable, Oocana } from "@oomol/oocana";
 import path from "node:path";
 import { homedir, tmpdir } from "node:os";
-import { flow_example } from "./run";
+import { flow_examples, workspace } from "./run";
 import { randomUUID } from "node:crypto";
 import { writeFile } from "fs/promises";
 import { OocanaEventConfig } from "@oomol/oocana-types";
@@ -15,7 +15,7 @@ describe("Block test", () => {
     }
     const { code, events } = await runBlock(
       path.join(
-        flow_example,
+        flow_examples,
         "packages",
         "check",
         "blocks",
@@ -35,7 +35,7 @@ describe("Block test", () => {
 
   it("run aaa", async () => {
     const { code, events } = await runBlock(
-      path.join(flow_example, "blocks", "aaa", "block.oo.yaml"),
+      path.join(workspace, "blocks", "aaa", "block.oo.yaml"),
       "aaa",
       { input: "test" }
     );
@@ -69,8 +69,8 @@ async function runBlock(
     inputs,
     bindPaths: [`src=${homedir()}/.oocana,dst=/root/.oocana`],
     bindPathFile: await bindFile(),
-    excludePackages: [flow_example],
-    tempRoot: path.join(flow_example, ".temp"),
+    excludePackages: [workspace],
+    tempRoot: path.join(workspace, ".temp"),
     debug: true,
     sessionId,
     oomolEnvs: {
@@ -79,9 +79,9 @@ async function runBlock(
     envs: {
       VAR: "1",
     },
-    envFile: path.join(flow_example, "executor.env"),
-    pkgDataRoot: path.join(flow_example, ".data"),
-    projectData: flow_example,
+    envFile: path.join(workspace, "executor.env"),
+    pkgDataRoot: path.join(workspace, ".data"),
+    projectData: workspace,
   });
 
   cli.events.on("BlockFinished", event => {
@@ -106,7 +106,7 @@ async function runBlock(
 }
 
 async function bindFile() {
-  const content = `src=${flow_example}/executor.env,dst=/root/oocana/bind`;
+  const content = `src=${workspace}/executor.env,dst=/root/oocana/bind`;
 
   const p = `${tmpdir()}/bind.txt`;
   await writeFile(p, content);
