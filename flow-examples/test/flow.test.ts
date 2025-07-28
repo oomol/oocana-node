@@ -282,18 +282,6 @@ describe(
       );
     });
 
-    it("run service flow", async () => {
-      const { code, events } = await runFlow("service");
-      expect(code).toBe(0);
-
-      const latestBlockWarning = events.findLast(
-        e => e.event === "BlockWarning"
-      )?.data?.warning;
-      expect(latestBlockWarning).toBe(
-        "Output handle key: [app] is not defined in Block outputs schema."
-      );
-    });
-
     it("run inject flow", async () => {
       if (await isPackageLayerEnable()) {
         const { code } = await runFlow("inject");
@@ -336,6 +324,18 @@ describe(
     it("run pkg-dir flow", async () => {
       const { code } = await runFlow("pkg-dir");
       expect(code).toBe(0);
+    });
+
+    it("run service flow", async () => {
+      const { code, events } = await runFlow("service");
+      expect(code).toBe(0);
+
+      const latestBlockWarning = events.findLast(
+        e => e.event === "BlockWarning"
+      )?.data?.warning;
+      expect(latestBlockWarning).toBe(
+        "Output handle key: [app] is not defined in Block outputs schema."
+      );
     });
   }
 );
