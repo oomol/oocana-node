@@ -79,7 +79,7 @@ describe(
 
     it("query inputs", async () => {
       const result = await queryInputs({
-        path: path.join(workspace, "subflows", "basic", "flow.oo.yaml"),
+        path: path.join(workspace, "subflows", "basic", "subflow.oo.yaml"),
         searchPaths: [packages].join(","),
       });
 
