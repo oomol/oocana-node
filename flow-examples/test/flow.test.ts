@@ -144,19 +144,17 @@ describe(
     it("run subflow-progress flow", async () => {
       const { code, events } = await runFlow("subflow-progress");
       expect(code).toBe(0);
-      const subflowProgress = events.filter(
-        e => e.event === "SubflowBlockProgress"
-      );
+      const progressEvents = events.filter(e => e.event === "BlockProgress");
 
       expect(
-        subflowProgress.every(
+        progressEvents.every(
           e => e.data.progress >= 0 && e.data.progress <= 100
         )
       ).toBe(true);
 
-      expect(subflowProgress.length).greaterThanOrEqual(
+      expect(progressEvents.length).greaterThanOrEqual(
         8,
-        `subflowProgress: ${JSON.stringify(subflowProgress)}`
+        `subflowProgress: ${JSON.stringify(progressEvents)}`
       );
     });
 

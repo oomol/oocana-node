@@ -24,7 +24,7 @@ export interface IReporterBlockLog extends BlockInfo {
 export interface IReporterBlockProgress extends BlockInfo {
   type: "BlockProgress";
   /** 0 ~ 100 */
-  rate: number;
+  progress: number;
 }
 
 export interface IReporterBlockWarning extends BlockInfo {

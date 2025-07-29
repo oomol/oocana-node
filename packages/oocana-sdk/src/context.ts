@@ -386,10 +386,6 @@ export class ContextImpl implements Context {
           break;
         }
         case "BlockProgress": {
-          send(onProgress, msg.rate);
-          break;
-        }
-        case "SubflowBlockProgress": {
           send(onProgress, msg.progress);
           break;
         }
@@ -606,7 +602,7 @@ export class ContextImpl implements Context {
         job_id: this.jobId,
         block_path: this.block_path,
         stacks: this.stacks,
-        rate: progress,
+        progress: progress,
       });
     }, 300);
 
