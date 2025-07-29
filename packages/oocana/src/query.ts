@@ -213,11 +213,11 @@ export async function queryUpstream(
   };
 }
 
-export async function queryInput(
+export async function queryNodesInputs(
   params: NodesInputsQueryParams
 ): Promise<NodesInputsQueryResponse> {
   const bin = join(__dirname, "..", "oocana");
-  const args = ["query", "input", params.flowPath];
+  const args = ["query", "nodes-inputs", params.flowPath];
 
   if (params.searchPaths) {
     args.push("--search-paths", params.searchPaths);
