@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.23.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.22.5...@oomol/oocana-types-v0.23.0) (2025-07-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove subflow progress and rename rate to progress ([#307](https://github.com/oomol/oocana-node/issues/307))
+
+### Code Refactoring
+
+* remove subflow progress and rename rate to progress ([#307](https://github.com/oomol/oocana-node/issues/307)) ([6b50009](https://github.com/oomol/oocana-node/commit/6b50009a5821420640a2f8b0d5cfc9ed35400701))
+
 ## [0.22.5](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.22.4...@oomol/oocana-types-v0.22.5) (2025-07-26)
 
 
