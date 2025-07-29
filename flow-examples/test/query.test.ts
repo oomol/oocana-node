@@ -87,7 +87,7 @@ describe(
         input: {
           handle: "input",
           description: "Input",
-          jsonSchema: {
+          json_schema: {
             type: "string",
           },
         },
