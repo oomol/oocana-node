@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.22.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.7...@oomol/oocana-sdk-v0.22.0) (2025-07-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove subflow progress and rename rate to progress ([#307](https://github.com/oomol/oocana-node/issues/307))
+
+### Code Refactoring
+
+* remove subflow progress and rename rate to progress ([#307](https://github.com/oomol/oocana-node/issues/307)) ([6b50009](https://github.com/oomol/oocana-node/commit/6b50009a5821420640a2f8b0d5cfc9ed35400701))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.23.0
+
 ## [0.21.7](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.6...@oomol/oocana-sdk-v0.21.7) (2025-07-26)
 
 

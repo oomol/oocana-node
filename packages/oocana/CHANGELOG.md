@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.23.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.66...@oomol/oocana-v0.23.0) (2025-07-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* add query inputs and rename origin input to nodes_inputs ([#309](https://github.com/oomol/oocana-node/issues/309))
+
+### Features
+
+* add query inputs and rename origin input to nodes_inputs ([#309](https://github.com/oomol/oocana-node/issues/309)) ([da4cc26](https://github.com/oomol/oocana-node/commit/da4cc2650c6bcd34c84cad34b14a9582791f1c2a))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.29.19 ([#311](https://github.com/oomol/oocana-node/issues/311)) ([52a9f79](https://github.com/oomol/oocana-node/commit/52a9f79b028c9fa67b4bbccf860173ca52d6a86c))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.23.0
+
 ## [0.22.66](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.65...@oomol/oocana-v0.22.66) (2025-07-28)
 
 
