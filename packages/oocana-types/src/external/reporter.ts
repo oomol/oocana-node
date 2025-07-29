@@ -59,12 +59,6 @@ export interface SubflowBlockStarted extends BlockInfo {
   readonly create_at: number;
 }
 
-export interface SubflowBlockProgress extends BlockInfo {
-  readonly type: "SubflowBlockProgress";
-  /** 0 ~ 100 */
-  readonly progress: number;
-}
-
 export interface SubflowBlockFinished extends BlockInfo {
   readonly type: "SubflowBlockFinished";
   readonly error?: string;
@@ -181,7 +175,6 @@ export interface JobEventMap {
   FlowNodesWillRun: FlowNodesWillRun;
   FlowFinished: FlowFinished;
   SubflowBlockStarted: SubflowBlockStarted;
-  SubflowBlockProgress: SubflowBlockProgress;
   SubflowBlockOutput: SubflowBlockOutput;
   SubflowBlockFinished: SubflowBlockFinished;
   SlotflowStarted: SlotflowStarted;

@@ -389,10 +389,6 @@ export class ContextImpl implements Context {
           send(onProgress, msg.progress);
           break;
         }
-        case "SubflowBlockProgress": {
-          send(onProgress, msg.progress);
-          break;
-        }
         case "BlockPreview": {
           send(onPreview, msg.payload);
           break;
