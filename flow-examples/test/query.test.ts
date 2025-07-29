@@ -4,7 +4,8 @@ import {
   queryUpstream,
   queryService,
   queryPackage,
-  queryInput,
+  queryNodesInputs,
+  queryInputs,
 } from "@oomol/oocana";
 import { flow_examples, packages, workspace } from "./run";
 
@@ -56,8 +57,8 @@ describe(
       expect(Object.keys(cli).length).toBe(2);
     });
 
-    it("query flow absence input", async () => {
-      const result = await queryInput({
+    it("query flow nodes inputs", async () => {
+      const result = await queryNodesInputs({
         flowPath: path.join(workspace, "flows", "absence", "flow.oo.yaml"),
         searchPaths: [packages].join(","),
       });
@@ -73,6 +74,23 @@ describe(
             handle: "input",
           },
         ],
+      });
+    });
+
+    it("query inputs", async () => {
+      const result = await queryInputs({
+        path: path.join(workspace, "subflows", "basic", "flow.oo.yaml"),
+        searchPaths: [packages].join(","),
+      });
+
+      expect(result).toEqual({
+        input: {
+          handle: "input",
+          description: "Input",
+          jsonSchema: {
+            type: "string",
+          },
+        },
       });
     });
   }
