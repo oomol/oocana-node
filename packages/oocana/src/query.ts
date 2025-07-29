@@ -45,6 +45,15 @@ export type PackageQueryResponse = {
   [name: string]: boolean;
 };
 
+export type NodesInputsQueryParams = {
+  flowPath: string;
+  searchPaths?: string;
+};
+
+export type NodesInputsQueryResponse = {
+  [nodeId: string]: HandleDef[];
+};
+
 export async function queryPackage(
   params: PackageQueryParams
 ): Promise<PackageQueryResponse> {
@@ -204,18 +213,9 @@ export async function queryUpstream(
   };
 }
 
-type InputQueryParams = {
-  flowPath: string;
-  searchPaths?: string;
-};
-
-export type InputQueryResponse = {
-  [key: string]: HandleDef[];
-};
-
 export async function queryInput(
-  params: InputQueryParams
-): Promise<InputQueryResponse> {
+  params: NodesInputsQueryParams
+): Promise<NodesInputsQueryResponse> {
   const bin = join(__dirname, "..", "oocana");
   const args = ["query", "input", params.flowPath];
 
@@ -236,7 +236,7 @@ export async function queryInput(
     cli.wait().then(code => {
       if (code == 0) {
         const fileContent = readFileSync(tmp_file, { encoding: "utf-8" });
-        let map: InputQueryResponse = {};
+        let map: NodesInputsQueryResponse = {};
         try {
           map = JSON.parse(fileContent);
           resolve(map);
