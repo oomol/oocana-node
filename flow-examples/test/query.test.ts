@@ -5,6 +5,7 @@ import {
   queryService,
   queryPackage,
   queryNodesInputs,
+  queryInputs,
 } from "@oomol/oocana";
 import { flow_examples, packages, workspace } from "./run";
 
@@ -73,6 +74,23 @@ describe(
             handle: "input",
           },
         ],
+      });
+    });
+
+    it("query inputs", async () => {
+      const result = await queryInputs({
+        path: path.join(workspace, "subflows", "basic", "flow.oo.yaml"),
+        searchPaths: [packages].join(","),
+      });
+
+      expect(result).toEqual({
+        input: {
+          handle: "input",
+          description: "Input",
+          jsonSchema: {
+            type: "sting",
+          },
+        },
       });
     });
   }
