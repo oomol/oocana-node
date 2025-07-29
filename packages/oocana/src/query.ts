@@ -54,6 +54,15 @@ export type NodesInputsQueryResponse = {
   [nodeId: string]: HandleDef[];
 };
 
+export type InputsQueryParams = {
+  path: string;
+  searchPaths?: string;
+};
+
+export type InputsQueryResponse = {
+  [handleName: string]: HandleDef;
+};
+
 export async function queryPackage(
   params: PackageQueryParams
 ): Promise<PackageQueryResponse> {
@@ -243,6 +252,44 @@ export async function queryNodesInputs(
         } catch (error) {
           console.error("Failed to parse JSON:", error);
           reject(new Error("Failed to parse JSON from input query result"));
+        }
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+
+export async function queryInputs(
+  params: InputsQueryParams
+): Promise<InputsQueryResponse> {
+  const bin = join(__dirname, "..", "oocana");
+  const args = ["query", "inputs", params.path];
+
+  if (params.searchPaths) {
+    args.push("--search-paths", params.searchPaths);
+  }
+
+  const tmp_file = join(tmpdir(), randomUUID() + ".json");
+  args.push("--output", tmp_file);
+
+  return new Promise<InputsQueryResponse>((resolve, reject) => {
+    const cli = new Cli(spawn(bin, [...args]));
+
+    let err = "";
+    cli.addLogListener("stderr", (data: string) => {
+      err += data;
+    });
+    cli.wait().then(code => {
+      if (code == 0) {
+        const fileContent = readFileSync(tmp_file, { encoding: "utf-8" });
+        let map: InputsQueryResponse = {};
+        try {
+          map = JSON.parse(fileContent);
+          resolve(map);
+        } catch (error) {
+          console.error("Failed to parse JSON:", error);
+          reject(new Error("Failed to parse JSON from inputs query result"));
         }
       } else {
         reject(err);
