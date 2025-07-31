@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.0...@oomol/oocana-v0.23.1) (2025-07-31)
+
+
+### Features
+
+* add oocana to bin ([#313](https://github.com/oomol/oocana-node/issues/313)) ([cdd967a](https://github.com/oomol/oocana-node/commit/cdd967a42c20bc4b08a7d08e4a2d9c689d01ec95))
+
 ## [0.23.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.22.66...@oomol/oocana-v0.23.0) (2025-07-29)
 
 
