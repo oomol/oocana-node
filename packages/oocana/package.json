@@ -11,9 +11,6 @@
   "main": "./dist/main.js",
   "module": "./dist/main.mjs",
   "types": "./dist/main.d.ts",
-  "bin": {
-    "oocana": "./bin/oocana"
-  },
   "files": [
     "src",
     "scripts",

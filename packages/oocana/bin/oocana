@@ -1,3 +1,0 @@
-#!/usr/bin/env node
-
-throw new Error("Please run `npm run install` to install the oocana binary.");

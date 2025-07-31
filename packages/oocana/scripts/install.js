@@ -55,15 +55,6 @@ if (!toCopyBinPath || !fs.existsSync(toCopyBinPath)) {
   const { copyFile } = fs.promises;
   try {
     await copyFile(toCopyBinPath, path.join(__dirname, "..", "oocana"));
-
-    // If we're in node_modules, copy to bin so that it can be used as a CLI
-    // skip copy when in development
-    if (!__dirname.includes("packages/oocana")) {
-      await copyFile(
-        toCopyBinPath,
-        path.join(__dirname, "..", "bin", "oocana")
-      );
-    }
   } catch (error) {
     console.error(error);
   }
