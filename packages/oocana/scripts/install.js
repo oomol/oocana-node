@@ -23,30 +23,23 @@ if (!target) {
 
 const packageName = `@oomol/oocana-cli-${target}`;
 
-let toCopyBinPath = "";
+let oocanaBinPath = "";
 
 try {
-  toCopyBinPath = path.join(
+  oocanaBinPath = path.join(
     require.resolve(packageName),
     "..", // index.js
     "bin",
     "oocana"
   );
-} catch {
-  try {
-    toCopyBinPath = path.join(
-      require.resolve("@oomol/oocana-cli"),
-      "..", // index.js
-      "bin",
-      target
-    );
-  } catch {
-    console.error(`No package found for architecture: ${platform} ${arch}.`);
-    // ignore
-  }
+} catch (error) {
+  console.error(
+    `Failed to resolve package: ${packageName}. Make sure it is installed.`
+  );
+  console.error(`No package found for architecture: ${platform} ${arch}.`);
 }
 
-if (!toCopyBinPath || !fs.existsSync(toCopyBinPath)) {
+if (!oocanaBinPath || !fs.existsSync(oocanaBinPath)) {
   console.error(`No package found for architecture: ${platform} ${arch}.`);
   process.exit(0);
 }
@@ -54,7 +47,7 @@ if (!toCopyBinPath || !fs.existsSync(toCopyBinPath)) {
 (async () => {
   const { copyFile } = fs.promises;
   try {
-    await copyFile(toCopyBinPath, path.join(__dirname, "..", "oocana"));
+    await copyFile(oocanaBinPath, path.join(__dirname, "..", "oocana"));
   } catch (error) {
     console.error(error);
   }
