@@ -126,17 +126,17 @@ importers:
         version: 0.5.1
     optionalDependencies:
       '@oomol/oocana-cli-aarch64-apple-darwin':
-        specifier: 0.29.19
-        version: 0.29.19
+        specifier: 0.30.2
+        version: 0.30.2
       '@oomol/oocana-cli-aarch64-unknown-linux-gnu':
-        specifier: 0.29.19
-        version: 0.29.19
+        specifier: 0.30.2
+        version: 0.30.2
       '@oomol/oocana-cli-x86_64-apple-darwin':
-        specifier: 0.29.19
-        version: 0.29.19
+        specifier: 0.30.2
+        version: 0.30.2
       '@oomol/oocana-cli-x86_64-unknown-linux-gnu':
-        specifier: 0.29.19
-        version: 0.29.19
+        specifier: 0.30.2
+        version: 0.30.2
     devDependencies:
       '@oomol/oocana-types':
         specifier: workspace:*
@@ -802,33 +802,29 @@ packages:
   '@octokit/types@9.3.2':
     resolution: {integrity: sha512-D4iHGTdAnEEVsB8fl95m1hiz7D5YiRdQ9b/OEb3BYRVwbLsGHcRVPz+u+BgRLNk0Q0/4iZCBqDN96j2XNxfXrA==}
 
-  '@oomol/oocana-cli-aarch64-apple-darwin@0.29.19':
-    resolution: {integrity: sha512-fhnexxKkEK0dfgmY5/vbGa2G6bOxPyugmT8BT26PgYTn9xrEziFdcZDbkoTt8dLQRup5uVD5AsHprhY0g5Sc8g==}
-    engines: {node: '>=12'}
+  '@oomol/oocana-cli-aarch64-apple-darwin@0.30.2':
+    resolution: {integrity: sha512-Qfgnm3ppRKwsh5p/jhzlHpAo4MfF4MEqBRU77KbjGs6Jzx/gSqkONwCSoNL8Zve/gkD4iuliDPiItqRKGfWp/Q==}
+    engines: {node: '>=22'}
     cpu: [arm64]
     os: [darwin]
-    hasBin: true
 
-  '@oomol/oocana-cli-aarch64-unknown-linux-gnu@0.29.19':
-    resolution: {integrity: sha512-XV/QltirwcSPHyvLqGKAMFScBE/io1fhRHSkqXpMwUC3Vcp+hRWUbYTSM8+zL/VJruLL4uCOmhPLkk1wDmDKcQ==}
-    engines: {node: '>=12'}
+  '@oomol/oocana-cli-aarch64-unknown-linux-gnu@0.30.2':
+    resolution: {integrity: sha512-r8apZdbaWygWJkfDBi+D3h9jDF25prR9v7rkQEulkpbbZOYwB1PkSlXx2dhWugyU+8cqMHiZNZNiO9hsiQ+E8g==}
+    engines: {node: '>=22'}
     cpu: [arm64]
     os: [linux]
-    hasBin: true
 
-  '@oomol/oocana-cli-x86_64-apple-darwin@0.29.19':
-    resolution: {integrity: sha512-Jx8+9X6T2dUGSW2bDIcKgwNK55GViMazbeQKJNPukwfhirdOOwYmZl3dxV7JAIOZSFiRxjrBFVSFDMYbcp9jzA==}
-    engines: {node: '>=12'}
+  '@oomol/oocana-cli-x86_64-apple-darwin@0.30.2':
+    resolution: {integrity: sha512-h79xnMj1G2q/6LxWjjJgqJ03asfQ2PlWXjtPzjWGwO9Mw9PeOHYGWCfWn5LAnZiKunTGAZlxDcHjwHZwGVKg4g==}
+    engines: {node: '>=22'}
     cpu: [x64]
     os: [darwin]
-    hasBin: true
 
-  '@oomol/oocana-cli-x86_64-unknown-linux-gnu@0.29.19':
-    resolution: {integrity: sha512-lb2aiZYbO3j+LIx9DW+hf4E06vH28jzUJHLoi1ON06OWtMQj+m1r+bxIJWnQaPbhzM1ZMYmRq1Y/okrRzamxsQ==}
-    engines: {node: '>=12'}
+  '@oomol/oocana-cli-x86_64-unknown-linux-gnu@0.30.2':
+    resolution: {integrity: sha512-TMGFW7jGGWUNR1BDqU9mxN/LEuGow+QdGcH8/PY6drC1pOLKzXsZ2hb3TOOOqCx+2Oy8vnUSDzPXPXUopFzGIQ==}
+    engines: {node: '>=22'}
     cpu: [x64]
     os: [linux]
-    hasBin: true
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -2500,6 +2496,7 @@ packages:
   source-map@0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
     engines: {node: '>= 8'}
+    deprecated: The work that was done in this beta branch won't be included in future versions
 
   spdx-correct@3.2.0:
     resolution: {integrity: sha512-kN9dJbvnySHULIluDHy32WHRUu3Og7B9sbY7tsFLctQkIqnMh3hErYgdMjTYuqmcXX+lK5T1lnUt3G7zNswmZA==}
@@ -3509,16 +3506,16 @@ snapshots:
     dependencies:
       '@octokit/openapi-types': 18.1.1
 
-  '@oomol/oocana-cli-aarch64-apple-darwin@0.29.19':
+  '@oomol/oocana-cli-aarch64-apple-darwin@0.30.2':
     optional: true
 
-  '@oomol/oocana-cli-aarch64-unknown-linux-gnu@0.29.19':
+  '@oomol/oocana-cli-aarch64-unknown-linux-gnu@0.30.2':
     optional: true
 
-  '@oomol/oocana-cli-x86_64-apple-darwin@0.29.19':
+  '@oomol/oocana-cli-x86_64-apple-darwin@0.30.2':
     optional: true
 
-  '@oomol/oocana-cli-x86_64-unknown-linux-gnu@0.29.19':
+  '@oomol/oocana-cli-x86_64-unknown-linux-gnu@0.30.2':
     optional: true
 
   '@pkgjs/parseargs@0.11.0':
