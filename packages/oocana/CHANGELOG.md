@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.23.4](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.3...@oomol/oocana-v0.23.4) (2025-08-02)
+
+
+### Features
+
+* remove bin ([#322](https://github.com/oomol/oocana-node/issues/322)) ([6590eb9](https://github.com/oomol/oocana-node/commit/6590eb904f5306e82b60550f35bc10a57cd6d687))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.30.3 ([#320](https://github.com/oomol/oocana-node/issues/320)) ([fa30459](https://github.com/oomol/oocana-node/commit/fa30459a925391d37960d2028de032f3b62bfd02))
+
 ## [0.23.3](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.2...@oomol/oocana-v0.23.3) (2025-08-01)
 
 
