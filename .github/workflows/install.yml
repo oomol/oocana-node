@@ -2,7 +2,7 @@ name: install compatible check
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["release"]
+    workflows: ["publish"]
     types:
       - completed
 jobs:
