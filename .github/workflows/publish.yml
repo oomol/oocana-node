@@ -52,6 +52,9 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: "@oomol"
           cache: pnpm
+          node-version: 22.x
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: install
         run: pnpm install --frozen-lockfile
       - name: build

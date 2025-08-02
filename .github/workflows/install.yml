@@ -19,6 +19,16 @@ jobs:
         registry: ["https://registry.npmjs.org", "https://npm.pkg.github.com"]
     steps:
       - uses: actions/setup-node@v4
+        if: ${{ matrix.registry == 'https://npm.pkg.github.com' }}
+        with:
+          node-version: ${{ matrix.node }}
+          registry-url: ${{ matrix.registry }}
+          scope: oomol
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        if: ${{ matrix.registry != 'https://npm.pkg.github.com' }}
         with:
           node-version: ${{ matrix.node }}
           registry-url: ${{ matrix.registry }}
