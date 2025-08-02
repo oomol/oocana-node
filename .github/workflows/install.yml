@@ -9,7 +9,8 @@ jobs:
   echo:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "${{toJson(github.event.workflow_run)}}"
+      - run: |
+          echo '${{toJson(github.event.workflow_run)}}'
   install-check:
     runs-on: ubuntu-latest
     if: startsWith(github.event.workflow_run.head_branch, 'refs/tags/@oomol/oocana-v')
