@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.23.6](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.5...@oomol/oocana-v0.23.6) (2025-08-02)
+
+
+### Features
+
+* add oocana to bin ([#313](https://github.com/oomol/oocana-node/issues/313)) ([cdd967a](https://github.com/oomol/oocana-node/commit/cdd967a42c20bc4b08a7d08e4a2d9c689d01ec95))
+* add oocana to bin ([#313](https://github.com/oomol/oocana-node/issues/313)) ([#315](https://github.com/oomol/oocana-node/issues/315)) ([4142a61](https://github.com/oomol/oocana-node/commit/4142a613ecee19ab5d43344ec7d74ff176e25ada))
+* add oocana to bin ([#319](https://github.com/oomol/oocana-node/issues/319)) ([bfdee1b](https://github.com/oomol/oocana-node/commit/bfdee1b201229e1e1e7a13a463f4923a52411e0b))
+* remove bin ([#322](https://github.com/oomol/oocana-node/issues/322)) ([6590eb9](https://github.com/oomol/oocana-node/commit/6590eb904f5306e82b60550f35bc10a57cd6d687))
+
+
+### Bug Fixes
+
+* exit if enoent ([#323](https://github.com/oomol/oocana-node/issues/323)) ([02eb864](https://github.com/oomol/oocana-node/commit/02eb864da82e5ab8de21e71521ccaf69cde7c587))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.30.2 ([#317](https://github.com/oomol/oocana-node/issues/317)) ([1f75de9](https://github.com/oomol/oocana-node/commit/1f75de9ebd2e26b7ca866029ef3e21612e2e9a73))
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.30.3 ([#320](https://github.com/oomol/oocana-node/issues/320)) ([fa30459](https://github.com/oomol/oocana-node/commit/fa30459a925391d37960d2028de032f3b62bfd02))
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.30.4 ([#327](https://github.com/oomol/oocana-node/issues/327)) ([e7fce30](https://github.com/oomol/oocana-node/commit/e7fce30fa7455001566ea58d207de0c921802a82))
+
 ## [0.23.5](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.4...@oomol/oocana-v0.23.5) (2025-08-02)
 
 
