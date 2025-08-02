@@ -41,7 +41,7 @@ try {
 
 if (!oocanaBinPath || !fs.existsSync(oocanaBinPath)) {
   console.error(`No package found for architecture: ${platform} ${arch}.`);
-  process.exit(0);
+  process.exit(-2);
 }
 
 (async () => {
