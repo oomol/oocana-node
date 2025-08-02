@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{toJson(github.event.workflow_run)}}
-  strategy:
+  install-check:
     runs-on: ubuntu-latest
     if: startsWith(github.event.workflow_run.head_branch, 'refs/tags/@oomol/oocana-v')
     strategy:
