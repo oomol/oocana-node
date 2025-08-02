@@ -1,0 +1,27 @@
+name: install compatible check
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["release"]
+    types:
+      - completed
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{toJson(github.event.workflow_run)}}
+  strategy:
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.workflow_run.head_branch, 'refs/tags/@oomol/oocana-v')
+    strategy:
+      matrix:
+        node: ["20.x", "22.x", "24.x"]
+        registry: ["https://registry.npmjs.org", "https://npm.pkg.github.com"]
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          registry-url: ${{ matrix.registry }}
+          scope: oomol
+      - name: install
+        run: npm install @oomol/oocana@latest
