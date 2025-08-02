@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.23.5](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.4...@oomol/oocana-v0.23.5) (2025-08-02)
+
+
+### Bug Fixes
+
+* exit if enoent ([#323](https://github.com/oomol/oocana-node/issues/323)) ([02eb864](https://github.com/oomol/oocana-node/commit/02eb864da82e5ab8de21e71521ccaf69cde7c587))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.30.4 ([#327](https://github.com/oomol/oocana-node/issues/327)) ([e7fce30](https://github.com/oomol/oocana-node/commit/e7fce30fa7455001566ea58d207de0c921802a82))
+
 ## [0.23.4](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.3...@oomol/oocana-v0.23.4) (2025-08-02)
 
 
