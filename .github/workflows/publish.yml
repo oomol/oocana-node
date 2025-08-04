@@ -57,7 +57,6 @@ jobs:
       - name: setup github registry
         uses: actions/setup-node@v4
         with:
-          registry-url: https://npm.pkg.github.com/
           scope: "@oomol"
           cache: pnpm
       - name: publish to github registry
