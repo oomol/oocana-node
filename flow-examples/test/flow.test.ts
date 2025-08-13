@@ -49,6 +49,14 @@ describe(
       ).toBe(1);
 
       const events_list = events.map(e => e.event);
+      const latestFinished = events
+        .filter(e => e.event === "BlockFinished")
+        .pop();
+      expect(latestFinished).not.toBeUndefined();
+      expect(
+        latestFinished?.data.stacks[latestFinished.data.stacks.length - 1]
+          .node_id
+      ).toBe("end");
 
       const sessionStarted = events.filter(e => e.event === "SessionStarted");
       const sessionFinished = events.filter(e => e.event === "SessionFinished");
@@ -334,6 +342,14 @@ describe(
       expect(latestBlockWarning).toBe(
         "Output handle key: [app] is not defined in Block outputs schema."
       );
+      const latestFinished = events
+        .filter(e => e.event === "BlockFinished")
+        .pop();
+      expect(latestFinished).not.toBeUndefined();
+      expect(
+        latestFinished?.data.stacks[latestFinished.data.stacks.length - 1]
+          .node_id
+      ).toBe("end");
     });
   }
 );

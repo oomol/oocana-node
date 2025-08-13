@@ -40,5 +40,13 @@ describe("subflow test", () => {
   it("run sub flow", async () => {
     const { code, events } = await runFlow("sub-twice");
     expect(code).toBe(0);
+    const latestFinished = events
+      .filter(e => e.event === "BlockFinished")
+      .pop();
+    expect(latestFinished).not.toBeUndefined();
+    expect(
+      latestFinished?.data.stacks[latestFinished.data.stacks.length - 1]
+        .node_id
+    ).toBe("end");
   });
 });
