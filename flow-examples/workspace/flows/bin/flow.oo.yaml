@@ -41,7 +41,7 @@ nodes:
         options:
           entry: scriptlets/+typescript#2.ts
     title: "TypeScript #2"
-    node_id: +typescript#2
+    node_id: end
     inputs_from:
       - handle: a
         from_node:

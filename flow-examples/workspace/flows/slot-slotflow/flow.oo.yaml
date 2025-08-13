@@ -43,7 +43,7 @@ nodes:
         name: nodejs
         options:
           entry: scriptlets/+javascript#1.js
-    node_id: node-2
+    node_id: end
     inputs_from:
       - handle: input
         from_node:

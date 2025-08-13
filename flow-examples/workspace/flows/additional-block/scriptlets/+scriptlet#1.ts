@@ -1,20 +1,18 @@
 //#region generated meta
-type Inputs = {
-};
+type Inputs = {};
 type Outputs = {
-    output: any;
-    output1: any;
+  output: any;
+  output1: any;
 };
 //#endregion
 
-import type { Context } from "@oomol/types/oocana";
+import type { Context } from "@oomol/oocana-types";
 
-export default async function(
-    params: Inputs,
-    context: Context<Inputs, Outputs>
+export default async function (
+  params: Inputs,
+  context: Context<Inputs, Outputs>
 ): Promise<Partial<Outputs> | undefined | void> {
+  // your code
 
-    // your code
-
-    return { output: "output_value", output1: "111" };
-};
+  return { output: "output_value", output1: "111" };
+}
