@@ -290,10 +290,6 @@ export class Oocana implements IDisposable, OocanaInterface {
       args.push("--search-paths", searchPaths);
     }
 
-    if (sessionId) {
-      args.push("--session", sessionId);
-    }
-
     if (toNode) {
       nodes = [...(nodes || []), toNode];
     }
