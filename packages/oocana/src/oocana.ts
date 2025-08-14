@@ -10,7 +10,7 @@ import { generateSpawnEnvs, SpawnedEnvs } from "./env";
 
 export type JobEvent = Remitter<OocanaEventConfig>;
 
-interface BaseConfig {
+interface RunConfig {
   /** optional session id, if not give, oocana will generate one */
   sessionId?: string;
 
@@ -31,6 +31,15 @@ interface BaseConfig {
   bindPaths?: string[];
   /** a file path contains multiple bind paths, better use absolute path. The file format is src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive] line by line, if not provided, it will be found in OOCANA_BIND_PATH_FILE env variable */
   bindPathFile?: string;
+  /** when spawn executor, oocana will only retain envs start with OOMOL_ by design. Other env variables need to be explicitly added in this parameters otherwise they will be ignored. */
+  envs?: Record<string, string>;
+  /** .env file path, better use absolute path, format should be <key>=<value> line by line. These variables will pass to executor
+   * when oocana spawn. If not given oocana will search OOCANA_BIND_PATH_FILE to see if it has one.
+   * */
+  envFile?: string;
+}
+
+interface EnvConfig {
   /** default is process.env */
   spawnedEnvs?: SpawnedEnvs;
   /** Environment variables passed to all executors. All variable names will be converted to uppercase;
@@ -45,7 +54,7 @@ interface BaseConfig {
   envFile?: string;
 }
 
-export interface RunBlockConfig extends BaseConfig {
+export interface BlockConfig {
   /** block.yaml file path or directory path */
   blockPath: string;
   inputs?: {
@@ -55,7 +64,7 @@ export interface RunBlockConfig extends BaseConfig {
   searchPaths?: string[];
 }
 
-export interface RunFlowConfig extends BaseConfig {
+export interface FlowConfig {
   /** flow.yaml file path or directory path */
   flowPath: string;
   /** comma separated paths for search block package */
@@ -84,6 +93,8 @@ export interface RunFlowConfig extends BaseConfig {
 }
 
 export const DEFAULT_PORT = 47688;
+export type RunFlowConfig = FlowConfig & RunConfig & EnvConfig;
+export type RunBlockConfig = BlockConfig & RunConfig & EnvConfig;
 
 export interface OocanaInterface {
   connect(address: string): Promise<this>;
@@ -104,7 +115,7 @@ function buildArgs({
   bindPathFile,
   envs,
   envFile,
-}: BaseConfig): string[] {
+}: RunConfig): string[] {
   const args: string[] = [];
   if (sessionId) {
     args.push("--session", sessionId);
@@ -188,20 +199,16 @@ export class Oocana implements IDisposable, OocanaInterface {
     return this;
   }
 
-  public async runBlock(blockConfig: RunBlockConfig): Promise<Cli> {
+  public async runBlock(
+    blockConfig: BlockConfig & RunConfig & EnvConfig
+  ): Promise<Cli> {
     if (!this.#address) {
       throw new Error("Cannot run flow without connecting to a broker");
     }
 
-    const {
-      blockPath,
-      inputs,
-      envs,
-      oomolEnvs,
-      spawnedEnvs,
-      searchPaths,
-      sessionId,
-    } = blockConfig;
+    const sessionId = blockConfig.sessionId;
+    const { blockPath, inputs, searchPaths } = blockConfig as BlockConfig;
+    const { envs, oomolEnvs, spawnedEnvs } = blockConfig as EnvConfig;
 
     const args = ["run", blockPath, "--reporter", "--broker", this.#address];
     const baseArgs = buildArgs(blockConfig);
@@ -263,11 +270,15 @@ export class Oocana implements IDisposable, OocanaInterface {
     return flowTask;
   }
 
-  public async runFlow(flowConfig: RunFlowConfig): Promise<Cli> {
+  public async runFlow(
+    flowConfig: FlowConfig & RunConfig & EnvConfig
+  ): Promise<Cli> {
     if (!this.#address) {
       throw new Error("Cannot run flow without connecting to a broker");
     }
 
+    let nodes = flowConfig.nodes;
+    const sessionId = flowConfig.sessionId;
     const {
       flowPath,
       searchPaths,
@@ -275,12 +286,8 @@ export class Oocana implements IDisposable, OocanaInterface {
       nodesInputs,
       inputValues,
       useCache,
-      envs,
-      oomolEnvs,
-      spawnedEnvs,
-      sessionId,
-    } = flowConfig;
-    let nodes = flowConfig.nodes;
+    } = flowConfig as FlowConfig;
+    const { envs, oomolEnvs, spawnedEnvs } = flowConfig as EnvConfig;
 
     const args = ["run", flowPath, "--reporter", "--broker", this.#address];
     const baseArgs = buildArgs(flowConfig);
