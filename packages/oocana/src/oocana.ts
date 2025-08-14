@@ -14,6 +14,9 @@ interface BaseConfig {
   /** optional session id, if not give, oocana will generate one */
   sessionId?: string;
 
+  /** Debug mode. If enable, when oocana spawn executor it will give some debugging message to every executor to make they support debugging. Only support in python-executor and nodejs-executor now */
+  debug?: boolean;
+
   /** A directory that can be used for persistent data storage. Flows and blocks that are not part of a package will use this directory */
   projectData: string;
   /** a directory that can be used for persistent package data, all package's data will store in this directory. it can persist across sessions */
@@ -45,7 +48,6 @@ interface BaseConfig {
 export interface RunBlockConfig extends BaseConfig {
   /** block.yaml file path or directory path */
   blockPath: string;
-  debug?: boolean;
   inputs?: {
     [handleId: string]: any;
   };
@@ -63,8 +65,7 @@ export interface RunFlowConfig extends BaseConfig {
   address?: string;
   /** will use previous run's last input value, but only json value can be reused */
   useCache?: boolean;
-  /** Debug mode. If enable, when oocana spawn executor it will give some debugging message to every executor to make they support debugging. Only support in python-executor and nodejs-executor now */
-  debug?: boolean;
+
   /** only run these nodes */
   nodes?: string[];
   /** @deprecated use nodesInputs instead */
