@@ -10,7 +10,14 @@ import { generateSpawnEnvs, SpawnedEnvs } from "./env";
 
 export type JobEvent = Remitter<OocanaEventConfig>;
 
-export interface RunBlockConfig {
+interface BaseConfig {
+  /** A directory that can be used for persistent data storage. Flows and blocks that are not part of a package will use this directory */
+  projectData: string;
+  /** a directory that can be used for persistent package data, all package's data will store in this directory. it can persist across sessions */
+  pkgDataRoot: string;
+}
+
+export interface RunBlockConfig extends BaseConfig {
   /** block.yaml file path or directory path */
   blockPath: string;
   sessionId?: string;
@@ -41,13 +48,9 @@ export interface RunBlockConfig {
    * when oocana spawn. If not given oocana will search OOCANA_BIND_PATH_FILE to see if it has one.
    * */
   envFile?: string;
-  /** A directory that can be used for persistent data storage. Flows and blocks that are not part of a package will use this directory */
-  projectData: string;
-  /** a directory that can be used for persistent package data, all package's data will store in this directory. it can persist across sessions */
-  pkgDataRoot: string;
 }
 
-export interface RunFlowConfig {
+export interface RunFlowConfig extends BaseConfig {
   /** flow.yaml file path or directory path */
   flowPath: string;
   /** comma separated paths for search block package */
@@ -93,10 +96,6 @@ export interface RunFlowConfig {
   envs?: Record<string, string>;
   /** .env file path, better use absolute path, format should be <key>=<value> line by line. These variables will pass to executor when oocana spawn. If not given oocana will search OOCANA_BIND_PATH_FILE to see if it has one. */
   envFile?: string;
-  /** A directory that can be used for persistent data storage. Flows and blocks that are not part of a package will use this directory */
-  projectData: string;
-  /** a directory that can be used for persistent package data, all package's data will store in this directory. it can persist across sessions */
-  pkgDataRoot: string;
 }
 
 export const DEFAULT_PORT = 47688;
