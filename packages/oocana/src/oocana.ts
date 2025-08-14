@@ -19,7 +19,7 @@ export interface RunBlockConfig {
     [handleId: string]: any;
   };
   /** search package blocks's path */
-  searchPaths?: [];
+  searchPaths?: string[];
   /** exclude packages, these package will not use ovm layer feature if the feature is enabled */
   excludePackages?: string[];
   /** a path for session storage. this path will shared by all block by context.sessionDir or context.session_dir */
