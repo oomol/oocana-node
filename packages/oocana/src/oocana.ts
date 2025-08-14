@@ -11,6 +11,9 @@ import { generateSpawnEnvs, SpawnedEnvs } from "./env";
 export type JobEvent = Remitter<OocanaEventConfig>;
 
 interface BaseConfig {
+  /** optional session id, if not give, oocana will generate one */
+  sessionId?: string;
+
   /** A directory that can be used for persistent data storage. Flows and blocks that are not part of a package will use this directory */
   projectData: string;
   /** a directory that can be used for persistent package data, all package's data will store in this directory. it can persist across sessions */
@@ -42,7 +45,6 @@ interface BaseConfig {
 export interface RunBlockConfig extends BaseConfig {
   /** block.yaml file path or directory path */
   blockPath: string;
-  sessionId?: string;
   debug?: boolean;
   inputs?: {
     [handleId: string]: any;
@@ -56,8 +58,7 @@ export interface RunFlowConfig extends BaseConfig {
   flowPath: string;
   /** comma separated paths for search block package */
   searchPaths?: string;
-  /** optional session id */
-  sessionId?: string;
+
   /** address for mqtt */
   address?: string;
   /** will use previous run's last input value, but only json value can be reused */
