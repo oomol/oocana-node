@@ -92,6 +92,73 @@ export interface OocanaInterface {
   stop(sessionId: string): Promise<void>;
 }
 
+function buildArgs({
+  sessionId,
+  debug,
+  projectData,
+  pkgDataRoot,
+  excludePackages,
+  sessionPath,
+  tempRoot,
+  bindPaths,
+  bindPathFile,
+  envs,
+  envFile,
+}: BaseConfig): string[] {
+  const args: string[] = [];
+  if (sessionId) {
+    args.push("--session", sessionId);
+  }
+  if (debug) {
+    args.push("--debug");
+  }
+  if (projectData) {
+    args.push("--project-data", projectData);
+  }
+  if (pkgDataRoot) {
+    args.push("--pkg-data-root", pkgDataRoot);
+  }
+  if (excludePackages) {
+    args.push("--exclude-packages", excludePackages.join(","));
+  }
+  if (sessionPath) {
+    args.push("--session-dir", sessionPath);
+  }
+  if (tempRoot) {
+    args.push("--temp-root", tempRoot);
+  }
+
+  if (bindPaths) {
+    const pathPattern =
+      /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
+
+    for (const path of bindPaths) {
+      if (!pathPattern.test(path)) {
+        throw new Error(
+          `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`
+        );
+      }
+      args.push("--bind-paths", path);
+    }
+  }
+
+  if (bindPathFile) {
+    args.push("--bind-path-file", bindPathFile);
+  }
+
+  if (envFile) {
+    args.push("--env-file", envFile);
+  }
+
+  if (envs) {
+    for (const [key, _] of Object.entries(envs)) {
+      args.push("--retain-env-keys", key);
+    }
+  }
+
+  return args;
+}
+
 export class Oocana implements IDisposable, OocanaInterface {
   public readonly dispose = disposableStore();
 
@@ -121,73 +188,28 @@ export class Oocana implements IDisposable, OocanaInterface {
     return this;
   }
 
-  public async runBlock({
-    blockPath,
-    sessionId,
-    inputs,
-    searchPaths,
-    excludePackages,
-    sessionPath,
-    tempRoot,
-    debug,
-    bindPaths,
-    bindPathFile,
-    spawnedEnvs,
-    oomolEnvs,
-    envs,
-    envFile,
-    projectData,
-    pkgDataRoot,
-  }: RunBlockConfig): Promise<Cli> {
+  public async runBlock(blockConfig: RunBlockConfig): Promise<Cli> {
     if (!this.#address) {
       throw new Error("Cannot run flow without connecting to a broker");
     }
 
+    const {
+      blockPath,
+      inputs,
+      envs,
+      oomolEnvs,
+      spawnedEnvs,
+      searchPaths,
+      sessionId,
+    } = blockConfig;
+
     const args = ["run", blockPath, "--reporter", "--broker", this.#address];
+    const baseArgs = buildArgs(blockConfig);
 
-    if (projectData) {
-      args.push("--project-data", projectData);
-    }
+    args.push(...baseArgs);
 
-    if (pkgDataRoot) {
-      args.push("--pkg-data-root", pkgDataRoot);
-    }
-
-    if (sessionId) {
-      args.push("--session", sessionId);
-    }
     if (inputs) {
       args.push("--inputs", JSON.stringify(inputs));
-    }
-
-    if (excludePackages) {
-      args.push("--exclude-packages", excludePackages.join(","));
-    }
-
-    if (sessionPath) {
-      args.push("--session-dir", sessionPath);
-    }
-
-    if (debug) {
-      args.push("--debug");
-    }
-
-    const pathPattern =
-      /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
-
-    if (bindPaths) {
-      for (const path of bindPaths) {
-        if (!pathPattern.test(path)) {
-          throw new Error(
-            `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`
-          );
-        }
-        args.push("--bind-paths", path);
-      }
-    }
-
-    if (tempRoot) {
-      args.push("--temp-root", tempRoot);
     }
 
     const executorEnvs = generateSpawnEnvs(envs, oomolEnvs, spawnedEnvs);
@@ -198,16 +220,8 @@ export class Oocana implements IDisposable, OocanaInterface {
       }
     }
 
-    if (envFile) {
-      args.push("--env-file", envFile);
-    }
-
     if (searchPaths) {
       args.push("--search-paths", searchPaths.join(","));
-    }
-
-    if (bindPathFile) {
-      args.push("--bind-path-file", bindPathFile);
     }
 
     const spawnedProcess = spawn(this.#bin, args, {
@@ -249,44 +263,31 @@ export class Oocana implements IDisposable, OocanaInterface {
     return flowTask;
   }
 
-  public async runFlow({
-    flowPath,
-    searchPaths,
-    sessionId,
-    nodes,
-    toNode,
-    useCache,
-    debug,
-    inputValues,
-    nodesInputs,
-    excludePackages,
-    sessionPath,
-    tempRoot,
-    bindPaths,
-    bindPathFile,
-    spawnedEnvs,
-    oomolEnvs,
-    envFile,
-    envs,
-    projectData,
-    pkgDataRoot,
-  }: RunFlowConfig): Promise<Cli> {
+  public async runFlow(flowConfig: RunFlowConfig): Promise<Cli> {
     if (!this.#address) {
       throw new Error("Cannot run flow without connecting to a broker");
     }
 
+    const {
+      flowPath,
+      searchPaths,
+      toNode,
+      nodesInputs,
+      inputValues,
+      useCache,
+      envs,
+      oomolEnvs,
+      spawnedEnvs,
+      sessionId,
+    } = flowConfig;
+    let nodes = flowConfig.nodes;
+
     const args = ["run", flowPath, "--reporter", "--broker", this.#address];
+    const baseArgs = buildArgs(flowConfig);
+    args.push(...baseArgs);
 
     if (searchPaths) {
       args.push("--search-paths", searchPaths);
-    }
-
-    if (projectData) {
-      args.push("--project-data", projectData);
-    }
-
-    if (pkgDataRoot) {
-      args.push("--pkg-data-root", pkgDataRoot);
     }
 
     if (sessionId) {
@@ -311,50 +312,12 @@ export class Oocana implements IDisposable, OocanaInterface {
       args.push("--use-cache");
     }
 
-    if (excludePackages) {
-      args.push("--exclude-packages", excludePackages.join(","));
-    }
-
-    if (sessionPath) {
-      args.push("--session-dir", sessionPath);
-    }
-
-    if (debug) {
-      args.push("--debug");
-    }
-
-    const pathPattern =
-      /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
-
-    if (bindPaths) {
-      for (const path of bindPaths) {
-        if (!pathPattern.test(path)) {
-          throw new Error(
-            `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`
-          );
-        }
-        args.push("--bind-paths", path);
-      }
-    }
-
-    if (tempRoot) {
-      args.push("--temp-root", tempRoot);
-    }
-
     const executorEnvs = generateSpawnEnvs(envs, oomolEnvs, spawnedEnvs);
 
     if (envs) {
       for (const [key, _] of Object.entries(envs)) {
         args.push("--retain-env-keys", key);
       }
-    }
-
-    if (envFile) {
-      args.push("--env-file", envFile);
-    }
-
-    if (bindPathFile) {
-      args.push("--bind-path-file", bindPathFile);
     }
 
     const spawnedProcess = spawn(this.#bin, args, {
