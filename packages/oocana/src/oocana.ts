@@ -15,18 +15,7 @@ interface BaseConfig {
   projectData: string;
   /** a directory that can be used for persistent package data, all package's data will store in this directory. it can persist across sessions */
   pkgDataRoot: string;
-}
 
-export interface RunBlockConfig extends BaseConfig {
-  /** block.yaml file path or directory path */
-  blockPath: string;
-  sessionId?: string;
-  debug?: boolean;
-  inputs?: {
-    [handleId: string]: any;
-  };
-  /** search package blocks's path */
-  searchPaths?: string[];
   /** exclude packages, these package will not use ovm layer feature if the feature is enabled */
   excludePackages?: string[];
   /** a path for session storage. this path will shared by all block by context.sessionDir or context.session_dir */
@@ -48,6 +37,18 @@ export interface RunBlockConfig extends BaseConfig {
    * when oocana spawn. If not given oocana will search OOCANA_BIND_PATH_FILE to see if it has one.
    * */
   envFile?: string;
+}
+
+export interface RunBlockConfig extends BaseConfig {
+  /** block.yaml file path or directory path */
+  blockPath: string;
+  sessionId?: string;
+  debug?: boolean;
+  inputs?: {
+    [handleId: string]: any;
+  };
+  /** search package blocks's path */
+  searchPaths?: string[];
 }
 
 export interface RunFlowConfig extends BaseConfig {
@@ -78,24 +79,6 @@ export interface RunFlowConfig extends BaseConfig {
   };
   /** @deprecated use nodes parameter instead */
   toNode?: string;
-  /** exclude packages, these package will not use ovm layer feature if the feature is enabled */
-  excludePackages?: string[];
-  /** a path for session storage. this path will shared by all block by context.sessionDir or context.session_dir */
-  sessionPath?: string;
-  /** a temporary root directory for session storage. oocana will create a subdirectory for each flowPath (one flow path always has the same subdirectory name). oocana will clean this subdirectory after flow session finish success but retain if the session is not successful. every block can get this subdirectory from context.tmpDir or context.tmp_dir. */
-  tempRoot?: string;
-  /** bind paths, format  src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive], oocana will mount source to target in layer. if target not exist, oocana will create it. */
-  bindPaths?: string[];
-  /** a file path contains multiple bind paths, better use absolute path. The file format is src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive] line by line, if not provided, it will be found in OOCANA_BIND_PATH_FILE env variable */
-  bindPathFile?: string;
-  /** default is process.env */
-  spawnedEnvs?: SpawnedEnvs;
-  /** Environment variables passed to all executors. All variable names will be converted to uppercase; then if the variable name does not start with OOMOL_, the OOMOL_ prefix will be added automatically. */
-  oomolEnvs?: Record<string, string>;
-  /** when spawn executor, oocana will only retain envs start with OOMOL_ by design. Other env variables need to be explicitly added in this parameters otherwise they will be ignored. */
-  envs?: Record<string, string>;
-  /** .env file path, better use absolute path, format should be <key>=<value> line by line. These variables will pass to executor when oocana spawn. If not given oocana will search OOCANA_BIND_PATH_FILE to see if it has one. */
-  envFile?: string;
 }
 
 export const DEFAULT_PORT = 47688;
