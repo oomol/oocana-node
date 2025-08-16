@@ -67,7 +67,7 @@ nodes:
           entry: scriptlets/+typescript#3.ts
     title: "TypeScript #3"
     icon: ":skill-icons:typescript:"
-    node_id: +typescript#3
+    node_id: end
     inject:
       node_id:  +typescript#1
     inputs_from:

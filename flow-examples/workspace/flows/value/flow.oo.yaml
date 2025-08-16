@@ -17,7 +17,7 @@ nodes:
         from_node:
           - node_id: value-1
             output_handle: vvvv
-  - node_id: value-1
+  - node_id: end
     values:
       - handle: vvvv
         value: static

@@ -18,7 +18,7 @@ nodes:
         from_node:
           - node_id: a
             output_handle: output-a-2
-  - node_id: d
+  - node_id: end
     task: my-pkg::block-b
     inputs_from:
       - handle: in-b

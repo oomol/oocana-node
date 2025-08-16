@@ -66,7 +66,7 @@ nodes:
           entry: scriptlets/+javascript#4.js
     title: "JavaScript #4"
     icon: ":skill-icons:javascript:"
-    node_id: +javascript#4
+    node_id: end
     inputs_from:
       - handle: input
         from_node:

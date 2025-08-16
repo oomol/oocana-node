@@ -42,7 +42,7 @@ nodes:
         from_node:
           - node_id: +typescript#1
             output_handle: b
-  - node_id: +typescript#3
+  - node_id: end
     title: "TypeScript #3"
     icon: ":skill-icons:typescript:"
     task:

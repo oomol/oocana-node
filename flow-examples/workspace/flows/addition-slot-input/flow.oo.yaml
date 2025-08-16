@@ -66,7 +66,7 @@ nodes:
         name: nodejs
         options:
           entry: scriptlets/+javascript#2.js
-    node_id: node-2
+    node_id: end
     inputs_from:
       - handle: result
         from_node:

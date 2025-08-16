@@ -3,4 +3,4 @@ nodes:
     node_id: node-1
   - task: self::counter
     title: "TypeScript #2"
-    node_id: node-2
+    node_id: end

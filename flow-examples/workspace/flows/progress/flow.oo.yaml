@@ -11,7 +11,7 @@ nodes:
         from_node:
           - node_id: a
             output_handle: count
-  - node_id: c
+  - node_id: end
     task: my-pkg::block-h
     inputs_from:
       - handle: count
