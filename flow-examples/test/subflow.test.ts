@@ -22,12 +22,8 @@ describe("subflow test", () => {
       `started job evens ${JSON.stringify(startedJobs)}`
     ).eq(3);
 
-    const e = events.filter(
-      e =>
-        e.event === "BlockFinished" &&
-        e.data.stacks.filter(e => e.node_id === "end").length == 1
-    );
-    expect(e.length).toBe(1);
+    const latestFinished = events.findLast(e => e.event === "BlockFinished");
+    expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
 
     expect(code).toBe(0);
   });
