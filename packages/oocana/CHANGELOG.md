@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.23.12](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.11...@oomol/oocana-v0.23.12) (2025-08-16)
+
+
+### Code Refactoring
+
+* reduce same logic code ([#347](https://github.com/oomol/oocana-node/issues/347)) ([161ce6e](https://github.com/oomol/oocana-node/commit/161ce6e516d153c54a0c46cc9fe33b454a05696b))
+* use composition instead inheritance ([#349](https://github.com/oomol/oocana-node/issues/349)) ([d8e6b60](https://github.com/oomol/oocana-node/commit/d8e6b600878e764d3a23fac3fc9a67a49a413597))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.30.11 ([#350](https://github.com/oomol/oocana-node/issues/350)) ([68f91e5](https://github.com/oomol/oocana-node/commit/68f91e5aa0f7c9a5a41c78a08671b0950157efce))
+
 ## [0.23.11](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.10...@oomol/oocana-v0.23.11) (2025-08-11)
 
 
