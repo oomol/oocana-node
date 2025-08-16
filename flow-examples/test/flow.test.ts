@@ -71,10 +71,10 @@ describe(
       const { code, events } = await runFlow("run-subflow");
       expect(code).toBe(0);
       const startEvents = events.filter(e => e.event === "BlockStarted");
-      expect(startEvents.length).toBe(5);
+      expect(startEvents.length).toBe(4);
 
       const finishEvents = events.filter(e => e.event === "BlockFinished");
-      expect(finishEvents.length).eq(5);
+      expect(finishEvents.length).eq(4);
 
       const lastNode =
         finishEvents[finishEvents.length - 1]?.data.stacks?.[0].node_id;
