@@ -156,10 +156,10 @@ describe(
 
         // update count base on result
         const startEvents = events.filter(e => e.event === "BlockStarted");
-        expect(startEvents.length).toBe(4);
+        expect(startEvents.length).toBe(6);
 
         const finishEvents = events.filter(e => e.event === "BlockFinished");
-        expect(finishEvents.length).eq(4);
+        expect(finishEvents.length).eq(6);
       }
     });
 
