@@ -41,7 +41,7 @@ nodes:
         options:
           entry: scriptlets/+javascript#2.js
     title: commonjs
-    node_id: end
+    node_id: commonjs
     inputs_from:
       - handle: in
         value: input value

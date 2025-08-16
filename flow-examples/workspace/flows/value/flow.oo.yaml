@@ -10,14 +10,14 @@ nodes:
         name: nodejs
         options:
           entry: scriptlets/+typescript#1.ts
-    node_id: node-1
+    node_id: end
     inputs_from:
       - handle: in
         value: a
         from_node:
           - node_id: value-1
             output_handle: vvvv
-  - node_id: end
+  - node_id: value-1
     values:
       - handle: vvvv
         value: static

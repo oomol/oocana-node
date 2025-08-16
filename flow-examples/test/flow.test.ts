@@ -92,8 +92,8 @@ describe(
           .map(e => JSON.stringify(e.data.stacks))}`
       ).toBe(1);
 
-      const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      const finishEvents = events.filter(e => e.event === "BlockFinished");
+      expect(finishEvents.length).eq(5);
 
       const events_list = events.map(e => e.event);
 
@@ -253,8 +253,8 @@ describe(
       const { code, events } = await runFlow("esm");
       expect(code).toBe(0);
 
-      const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      const finishEvents = events.filter(e => e.event === "BlockFinished");
+      expect(finishEvents.length).eq(2);
     });
 
     it("run from flow", async () => {
@@ -336,8 +336,8 @@ describe(
       const { code, events } = await runFlow("spawn");
       expect(code).toBe(0);
 
-      const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      const finishEvents = events.filter(e => e.event === "BlockFinished");
+      expect(finishEvents.length).eq(3);
     });
 
     it("run bind flow", async () => {

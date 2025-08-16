@@ -42,16 +42,14 @@ nodes:
         from_node:
           - node_id: +typescript#1
             output_handle: b
-  - node_id: end
+  - node_id: +typescript#3
     title: "TypeScript #3"
     icon: ":skill-icons:typescript:"
     task:
       ui:
         default_width: 450
-      inputs_def:
-        []
-      outputs_def:
-        []
+      inputs_def: []
+      outputs_def: []
       executor:
         name: nodejs
         options:
