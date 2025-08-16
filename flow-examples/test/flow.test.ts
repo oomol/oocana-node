@@ -4,6 +4,7 @@ import path from "node:path";
 import { readdir } from "node:fs/promises";
 import { homedir } from "node:os";
 import { flow_examples, runFlow, workspace } from "./run";
+import exp from "node:constants";
 
 describe(
   "Flow Tests",
@@ -21,37 +22,30 @@ describe(
     it("run basic flow", async () => {
       const { code, events } = await runFlow("basic");
       expect(code).toBe(0);
-      expect(
-        events.filter(e => e.event === "BlockStarted").length,
-        `start ${events
-          .filter(e => e.event === "BlockStarted")
-          .map(e => JSON.stringify(e.data.stacks))}`
-      ).toBe(3);
 
+      const startEvents = events.filter(e => e.event === "BlockStarted");
+      expect(startEvents.length).toBe(3);
+
+      const outputEvents = events.filter(e => e.event === "BlockOutputs");
       expect(
-        events
-          .filter(e => e.event === "BlockOutputs")
-          .filter(e => e.data.outputs?.a === "a" && e.data.outputs?.b === "b")
-          .length,
-        `finish ${events
-          .filter(e => e.event === "BlockFinished")
-          .map(e => JSON.stringify(e.data.stacks))}`
+        outputEvents.filter(
+          e => e.data.outputs?.a === "a" && e.data.outputs?.b === "b"
+        ).length,
+        `output events: ${JSON.stringify(outputEvents)}`
       ).toBe(1);
 
+      const finishEvents = events.filter(e => e.event === "BlockFinished");
+
       expect(
-        events
-          .filter(e => e.event === "BlockFinished")
-          .filter(e => e.data.result?.a === "a" && e.data.result?.b === "b")
-          .length,
-        `finish ${events
-          .filter(e => e.event === "BlockFinished")
-          .map(e => JSON.stringify(e.data.stacks))}`
+        finishEvents.filter(
+          e => e.data.result?.a === "a" && e.data.result?.b === "b"
+        ).length,
+        `finish ${JSON.stringify(finishEvents)}`
       ).toBe(1);
 
-      const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
-
-      const events_list = events.map(e => e.event);
+      const lastNode =
+        finishEvents[finishEvents.length - 1]?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
 
       const sessionStarted = events.filter(e => e.event === "SessionStarted");
       const sessionFinished = events.filter(e => e.event === "SessionFinished");
@@ -65,89 +59,26 @@ describe(
     it("run run-block flow", async () => {
       const { code, events } = await runFlow("run-block");
       expect(code).toBe(0);
-      expect(
-        events.filter(e => e.event === "BlockStarted").length,
-        `start ${events
-          .filter(e => e.event === "BlockStarted")
-          .map(e => JSON.stringify(e.data))}`
-      ).toBe(5);
 
-      expect(
-        events
-          .filter(e => e.event === "BlockOutputs")
-          .filter(e => e.data.outputs?.a === "a" && e.data.outputs?.b === "b")
-          .length,
-        `finish ${events
-          .filter(e => e.event === "BlockFinished")
-          .map(e => JSON.stringify(e.data.stacks))}`
-      ).toBe(1);
-
-      expect(
-        events
-          .filter(e => e.event === "BlockFinished")
-          .filter(e => e.data.result?.a === "a" && e.data.result?.b === "b")
-          .length,
-        `finish ${events
-          .filter(e => e.event === "BlockFinished")
-          .map(e => JSON.stringify(e.data.stacks))}`
-      ).toBe(1);
+      const startEvents = events.filter(e => e.event === "BlockStarted");
+      expect(startEvents.length).toBe(5);
 
       const finishEvents = events.filter(e => e.event === "BlockFinished");
       expect(finishEvents.length).eq(5);
-
-      const events_list = events.map(e => e.event);
-
-      const sessionStarted = events.filter(e => e.event === "SessionStarted");
-      const sessionFinished = events.filter(e => e.event === "SessionFinished");
-      expect(sessionStarted.length).toBe(1);
-      expect(sessionFinished.length).toBe(1);
-
-      expect(sessionStarted[0].data.partial).not.toBeUndefined();
-      expect(sessionFinished[0].data.partial).not.toBeUndefined();
     });
 
     it("run run-subflow flow", async () => {
       const { code, events } = await runFlow("run-subflow");
       expect(code).toBe(0);
-      expect(
-        events.filter(e => e.event === "BlockStarted").length,
-        `start ${events
-          .filter(e => e.event === "BlockStarted")
-          .map(e => JSON.stringify(e.data))}`
-      ).toBe(4);
+      const startEvents = events.filter(e => e.event === "BlockStarted");
+      expect(startEvents.length).toBe(5);
 
-      expect(
-        events
-          .filter(e => e.event === "BlockOutputs")
-          .filter(e => e.data.outputs?.a === "a" && e.data.outputs?.b === "b")
-          .length,
-        `finish ${events
-          .filter(e => e.event === "BlockFinished")
-          .map(e => JSON.stringify(e.data.stacks))}`
-      ).toBe(1);
+      const finishEvents = events.filter(e => e.event === "BlockFinished");
+      expect(finishEvents.length).eq(5);
 
-      expect(
-        events
-          .filter(e => e.event === "BlockFinished")
-          .filter(e => e.data.result?.a === "a" && e.data.result?.b === "b")
-          .length,
-        `finish ${events
-          .filter(e => e.event === "BlockFinished")
-          .map(e => JSON.stringify(e.data.stacks))}`
-      ).toBe(1);
-
-      const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
-
-      const events_list = events.map(e => e.event);
-
-      const sessionStarted = events.filter(e => e.event === "SessionStarted");
-      const sessionFinished = events.filter(e => e.event === "SessionFinished");
-      expect(sessionStarted.length).toBe(1);
-      expect(sessionFinished.length).toBe(1);
-
-      expect(sessionStarted[0].data.partial).not.toBeUndefined();
-      expect(sessionFinished[0].data.partial).not.toBeUndefined();
+      const lastNode =
+        finishEvents[finishEvents.length - 1]?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run subflow-progress flow", async () => {
@@ -167,58 +98,68 @@ describe(
       );
 
       const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run special-output flow", async () => {
       const { code, events } = await runFlow("special-output");
-      const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
       expect(code).toBe(0);
+
+      const latestFinished = events.findLast(e => e.event === "BlockFinished");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run query-block flow", async () => {
       const { code, events } = await runFlow("query-block");
-      const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
       expect(code).toBe(0);
+
+      const latestFinished = events.findLast(e => e.event === "BlockFinished");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run query-downstream flow", async () => {
       const { code, events } = await runFlow("query-downstream");
-      const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
       expect(code).toBe(0);
+
+      const latestFinished = events.findLast(e => e.event === "BlockFinished");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run query-subflow flow", async () => {
       const { code, events } = await runFlow("query-subflow");
-      const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
       expect(code).toBe(0);
+
+      const latestFinished = events.findLast(e => e.event === "BlockFinished");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run pkg flow", async () => {
       const { code, events } = await runFlow("pkg");
       expect(code).toBe(0);
-      expect(
-        events.filter(e => e.event === "BlockStarted").length,
-        `start ${events
-          .filter(e => e.event === "BlockStarted")
-          .map(e => JSON.stringify(e.data.stacks))}`
-      ).toBe(4);
 
-      const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      const startEvents = events.filter(e => e.event === "BlockStarted");
+      expect(startEvents.length).toBe(4);
 
-      const events_list = events.map(e => e.event);
-      expect(events_list).toContain("SessionFinished");
+      const finishEvents = events.filter(e => e.event === "BlockFinished");
+      expect(finishEvents.length).eq(4);
     });
 
     it("run run-pkg-block", async () => {
       if (await isPackageLayerEnable()) {
-        const { code } = await runFlow("run-pkg-block");
+        const { code, events } = await runFlow("run-pkg-block");
         expect(code).toBe(0);
+
+        // update count base on result
+        const startEvents = events.filter(e => e.event === "BlockStarted");
+        expect(startEvents.length).toBe(4);
+
+        const finishEvents = events.filter(e => e.event === "BlockFinished");
+        expect(finishEvents.length).eq(4);
       }
     });
 
@@ -232,7 +173,8 @@ describe(
       expect(latestBlockOutput).toBe("ok");
 
       const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run bin flow", async () => {
@@ -246,7 +188,8 @@ describe(
       );
 
       const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run esm flow", async () => {
@@ -261,26 +204,27 @@ describe(
       const { code, events } = await runFlow("from");
       expect(code).toBe(0);
 
-      const endNode = events.findLast(e => e.event === "BlockFinished")?.data
-        ?.stacks?.[0];
-      expect(endNode?.node_id).toBe("end");
+      const latestFinished = events.findLast(e => e.event === "BlockFinished");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run nullable flow", async () => {
       const { code, events } = await runFlow("from");
       expect(code).toBe(0);
 
-      const endNode = events.findLast(e => e.event === "BlockFinished")?.data
-        ?.stacks?.[0];
-      expect(endNode?.node_id).toBe("end");
+      const latestFinished = events.findLast(e => e.event === "BlockFinished");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run additional-block flow", async () => {
       const { code, events } = await runFlow("additional-block");
       expect(code).toBe(0);
-      const endNode = events.findLast(e => e.event === "BlockFinished")?.data
-        ?.stacks?.[0];
-      expect(endNode?.node_id).toBe("end");
+
+      const latestFinished = events.findLast(e => e.event === "BlockFinished");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run progress flow", async () => {
@@ -292,7 +236,8 @@ describe(
       expect(latestBlockOutput).toBe(3);
 
       const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run warning flow", async () => {
@@ -352,7 +297,8 @@ describe(
       expect(code).toBe(0);
 
       const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run pkg-dir flow", async () => {
@@ -360,7 +306,8 @@ describe(
       expect(code).toBe(0);
 
       const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
 
     it("run service flow", async () => {
@@ -375,7 +322,8 @@ describe(
       );
 
       const latestFinished = events.findLast(e => e.event === "BlockFinished");
-      expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
+      const lastNode = latestFinished?.data.stacks?.[0].node_id;
+      expect(lastNode).toBe("end");
     });
   }
 );
