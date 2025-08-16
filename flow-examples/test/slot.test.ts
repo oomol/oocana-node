@@ -8,7 +8,7 @@ describe("slot test", () => {
     const e = events.filter(
       e =>
         e.event === "BlockFinished" &&
-        e.data.stacks.filter(e => e.node_id === "node-2").length == 1
+        e.data.stacks.filter(e => e.node_id === "end").length == 1
     );
     expect(e.length).toBe(1);
     expect(code).toBe(0);
@@ -19,7 +19,7 @@ describe("slot test", () => {
     const e = events.filter(
       e =>
         e.event === "BlockFinished" &&
-        e.data.stacks.filter(e => e.node_id === "node-2").length == 1
+        e.data.stacks.filter(e => e.node_id === "end").length == 1
     );
     expect(e.length).toBe(1);
     expect(code).toBe(0);
@@ -32,7 +32,7 @@ describe("slotflow test", () => {
     const e = events.filter(
       e =>
         e.event === "BlockFinished" &&
-        e.data.stacks.filter(e => e.node_id === "node-2").length == 1
+        e.data.stacks.filter(e => e.node_id === "end").length == 1
     );
     expect(e.length, JSON.stringify(e)).toBe(1);
 
@@ -52,7 +52,7 @@ describe("package slot test", () => {
     const e = events.filter(
       e =>
         e.event === "BlockFinished" &&
-        e.data.stacks.filter(e => e.node_id === "node-2").length == 1
+        e.data.stacks.filter(e => e.node_id === "end").length == 1
     );
     expect(e.length).toBe(1);
     expect(code).toBe(0);
@@ -63,7 +63,7 @@ describe("package slot test", () => {
     const e = events.filter(
       e =>
         e.event === "BlockFinished" &&
-        e.data.stacks.filter(e => e.node_id === "node-2").length == 1
+        e.data.stacks.filter(e => e.node_id === "end").length == 1
     );
     expect(e.length).toBe(1);
     expect(code).toBe(0);
@@ -74,7 +74,7 @@ describe("package slot test", () => {
     const e = events.filter(
       e =>
         e.event === "BlockFinished" &&
-        e.data.stacks.filter(e => e.node_id === "node-2").length == 1
+        e.data.stacks.filter(e => e.node_id === "end").length == 1
     );
     expect(e.length).toBe(1);
     expect(code).toBe(0);

@@ -25,7 +25,7 @@ describe("subflow test", () => {
     const e = events.filter(
       e =>
         e.event === "BlockFinished" &&
-        e.data.stacks.filter(e => e.node_id === "+javascript#2").length == 1
+        e.data.stacks.filter(e => e.node_id === "end").length == 1
     );
     expect(e.length).toBe(1);
 
@@ -35,10 +35,16 @@ describe("subflow test", () => {
   it("run sub flow", async () => {
     const { code, events } = await runFlow("one-subflow-twice-subflow-node");
     expect(code).toBe(0);
+
+    const latestFinished = events.findLast(e => e.event === "BlockFinished");
+    expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
   });
 
   it("run sub flow", async () => {
     const { code, events } = await runFlow("sub-twice");
     expect(code).toBe(0);
+
+    const latestFinished = events.findLast(e => e.event === "BlockFinished");
+    expect(latestFinished?.data.stacks?.[0].node_id).toBe("end");
   });
 });
