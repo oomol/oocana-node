@@ -64,12 +64,12 @@ describe(
       });
 
       expect(result).toEqual({
-        "node-1": [
+        end: [
           {
             handle: "input",
           },
         ],
-        "node-2": [
+        "node-1": [
           {
             handle: "input",
           },
