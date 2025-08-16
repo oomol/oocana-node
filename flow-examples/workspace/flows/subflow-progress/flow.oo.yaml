@@ -8,7 +8,7 @@ nodes:
           - schema:
               type: string
         value: "1111"
-  - node_id: +typescript#1
+  - node_id: end
     title: "TypeScript #1"
     icon: ":skill-icons:typescript:"
     task:

@@ -15,7 +15,7 @@ nodes:
         options:
           entry: scriptlets/+typescript#1.ts
     title: "TypeScript #1"
-    node_id: +typescript#1
+    node_id: end
     inputs_from:
       - handle: in
         value: aaaa

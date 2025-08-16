@@ -20,7 +20,7 @@ nodes:
           - node_id: node-1
             output_handle: out
   - task: isequal::isequal
-    node_id: node-2
+    node_id: end
     inputs_from:
       - handle: one
         from_node:

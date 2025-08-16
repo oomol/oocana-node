@@ -48,10 +48,8 @@ nodes:
     task:
       ui:
         default_width: 450
-      inputs_def:
-        []
-      outputs_def:
-        []
+      inputs_def: []
+      outputs_def: []
       executor:
         name: nodejs
         options:

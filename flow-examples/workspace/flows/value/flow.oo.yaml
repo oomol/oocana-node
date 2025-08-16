@@ -10,7 +10,7 @@ nodes:
         name: nodejs
         options:
           entry: scriptlets/+typescript#1.ts
-    node_id: node-1
+    node_id: end
     inputs_from:
       - handle: in
         value: a

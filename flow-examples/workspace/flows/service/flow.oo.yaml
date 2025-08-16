@@ -1,5 +1,5 @@
 nodes:
-  - node_id: a
+  - node_id: end
     service: service-example::app::app
     inputs_from:
       - handle: in-a

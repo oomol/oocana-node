@@ -21,7 +21,7 @@ nodes:
       package: "sharp"
       script: pnpm install lodash.isplainobject
     title: "TypeScript #1"
-    node_id: +typescript#1
+    node_id: end
     inputs_from:
       - handle: in
         value: input value
