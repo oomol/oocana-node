@@ -218,6 +218,53 @@ export class ContextImpl implements Context {
     });
   };
 
+  queryAuth = async (id: string): Promise<{ [key: string]: string }> => {
+    const request_id = crypto.randomUUID();
+
+    return new Promise((resolve, reject) => {
+      const cleanupCallback = () => {
+        this.mainframe.removeRequestResponseCallback(
+          this.sessionId,
+          request_id,
+          responseEvent
+        );
+      };
+
+      const responseEvent = (payload: any) => {
+        if (payload?.request_id !== request_id) {
+          return;
+        }
+
+        if (payload.error) {
+          cleanupCallback();
+          reject(new Error(`Query auth error: ${payload.error}`));
+          return;
+        }
+
+        if (payload.result) {
+          cleanupCallback();
+          resolve(payload.result);
+          return;
+        }
+        cleanupCallback();
+        reject(new Error("Auth info not found in response"));
+      };
+      this.mainframe.addRequestResponseCallback(
+        this.sessionId,
+        request_id,
+        responseEvent
+      );
+      this.mainframe.sendRequest({
+        type: "BlockRequest",
+        action: "QueryAuth",
+        session_id: this.sessionId,
+        request_id,
+        job_id: this.jobId,
+        id,
+      });
+    });
+  };
+
   queryBlock = async (
     block_name: string
   ): Promise<{
