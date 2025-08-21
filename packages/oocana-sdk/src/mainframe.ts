@@ -21,6 +21,7 @@ import type {
   IMainframeQueryDownstreamRequest,
   IMainframeBlockProgress,
   IMainframePreviewRequest,
+  IMainframeQueryAuthRequest,
 } from "@oomol/oocana-types";
 
 export class Mainframe {
@@ -254,6 +255,7 @@ export class Mainframe {
       | IMainframeQueryBlockRequest
       | IMainframeQueryDownstreamRequest
       | IMainframePreviewRequest
+      | IMainframeQueryAuthRequest
   ): Promise<void> {
     await this.send(message);
   }
