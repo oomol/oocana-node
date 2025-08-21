@@ -50,6 +50,13 @@ export interface IMainframeQueryDownstreamRequest extends JobInfo {
   request_id: string;
 }
 
+export interface IMainframeQueryAuthRequest extends JobInfo {
+  type: "BlockRequest";
+  action: "QueryAuth";
+  id: string;
+  request_id: string;
+}
+
 export interface IMainframeExecutorReady {
   type: "ExecutorReady";
   executor_name: string;
@@ -104,6 +111,7 @@ export type IMainframeClientMessage =
   | IMainframeRunBlockRequest
   | IMainframeQueryBlockRequest
   | IMainframeQueryDownstreamRequest
+  | IMainframeQueryAuthRequest
   | IMainframeExecutorReady;
 
 export type BlockActionEvent = {
