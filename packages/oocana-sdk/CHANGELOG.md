@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.22.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.22.0...@oomol/oocana-sdk-v0.22.1) (2025-08-26)
+
+
+### Features
+
+* move preview to block request ([#355](https://github.com/oomol/oocana-node/issues/355)) ([5e1f92b](https://github.com/oomol/oocana-node/commit/5e1f92b86c97545a472b06d02250682b574d9db8))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.23.1
+
 ## [0.22.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.21.7...@oomol/oocana-sdk-v0.22.0) (2025-07-29)
 
 
