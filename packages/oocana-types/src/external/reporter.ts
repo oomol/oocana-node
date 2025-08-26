@@ -145,6 +145,8 @@ export interface BlockMessage extends BlockInfo {
 export interface BlockPreview extends BlockInfo {
   readonly type: "BlockPreview";
   readonly payload: any;
+  // when this preview is forward from subflow, it will carry the node_id of the original node
+  readonly node_id?: string;
 }
 
 export interface BlockWarning extends BlockInfo {
