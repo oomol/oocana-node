@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.2](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.1...@oomol/oocana-types-v0.23.2) (2025-08-26)
+
+
+### Features
+
+* add node_id field ([#357](https://github.com/oomol/oocana-node/issues/357)) ([6f0121a](https://github.com/oomol/oocana-node/commit/6f0121a2ca0c205c988657cfc541af070a0706b8))
+
 ## [0.23.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.0...@oomol/oocana-types-v0.23.1) (2025-08-26)
 
 
