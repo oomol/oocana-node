@@ -20,6 +20,7 @@ import type {
   ReporterMessage,
   IMainframeQueryDownstreamRequest,
   IMainframeBlockProgress,
+  IMainframePreviewRequest,
 } from "@oomol/oocana-types";
 
 export class Mainframe {
@@ -252,6 +253,7 @@ export class Mainframe {
       | IMainframeRunBlockRequest
       | IMainframeQueryBlockRequest
       | IMainframeQueryDownstreamRequest
+      | IMainframePreviewRequest
   ): Promise<void> {
     await this.send(message);
   }
