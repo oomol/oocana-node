@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.3](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.22.2...@oomol/oocana-sdk-v0.22.3) (2025-08-26)
+
+
+### Code Refactoring
+
+* reduce env warning count ([#360](https://github.com/oomol/oocana-node/issues/360)) ([928b09e](https://github.com/oomol/oocana-node/commit/928b09e55bfe4fe385e7f44392e711d456336a05))
+
 ## [0.22.2](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.22.1...@oomol/oocana-sdk-v0.22.2) (2025-08-26)
 
 

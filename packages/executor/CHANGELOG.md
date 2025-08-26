@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.20.38](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.37...@oomol/executor-v0.20.38) (2025-08-26)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-sdk bumped to 0.22.3
+
 ## [0.20.37](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.36...@oomol/executor-v0.20.37) (2025-08-26)
 
 
