@@ -34,6 +34,7 @@ export class ContextImpl implements Context {
   readonly block_path?: string;
   readonly stacks: readonly BlockJobStackLevel[];
   #variableStore: { [index: string]: any };
+  #envWarningsShown = false;
   static readonly keepAlive = Symbol("keepAlive");
   keepAlive = ContextImpl.keepAlive;
   readonly flowNodeStore: { [index: string]: any };
@@ -43,7 +44,6 @@ export class ContextImpl implements Context {
   private storeKey: string;
   public readonly sessionDir: string;
   public readonly inputs: Record<string, any>;
-  public readonly OOMOL_LLM_ENV: OOMOL_LLM_ENV;
   public readonly hostInfo: HostInfo;
   public readonly tmpDir: string;
   public readonly tmpPkgDir: string;
@@ -100,7 +100,17 @@ export class ContextImpl implements Context {
     this.pkgDir = pkgDir;
     this.pkgDataDir = pkgDir;
 
-    this.OOMOL_LLM_ENV = Object.freeze({
+
+    this.hostInfo = Object.freeze({
+      gpuVendor: process.env.OOMOL_HOST_GPU_VENDOR || "unknown",
+      gpuRenderer: process.env.OOMOL_HOST_GPU_RENDERER || "unknown",
+    });
+
+    this.hostEndpoint = process.env.OO_HOST_ENDPOINT;
+  }
+
+  get OOMOL_LLM_ENV(): OOMOL_LLM_ENV {
+    const env = Object.freeze({
       baseUrl: process.env.OOMOL_LLM_BASE_URL || "",
       baseUrlV1: process.env.OOMOL_LLM_BASE_URL_V1 || "",
       apiKey: process.env.OOMOL_LLM_API_KEY || "",
@@ -109,20 +119,18 @@ export class ContextImpl implements Context {
         : [],
     });
 
-    for (const [key, value] of Object.entries(this.OOMOL_LLM_ENV)) {
-      if (value === "" || (Array.isArray(value) && value.length === 0)) {
-        this.warning(
-          `OOMOL_LLM_ENV variable ${key} is (${value}), this may cause some features not working properly.`
-        );
+    if (!this.#envWarningsShown) {
+      for (const [key, value] of Object.entries(env)) {
+        if (value === "" || (Array.isArray(value) && value.length === 0)) {
+          this.warning(
+            `OOMOL_LLM_ENV variable ${key} is (${value}), this may cause some features not working properly.`
+          );
+        }
       }
+      this.#envWarningsShown = true;
     }
 
-    this.hostInfo = Object.freeze({
-      gpuVendor: process.env.OOMOL_HOST_GPU_VENDOR || "unknown",
-      gpuRenderer: process.env.OOMOL_HOST_GPU_RENDERER || "unknown",
-    });
-
-    this.hostEndpoint = process.env.OO_HOST_ENDPOINT;
+    return env;
   }
 
   private createObjectRef = (handle: string): StoreKeyRef => {
