@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.0...@oomol/oocana-types-v0.23.1) (2025-08-26)
+
+
+### Features
+
+* move preview to block request ([#355](https://github.com/oomol/oocana-node/issues/355)) ([5e1f92b](https://github.com/oomol/oocana-node/commit/5e1f92b86c97545a472b06d02250682b574d9db8))
+
 ## [0.23.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.22.5...@oomol/oocana-types-v0.23.0) (2025-07-29)
 
 
