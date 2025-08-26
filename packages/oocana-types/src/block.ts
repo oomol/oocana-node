@@ -50,11 +50,11 @@ export interface IMainframeQueryDownstreamRequest extends JobInfo {
   request_id: string;
 }
 
-export interface IMainframePreviewRequest extends JobInfo {
+export interface IMainframePreviewRequest<TPayload = unknown> extends JobInfo {
   type: "BlockRequest";
   action: "Preview";
   request_id: string;
-  payload: any;
+  payload: TPayload;
 }
 
 export interface IMainframeExecutorReady {
