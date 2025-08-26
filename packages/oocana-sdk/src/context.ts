@@ -562,12 +562,12 @@ export class ContextImpl implements Context {
         }
       }
     }
-    const request_id = crypto.randomUUID();
+    const requestId = crypto.randomUUID();
     await this.mainframe.sendRequest({
       type: "BlockRequest",
       action: "Preview",
       session_id: this.sessionId,
-      request_id,
+      request_id: requestId,
       job_id: this.jobId,
       payload: id ? { ...payload, id } : payload,
     });
