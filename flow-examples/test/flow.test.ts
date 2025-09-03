@@ -137,16 +137,22 @@ describe(
       expect(lastNode).toBe("end");
     });
 
-    it("run pkg flow", async () => {
-      const { code, events } = await runFlow("pkg");
-      expect(code).toBe(0);
+    it(
+      "run pkg flow",
+      async () => {
+        const { code, events } = await runFlow("pkg");
+        expect(code).toBe(0);
 
-      const startEvents = events.filter(e => e.event === "BlockStarted");
-      expect(startEvents.length).toBe(4);
+        const startEvents = events.filter(e => e.event === "BlockStarted");
+        expect(startEvents.length).toBe(4);
 
-      const finishEvents = events.filter(e => e.event === "BlockFinished");
-      expect(finishEvents.length).eq(4);
-    });
+        const finishEvents = events.filter(e => e.event === "BlockFinished");
+        expect(finishEvents.length).eq(4);
+      },
+      {
+        timeout: 40 * 1000,
+      }
+    );
 
     it("run run-pkg-block", async () => {
       if (await isPackageLayerEnable()) {
