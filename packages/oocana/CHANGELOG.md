@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.18](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.17...@oomol/oocana-v0.23.18) (2025-09-06)
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.30.16 ([#366](https://github.com/oomol/oocana-node/issues/366)) ([0c05a56](https://github.com/oomol/oocana-node/commit/0c05a569b0b4314d48faea25539a610248f700d8))
+
 ## [0.23.17](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.16...@oomol/oocana-v0.23.17) (2025-09-04)
 
 
