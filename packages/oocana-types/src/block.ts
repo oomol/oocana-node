@@ -56,6 +56,12 @@ export interface IMainframePreviewRequest<TPayload = unknown> extends JobInfo {
   request_id: string;
   payload: TPayload;
 }
+export interface IMainframeQueryAuthRequest extends JobInfo {
+  type: "BlockRequest";
+  action: "QueryAuth";
+  id: string;
+  request_id: string;
+}
 
 export interface IMainframeExecutorReady {
   type: "ExecutorReady";
@@ -112,6 +118,7 @@ export type IMainframeClientMessage =
   | IMainframeQueryBlockRequest
   | IMainframeQueryDownstreamRequest
   | IMainframePreviewRequest
+  | IMainframeQueryAuthRequest
   | IMainframeExecutorReady;
 
 export type BlockActionEvent = {
