@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.23.23](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.22...@oomol/oocana-v0.23.23) (2025-09-23)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.23.3
+
 ## [0.23.22](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.21...@oomol/oocana-v0.23.22) (2025-09-18)
 
 
