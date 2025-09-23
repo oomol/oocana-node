@@ -18,6 +18,7 @@ import {
 import { event, send } from "@wopjs/event";
 import { Mainframe } from "./mainframe";
 import { isBinHandle, isValHandle, outputRefKey } from "./utils";
+import { InternalAPI } from "./internal";
 import throttle from "lodash.throttle";
 import { writeFile } from "node:fs/promises";
 import { mkdirSync } from "node:fs";
@@ -52,6 +53,7 @@ export class ContextImpl implements Context {
   public readonly pkgDataDir: string;
   public readonly hostEndpoint: string | undefined;
   public node_id: string;
+  public readonly internal: InternalAPI;
 
   constructor({
     blockInfo,
@@ -99,6 +101,7 @@ export class ContextImpl implements Context {
     this.tmpPkgDir = path.join(this.tmpDir, this.packageName);
     this.pkgDir = pkgDir;
     this.pkgDataDir = pkgDir;
+    this.internal = new InternalAPI(mainframe, { session_id, job_id });
 
 
     this.hostInfo = Object.freeze({
