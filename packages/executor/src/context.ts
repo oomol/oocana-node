@@ -7,6 +7,7 @@ import {
 } from "@oomol/oocana-types";
 import { logger } from "./logger";
 import { replaceSecret } from "./secret";
+import { replaceCredential } from "./credential";
 import { readFile } from "fs/promises";
 
 function isBinaryValue(value: any): value is BinaryValue {
@@ -55,7 +56,8 @@ export async function createContext({
     inputs_def_patch: inputsDefPatch,
   } = blockReadyResponse;
 
-  const node_inputs = await replaceSecret(inputs, inputsDef, inputsDefPatch);
+  let node_inputs = await replaceSecret(inputs, inputsDef, inputsDefPatch);
+  node_inputs = replaceCredential(node_inputs, inputsDef);
 
   for (const [key, value] of Object.entries(node_inputs)) {
     if (isVarValue(value)) {
