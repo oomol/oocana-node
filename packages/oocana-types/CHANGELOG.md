@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.23.3](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.2...@oomol/oocana-types-v0.23.3) (2025-09-23)
+
+
+### Features
+
+* add query auth api ([#354](https://github.com/oomol/oocana-node/issues/354)) ([63e05fb](https://github.com/oomol/oocana-node/commit/63e05fbfdefb2f8750f959d0d2a8b07ac6fdfbbe))
+* implement credential support ([#378](https://github.com/oomol/oocana-node/issues/378)) ([bb7cd18](https://github.com/oomol/oocana-node/commit/bb7cd18e1afa8d7564413f73c7d150f1aaf5b633))
+* implement update node weight in runtime ([#379](https://github.com/oomol/oocana-node/issues/379)) ([a8fe662](https://github.com/oomol/oocana-node/commit/a8fe662b3c995a4523a3138eaac97db5ff302454))
+
 ## [0.23.2](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.1...@oomol/oocana-types-v0.23.2) (2025-08-26)
 
 

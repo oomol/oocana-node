@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.20.39](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.38...@oomol/executor-v0.20.39) (2025-09-23)
+
+
+### Features
+
+* implement credential support ([#378](https://github.com/oomol/oocana-node/issues/378)) ([bb7cd18](https://github.com/oomol/oocana-node/commit/bb7cd18e1afa8d7564413f73c7d150f1aaf5b633))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-sdk bumped to 0.22.4
+    * @oomol/oocana-types bumped to 0.23.3
+
 ## [0.20.38](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.37...@oomol/executor-v0.20.38) (2025-08-26)
 
 
