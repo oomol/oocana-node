@@ -167,6 +167,12 @@ export interface Context<
   readonly outputs: (map: Partial<TOutputs>) => Promise<void>;
 
   /**
+   * Query authentication information.
+   * @param id authentication id, it should pass from input
+   */
+  readonly queryAuth: (id: string) => Promise<{ [key: string]: string }>;
+
+  /**
    * Query current node's downstream connection.
    * @param handles node's outputs handles. if undefined or null, will query all handles's downstream
    * @returns
