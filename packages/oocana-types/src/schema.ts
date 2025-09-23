@@ -21,7 +21,8 @@ export type FieldSchema =
   | ArrayFieldSchema
   | ObjectFieldSchema
   | PrimitiveFieldSchema
-  | SecretFieldSchema;
+  | SecretFieldSchema
+  | CredentialFieldSchema;
 
 type ArrayFieldSchema = {
   type: "array";
@@ -54,6 +55,11 @@ export type SecretFieldSchema = {
   contentMediaType: "oomol/secret";
 };
 
+export type CredentialFieldSchema = {
+  type: "string";
+  contentMediaType: "oomol/credential";
+};
+
 export type HandlesDefPatch = {
   [name: string]: DefPatch[];
 };
@@ -82,4 +88,4 @@ export type VarValue = {
   value: StoreKeyRef;
 };
 
-type OomolType = "oomol/var" | "oomol/secret" | "oomol/bin";
+type OomolType = "oomol/var" | "oomol/secret" | "oomol/bin" | "oomol/credential";

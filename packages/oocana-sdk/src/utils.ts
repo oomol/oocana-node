@@ -1,5 +1,6 @@
 import {
   BinFieldSchema,
+  CredentialFieldSchema,
   HandlesDef,
   PrimitiveFieldSchema,
   RootFieldSchema,
@@ -16,6 +17,11 @@ export function isValHandle(def: HandlesDef, handle: string): boolean {
 export function isBinHandle(def: HandlesDef, handle: string): boolean {
   const handleDef = def[handle];
   return !!(handleDef?.json_schema && isBinSchema(handleDef.json_schema));
+}
+
+export function isCredentialHandle(def: HandlesDef, handle: string): boolean {
+  const handleDef = def[handle];
+  return !!(handleDef?.json_schema && isCredentialSchema(handleDef.json_schema));
 }
 
 export function isSecretSchema(def: RootFieldSchema): def is SecretFieldSchema {
@@ -49,6 +55,10 @@ export function isPrimitiveSchema(
     return false;
   }
 
+  if (isCredentialSchema(def)) {
+    return false;
+  }
+
   return (
     def.type === "string" || def.type === "number" || def.type === "boolean"
   );
@@ -60,6 +70,22 @@ export function isBinSchema(def: RootFieldSchema): def is BinFieldSchema {
 
 export function isVarSchema(def: RootFieldSchema): def is VarFieldSchema {
   return (def as VarFieldSchema).contentMediaType === "oomol/var";
+}
+
+export function isCredentialSchema(def: RootFieldSchema): def is CredentialFieldSchema {
+  if (isVarSchema(def)) {
+    return false;
+  }
+
+  if (isBinSchema(def)) {
+    return false;
+  }
+
+  if (def.type !== "string") {
+    return false;
+  }
+
+  return (def as CredentialFieldSchema).contentMediaType === "oomol/credential";
 }
 
 export function outputRefKey(ref: StoreKeyRef): string {
