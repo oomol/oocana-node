@@ -63,6 +63,14 @@ export interface IMainframeQueryAuthRequest extends JobInfo {
   request_id: string;
 }
 
+export interface IMainframeUpdateNodeWeightRequest extends JobInfo {
+  type: "BlockRequest";
+  action: "UpdateNodeWeight";
+  node_id: string;
+  weight: number;
+  request_id: string;
+}
+
 export interface IMainframeExecutorReady {
   type: "ExecutorReady";
   executor_name: string;
@@ -119,6 +127,7 @@ export type IMainframeClientMessage =
   | IMainframeQueryDownstreamRequest
   | IMainframePreviewRequest
   | IMainframeQueryAuthRequest
+  | IMainframeUpdateNodeWeightRequest
   | IMainframeExecutorReady;
 
 export type BlockActionEvent = {

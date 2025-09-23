@@ -346,4 +346,10 @@ export interface Context<
 
   /** A host endpoint that allows containers to access services running on the host system. in cloud environment, it will be undefined. */
   readonly hostEndpoint: string | undefined;
+
+  /** Internal API for advanced features */
+  readonly internal: {
+    /** Update the weight of a node */
+    updateNodeWeight: (nodeId: string, weight: number) => Promise<void>;
+  };
 }
