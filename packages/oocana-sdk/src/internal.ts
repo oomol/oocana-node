@@ -16,9 +16,9 @@ export class InternalAPI {
    * @param nodeId The ID of the node to update.
    * @param weight The new weight for the node. Must be a non-negative finite number.
    */
-  async updateNodeWeight(nodeId: string, weight: number | bigint): Promise<void> {
-    if (typeof weight !== "number" && typeof weight !== "bigint") {
-      throw new Error("Weight must be a number or bigint.");
+  async updateNodeWeight(nodeId: string, weight: number): Promise<void> {
+    if (typeof weight !== "number") {
+      throw new Error("Weight must be a number.");
     }
 
     const numericWeight = Number(weight);
