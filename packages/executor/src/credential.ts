@@ -5,12 +5,15 @@ export class CredentialInput {
   constructor(public type: string, public name: string, public id: string) {}
 }
 
-export function generateCredentialInput(credentialPath: string): CredentialInput | null {
-  if (!credentialPath.startsWith("${{OO_CREDENTIAL:") || !credentialPath.endsWith("}}")) {
+export function generateCredentialInput(
+  credentialPath: string
+): CredentialInput | null {
+  const PREFIX = "${{OO_CREDENTIAL:";
+  const SUFFIX = "}}";
+  if (!credentialPath.startsWith(PREFIX) || !credentialPath.endsWith(SUFFIX))
     return null;
-  }
+  const content = credentialPath.slice(PREFIX.length, -SUFFIX.length).trim();
 
-  const content = credentialPath.slice(17, -2); // Remove "${{OO_CREDENTIAL:" and "}}"
   if (!content) {
     return null;
   }
