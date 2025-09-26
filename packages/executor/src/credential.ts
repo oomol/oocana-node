@@ -2,7 +2,7 @@ import { isCredentialSchema } from "@oomol/oocana-sdk";
 import { HandlesDef } from "@oomol/oocana-types";
 
 export class CredentialInput {
-  constructor(public type: string, public value: string) {}
+  constructor(public type: string, public name: string, public id: string) {}
 }
 
 export function generateCredentialInput(credentialPath: string): CredentialInput | null {
@@ -15,15 +15,17 @@ export function generateCredentialInput(credentialPath: string): CredentialInput
     return null;
   }
 
-  const commaIndex = content.indexOf(",");
-  if (commaIndex === -1) {
+  const parts = content.split(",");
+  if (parts.length !== 3) {
     return null;
   }
 
-  const type = content.slice(0, commaIndex);
-  const id = content.slice(commaIndex + 1);
+  const [type, name, id] = parts;
+  if (!type || !name || !id) {
+    return null;
+  }
 
-  return new CredentialInput(type, id);
+  return new CredentialInput(type, name, id);
 }
 
 export function replaceCredential(inputs: any, inputsDef: HandlesDef): any {
