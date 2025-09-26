@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.40](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.39...@oomol/executor-v0.20.40) (2025-09-26)
+
+
+### Code Refactoring
+
+* three component ([#382](https://github.com/oomol/oocana-node/issues/382)) ([00021d3](https://github.com/oomol/oocana-node/commit/00021d3020e2ad9f661a933b6442bc71b8a5a4b1))
+
 ## [0.20.39](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.38...@oomol/executor-v0.20.39) (2025-09-23)
 
 
