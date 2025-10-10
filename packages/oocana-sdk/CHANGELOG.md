@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.22.6](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.22.5...@oomol/oocana-sdk-v0.22.6) (2025-10-10)
+
+
+### Bug Fixes
+
+* use payload instead of id ([#386](https://github.com/oomol/oocana-node/issues/386)) ([9dee165](https://github.com/oomol/oocana-node/commit/9dee16570f71873be6babb8dade97a569ac7e602))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.23.5
+
 ## [0.22.5](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.22.4...@oomol/oocana-sdk-v0.22.5) (2025-10-10)
 
 

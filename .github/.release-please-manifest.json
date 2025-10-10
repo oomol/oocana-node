@@ -1,6 +1,6 @@
 {
-  "packages/executor": "0.20.41",
-  "packages/oocana": "0.23.25",
-  "packages/oocana-sdk": "0.22.5",
-  "packages/oocana-types": "0.23.4"
+  "packages/executor": "0.20.42",
+  "packages/oocana": "0.23.26",
+  "packages/oocana-sdk": "0.22.6",
+  "packages/oocana-types": "0.23.5"
 }
