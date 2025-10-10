@@ -23,6 +23,7 @@ import throttle from "lodash.throttle";
 import { writeFile } from "node:fs/promises";
 import { mkdirSync } from "node:fs";
 import path, { dirname } from "node:path";
+import { CredentialInput } from "./credential";
 
 interface ThrottleFunction<T extends (...args: any[]) => any> {
   (...args: Parameters<T>): ReturnType<T>;
@@ -102,7 +103,6 @@ export class ContextImpl implements Context {
     this.pkgDir = pkgDir;
     this.pkgDataDir = pkgDir;
     this.internal = new InternalAPI(mainframe, { session_id, job_id });
-
 
     this.hostInfo = Object.freeze({
       gpuVendor: process.env.OOMOL_HOST_GPU_VENDOR || "unknown",
@@ -221,7 +221,9 @@ export class ContextImpl implements Context {
     });
   };
 
-  queryAuth = async (id: string): Promise<{ [key: string]: string }> => {
+  queryAuth = async (
+    credential: CredentialInput
+  ): Promise<{ [key: string]: string }> => {
     const request_id = crypto.randomUUID();
 
     return new Promise((resolve, reject) => {
@@ -263,7 +265,7 @@ export class ContextImpl implements Context {
         session_id: this.sessionId,
         request_id,
         job_id: this.jobId,
-        id,
+        id: credential.id,
       });
     });
   };

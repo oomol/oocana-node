@@ -1,9 +1,5 @@
-import { isCredentialSchema } from "@oomol/oocana-sdk";
+import { isCredentialSchema, CredentialInput } from "@oomol/oocana-sdk";
 import { HandlesDef } from "@oomol/oocana-types";
-
-export class CredentialInput {
-  constructor(public type: string, public name: string, public id: string) {}
-}
 
 export function generateCredentialInput(
   credentialPath: string
