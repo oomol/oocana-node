@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.4](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.3...@oomol/oocana-types-v0.23.4) (2025-10-10)
+
+
+### Code Refactoring
+
+* query auth use credential ([#384](https://github.com/oomol/oocana-node/issues/384)) ([2c9b010](https://github.com/oomol/oocana-node/commit/2c9b01045a682d117243f2bbe487385d80d3cfc7))
+
 ## [0.23.3](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.2...@oomol/oocana-types-v0.23.3) (2025-09-23)
 
 

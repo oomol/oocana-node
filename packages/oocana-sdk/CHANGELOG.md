@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.22.5](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.22.4...@oomol/oocana-sdk-v0.22.5) (2025-10-10)
+
+
+### Code Refactoring
+
+* query auth use credential ([#384](https://github.com/oomol/oocana-node/issues/384)) ([2c9b010](https://github.com/oomol/oocana-node/commit/2c9b01045a682d117243f2bbe487385d80d3cfc7))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.23.4
+
 ## [0.22.4](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.22.3...@oomol/oocana-sdk-v0.22.4) (2025-09-23)
 
 
