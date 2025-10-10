@@ -1,35 +1,56 @@
 import { describe, expect, it } from "vitest";
-import { CredentialInput, generateCredentialInput, replaceCredential } from "../src/credential";
+import { generateCredentialInput, replaceCredential } from "../src/credential";
 import { HandlesDef } from "@oomol/oocana-types";
+import { CredentialInput } from "@oomol/oocana-sdk";
 
 describe("credential", () => {
   describe("generateCredentialInput", () => {
     it("should parse valid three-part credential path", () => {
-      const result = generateCredentialInput("${{OO_CREDENTIAL:github,token,my-token}}");
-      expect(result).toEqual(new CredentialInput("github", "token", "my-token"));
+      const result = generateCredentialInput(
+        "${{OO_CREDENTIAL:github,token,my-token}}"
+      );
+      expect(result).toEqual(
+        new CredentialInput("github", "token", "my-token")
+      );
     });
 
     it("should parse credential path with special characters", () => {
-      const result = generateCredentialInput("${{OO_CREDENTIAL:api,my-key,secret123}}");
+      const result = generateCredentialInput(
+        "${{OO_CREDENTIAL:api,my-key,secret123}}"
+      );
       expect(result).toEqual(new CredentialInput("api", "my-key", "secret123"));
     });
 
     it("should return null for invalid format", () => {
       expect(generateCredentialInput("invalid")).toBeNull();
-      expect(generateCredentialInput("${{OO_SECRET:type,name,key}}")).toBeNull();
+      expect(
+        generateCredentialInput("${{OO_SECRET:type,name,key}}")
+      ).toBeNull();
       expect(generateCredentialInput("${{OO_CREDENTIAL:}}")).toBeNull();
-      expect(generateCredentialInput("${{OO_CREDENTIAL:only-type}}")).toBeNull();
-      expect(generateCredentialInput("${{OO_CREDENTIAL:github,my-token}}")).toBeNull(); // Two parts should be null
+      expect(
+        generateCredentialInput("${{OO_CREDENTIAL:only-type}}")
+      ).toBeNull();
+      expect(
+        generateCredentialInput("${{OO_CREDENTIAL:github,my-token}}")
+      ).toBeNull(); // Two parts should be null
     });
 
     it("should return null for too many parts", () => {
-      expect(generateCredentialInput("${{OO_CREDENTIAL:github,token,my-token,extra}}")).toBeNull();
+      expect(
+        generateCredentialInput(
+          "${{OO_CREDENTIAL:github,token,my-token,extra}}"
+        )
+      ).toBeNull();
     });
 
     it("should return null for empty parts", () => {
       expect(generateCredentialInput("${{OO_CREDENTIAL:,,}}")).toBeNull();
-      expect(generateCredentialInput("${{OO_CREDENTIAL:github,,my-token}}")).toBeNull();
-      expect(generateCredentialInput("${{OO_CREDENTIAL:,token,my-token}}")).toBeNull();
+      expect(
+        generateCredentialInput("${{OO_CREDENTIAL:github,,my-token}}")
+      ).toBeNull();
+      expect(
+        generateCredentialInput("${{OO_CREDENTIAL:,token,my-token}}")
+      ).toBeNull();
     });
   });
 
@@ -58,7 +79,9 @@ describe("credential", () => {
 
       const result = replaceCredential(inputs, inputsDef);
 
-      expect(result.token).toEqual(new CredentialInput("github", "auth-token", "my-token"));
+      expect(result.token).toEqual(
+        new CredentialInput("github", "auth-token", "my-token")
+      );
       expect(result.regular).toBe("normal value");
     });
 
@@ -78,7 +101,9 @@ describe("credential", () => {
       };
 
       const result = replaceCredential(inputs, inputsDef);
-      expect(result.secret).toBe("${{OO_CREDENTIAL:github,auth-token,my-token}}");
+      expect(result.secret).toBe(
+        "${{OO_CREDENTIAL:github,auth-token,my-token}}"
+      );
     });
 
     it("should not replace invalid credential format", () => {
