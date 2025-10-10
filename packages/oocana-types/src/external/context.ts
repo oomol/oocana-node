@@ -101,6 +101,12 @@ export interface BlockJob<
   dispose(): void;
 }
 
+export interface CredentialInput {
+  readonly type: string;
+  readonly name: string;
+  readonly id: string;
+}
+
 export interface Context<
   TInputs = Record<string, any>,
   TOutputs = Record<string, any>
@@ -168,9 +174,11 @@ export interface Context<
 
   /**
    * Query authentication information.
-   * @param id authentication id, it should pass from input
+   * @param credential authentication information, it should pass from input
    */
-  readonly queryAuth: (id: string) => Promise<{ [key: string]: string }>;
+  readonly queryAuth: (
+    credential: CredentialInput
+  ) => Promise<{ [key: string]: string }>;
 
   /**
    * Query current node's downstream connection.
