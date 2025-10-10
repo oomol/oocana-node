@@ -265,7 +265,7 @@ export class ContextImpl implements Context {
         session_id: this.sessionId,
         request_id,
         job_id: this.jobId,
-        id: credential.id,
+        payload: credential.id,
       });
     });
   };

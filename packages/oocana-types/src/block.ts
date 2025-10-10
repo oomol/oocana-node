@@ -59,7 +59,7 @@ export interface IMainframePreviewRequest<TPayload = unknown> extends JobInfo {
 export interface IMainframeQueryAuthRequest extends JobInfo {
   type: "BlockRequest";
   action: "QueryAuth";
-  id: string;
+  payload: string;
   request_id: string;
 }
 
