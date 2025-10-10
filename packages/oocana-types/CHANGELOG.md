@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.5](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.4...@oomol/oocana-types-v0.23.5) (2025-10-10)
+
+
+### Bug Fixes
+
+* use payload instead of id ([#386](https://github.com/oomol/oocana-node/issues/386)) ([9dee165](https://github.com/oomol/oocana-node/commit/9dee16570f71873be6babb8dade97a569ac7e602))
+
 ## [0.23.4](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.3...@oomol/oocana-types-v0.23.4) (2025-10-10)
 
 
