@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.20.41](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.40...@oomol/executor-v0.20.41) (2025-10-10)
+
+
+### Code Refactoring
+
+* query auth use credential ([#384](https://github.com/oomol/oocana-node/issues/384)) ([2c9b010](https://github.com/oomol/oocana-node/commit/2c9b01045a682d117243f2bbe487385d80d3cfc7))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-sdk bumped to 0.22.5
+    * @oomol/oocana-types bumped to 0.23.4
+
 ## [0.20.40](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.39...@oomol/executor-v0.20.40) (2025-09-26)
 
 
