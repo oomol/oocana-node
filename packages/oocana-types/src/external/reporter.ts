@@ -16,6 +16,10 @@ export interface SessionFinished {
   readonly finish_at: number;
   readonly path: string;
   readonly error?: string;
+  readonly _error?: {
+    message: string;
+    stack: string;
+  };
   readonly partial: boolean;
   readonly cache: boolean;
 }
@@ -48,6 +52,9 @@ export interface FlowFinished {
   readonly flow_path: string;
   readonly stacks: readonly BlockJobStackLevel[];
   readonly error?: string;
+  readonly _error?: {
+    stack: string;
+  };
   readonly finish_at: number;
 }
 // endregion
@@ -62,6 +69,10 @@ export interface SubflowBlockStarted extends BlockInfo {
 export interface SubflowBlockFinished extends BlockInfo {
   readonly type: "SubflowBlockFinished";
   readonly error?: string;
+  readonly _error?: {
+    stack: string;
+  };
+  readonly result?: Record<string, any>;
   readonly finish_at: number;
 }
 
@@ -81,6 +92,9 @@ export interface SlotflowStarted extends BlockInfo {
 export interface SlotflowFinished extends BlockInfo {
   readonly type: "SlotflowFinished";
   readonly error?: string;
+  readonly _error?: {
+    stack: string;
+  };
   readonly result?: Record<string, any>;
   readonly finish_at: number;
 }
