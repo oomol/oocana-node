@@ -72,7 +72,6 @@ export interface SubflowBlockFinished extends BlockInfo {
   readonly _error?: {
     stack: string;
   };
-  readonly result?: Record<string, any>;
   readonly finish_at: number;
 }
 
