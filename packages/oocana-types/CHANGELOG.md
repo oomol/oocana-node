@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.23.6](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.5...@oomol/oocana-types-v0.23.6) (2025-10-29)
+
+
+### Features
+
+* add _error field ([#388](https://github.com/oomol/oocana-node/issues/388)) ([6f4e072](https://github.com/oomol/oocana-node/commit/6f4e07299cfdc83e432891b20e63c19b313dee5a))
+
+
+### Bug Fixes
+
+* remove result field ([#390](https://github.com/oomol/oocana-node/issues/390)) ([54f321a](https://github.com/oomol/oocana-node/commit/54f321af7cf0f23e22ce6c377c2530b0728e22d2))
+
 ## [0.23.5](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.4...@oomol/oocana-types-v0.23.5) (2025-10-10)
 
 
