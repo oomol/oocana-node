@@ -1,6 +1,6 @@
 {
   "name": "@oomol/oocana-sdk",
-  "version": "0.22.6",
+  "version": "0.22.7",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
