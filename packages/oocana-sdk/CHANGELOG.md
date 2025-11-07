@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.22.8](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.22.7...@oomol/oocana-sdk-v0.22.8) (2025-11-07)
+
+
+### Features
+
+* expose oomol token ([#392](https://github.com/oomol/oocana-node/issues/392)) ([8a6a134](https://github.com/oomol/oocana-node/commit/8a6a13448c6175e4862e6e02bb7ec90122ac058a))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.23.7
+
 ## [0.22.7](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.22.6...@oomol/oocana-sdk-v0.22.7) (2025-10-29)
 
 
