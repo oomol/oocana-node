@@ -144,6 +144,8 @@ export interface Context<
    */
   readonly flowNodeStore: { [index: string]: any };
 
+  getOomolToken: () => Promise<string>;
+
   readonly output: {
     /**
      * @param handle Output handle

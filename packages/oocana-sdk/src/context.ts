@@ -112,6 +112,10 @@ export class ContextImpl implements Context {
     this.hostEndpoint = process.env.OO_HOST_ENDPOINT;
   }
 
+  async getOomolToken(): Promise<string> {
+    return process.env["OOMOL_TOKEN"] || "";
+  }
+
   get OOMOL_LLM_ENV(): OOMOL_LLM_ENV {
     const env = Object.freeze({
       baseUrl: process.env.OOMOL_LLM_BASE_URL || "",
