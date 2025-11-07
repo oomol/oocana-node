@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.7](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.6...@oomol/oocana-types-v0.23.7) (2025-11-07)
+
+
+### Features
+
+* expose oomol token ([#392](https://github.com/oomol/oocana-node/issues/392)) ([8a6a134](https://github.com/oomol/oocana-node/commit/8a6a13448c6175e4862e6e02bb7ec90122ac058a))
+
 ## [0.23.6](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.5...@oomol/oocana-types-v0.23.6) (2025-10-29)
 
 
