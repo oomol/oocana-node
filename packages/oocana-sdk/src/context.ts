@@ -37,6 +37,7 @@ export class ContextImpl implements Context {
   readonly stacks: readonly BlockJobStackLevel[];
   #variableStore: { [index: string]: any };
   #envWarningsShown = false;
+  #tokenWarningShown = false;
   static readonly keepAlive = Symbol("keepAlive");
   keepAlive = ContextImpl.keepAlive;
   readonly flowNodeStore: { [index: string]: any };
@@ -113,7 +114,14 @@ export class ContextImpl implements Context {
   }
 
   async getOomolToken(): Promise<string> {
-    return process.env["OOMOL_TOKEN"] || "";
+    const token = process.env["OOMOL_TOKEN"] || "";
+    if (!token && !this.#tokenWarningShown) {
+      await this.warning(
+        "OOMOL_TOKEN environment variable is not set, authentication features may not work properly."
+      );
+      this.#tokenWarningShown = true;
+    }
+    return token;
   }
 
   get OOMOL_LLM_ENV(): OOMOL_LLM_ENV {

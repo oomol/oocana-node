@@ -143,7 +143,20 @@ export interface Context<
    * ```
    */
   readonly flowNodeStore: { [index: string]: any };
-
+  /**
+   * Get OOMOL authentication token from environment.
+   * @returns Promise that resolves to the OOMOL_TOKEN environment variable value, or empty string if not set.
+   *
+   * @example
+   * ```ts
+   * async function main(inputs, context) {
+   *   const token = await context.getOomolToken();
+   *   if (token) {
+   *     // Use token for authentication
+   *   }
+   * }
+   * ```
+   */
   getOomolToken: () => Promise<string>;
 
   readonly output: {
