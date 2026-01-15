@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.23.30](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.29...@oomol/oocana-v0.23.30) (2026-01-15)
+
+
+### Features
+
+* enhance checkPackageLayer to accept packageName and version parameters ([#398](https://github.com/oomol/oocana-node/issues/398)) ([cbf6179](https://github.com/oomol/oocana-node/commit/cbf6179d2c882f196af4224ceb9fdb30410b0507))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.30.25 ([#396](https://github.com/oomol/oocana-node/issues/396)) ([6937253](https://github.com/oomol/oocana-node/commit/69372532fa140991a915eb1b6b39b7b2bb54ddfa))
+
 ## [0.23.29](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.28...@oomol/oocana-v0.23.29) (2025-12-23)
 
 
