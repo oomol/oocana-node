@@ -105,9 +105,29 @@ async function createPackageLayer({
   return cli;
 }
 
-async function checkPackageLayer({ bin, packagePath }: CommonParams) {
+type CheckPackageLayerParams = {
+  packageName?: string;
+  version?: string;
+} & CommonParams;
+
+async function checkPackageLayer({
+  bin,
+  packagePath,
+  packageName,
+  version
+}: CheckPackageLayerParams) {
   const oocanaPath = bin ?? join(__dirname, "..", "oocana");
-  const cli = new Cli(spawn(oocanaPath, ["package-layer", "get", packagePath]));
+  const args = ["package-layer", "get", packagePath];
+
+  if (packageName) {
+    args.push("--package-name", packageName);
+  }
+
+  if (version) {
+    args.push("--version", version);
+  }
+
+  const cli = new Cli(spawn(oocanaPath, args));
 
   return new Promise<boolean>((resolve, reject) => {
     let resolved = false;
