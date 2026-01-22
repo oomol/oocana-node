@@ -91,7 +91,8 @@ async function createPackageLayer({
     }
   }
 
-  const runEnvs = generateSpawnEnvs(envs, undefined, {});
+  // need pass all envs to child process
+  const runEnvs = generateSpawnEnvs(envs, undefined);
 
   if (envFile) {
     args.push("--env-file", envFile);
@@ -114,7 +115,7 @@ async function checkPackageLayer({
   bin,
   packagePath,
   packageName,
-  version
+  version,
 }: CheckPackageLayerParams) {
   const oocanaPath = bin ?? join(__dirname, "..", "oocana");
   const args = ["package-layer", "get", packagePath];
