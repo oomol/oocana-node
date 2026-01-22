@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.35](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.34...@oomol/oocana-v0.23.35) (2026-01-22)
+
+
+### Bug Fixes
+
+* pass process.env to child process ([#407](https://github.com/oomol/oocana-node/issues/407)) ([c2d2cb8](https://github.com/oomol/oocana-node/commit/c2d2cb86c56b2f58d33f0bf1860f334339b124ca))
+
 ## [0.23.34](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.33...@oomol/oocana-v0.23.34) (2026-01-22)
 
 
