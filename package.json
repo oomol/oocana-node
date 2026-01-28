@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "broker": "pnpm -F @oomol/broker run start",
-    "test": "pnpm -F @oomol/node-executor run test && pnpm -F @oomol/oocana-test run test",
+    "test": "pnpm -F @oomol/node-executor run test && pnpm -F @oomol/oocana run test && pnpm -F @oomol/oocana-test run test",
     "build": "pnpm -r build",
     "executor": "pnpm -F @oomol/node-executor run start",
     "lint": "eslint --ext .ts,.tsx,.js,.mjs,.json,.json5 . && prettier --check . && cspell --no-progress --show-context --dot --show-suggestions '**/*.{md,ts,tsx,cjs,mjs,js,vue,svelte,scss,css,less,json,yml,yaml,toml,html,sh,go,rs}' && pnpm ts-check",
