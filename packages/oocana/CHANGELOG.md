@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.23.36](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.35...@oomol/oocana-v0.23.36) (2026-01-28)
+
+
+### Bug Fixes
+
+* cli exit code ([#411](https://github.com/oomol/oocana-node/issues/411)) ([0e3ddf1](https://github.com/oomol/oocana-node/commit/0e3ddf120be71c449a3263883d6711498d2383bf))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.30.33 ([#409](https://github.com/oomol/oocana-node/issues/409)) ([fe28398](https://github.com/oomol/oocana-node/commit/fe2839850e1b97c7db6c6c2af586fcd77fd15279))
+
 ## [0.23.35](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.34...@oomol/oocana-v0.23.35) (2026-01-22)
 
 
