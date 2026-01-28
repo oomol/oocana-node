@@ -35,7 +35,7 @@ export class Cli implements IDisposable {
   };
 
   public isRunning = (): boolean => {
-    return this.#process.exitCode === null && !this.#process.killed;
+    return this.#exitCode === null;
   };
 
   public result = (): number | null => {
