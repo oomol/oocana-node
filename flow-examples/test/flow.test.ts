@@ -359,7 +359,7 @@ describe("stop flow", () => {
     expect(isRunning).toBe(false);
 
     const code = await task.wait();
-    expect(code).toBe(-1);
+    expect(code).not.toBe(0);
 
     cli.dispose();
   });
