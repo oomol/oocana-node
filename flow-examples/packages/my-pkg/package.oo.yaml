@@ -1,2 +1,2 @@
 scripts:
-  bootstrap: apt update
+  bootstrap: echo "Bootstrapping my-pkg" > /tmp/my-pkg.txt
