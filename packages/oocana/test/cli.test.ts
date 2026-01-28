@@ -68,9 +68,6 @@ describe("Cli", () => {
 
       await cli.wait();
 
-      // Bug: 当前实现会返回 true，因为:
-      // - process.exitCode === null (信号终止)
-      // - process.killed === false (不是通过 ChildProcess.kill())
       expect(cli.isRunning()).toBe(false);
     });
   });
