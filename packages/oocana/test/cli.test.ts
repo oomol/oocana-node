@@ -57,6 +57,22 @@ describe("Cli", () => {
 
       expect(cli.isRunning()).toBe(false);
     });
+
+    it("should return false after process terminates via self-signal", async () => {
+      // 进程给自己发信号终止，不经过 ChildProcess.kill()
+      const process = spawn("node", [
+        "-e",
+        "process.kill(process.pid, 'SIGTERM')",
+      ]);
+      const cli = new Cli(process);
+
+      await cli.wait();
+
+      // Bug: 当前实现会返回 true，因为:
+      // - process.exitCode === null (信号终止)
+      // - process.killed === false (不是通过 ChildProcess.kill())
+      expect(cli.isRunning()).toBe(false);
+    });
   });
 
   describe("killed process", () => {
