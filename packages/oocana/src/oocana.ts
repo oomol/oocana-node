@@ -19,6 +19,18 @@ export type JSONValue =
   | JSONValue[]
   | { [key: string]: JSONValue };
 
+/** Bind path configuration for mounting source to destination in layer */
+export interface BindPath {
+  /** Source path */
+  src: string;
+  /** Destination path */
+  dst: string;
+  /** Read/write mode, defaults to 'rw' if not specified */
+  mode?: "ro" | "rw";
+  /** Whether to mount recursively, defaults to false (nonrecursive) if not specified */
+  recursive?: boolean;
+}
+
 interface RunConfig {
   /** optional session id, if not give, oocana will generate one */
   sessionId?: string;
@@ -36,8 +48,11 @@ interface RunConfig {
   /** a path for session storage. this path will shared by all block by context.sessionDir or context.session_dir */
   sessionPath?: string;
   tempRoot?: string;
-  /** bind paths, format  src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive], oocana will mount source to target in layer. if target not exist, oocana will create it. */
-  bindPaths?: string[];
+  /**
+   * Bind paths configuration. Oocana will mount source to destination in layer.
+   * If destination does not exist, oocana will create it.
+   */
+  bindPaths?: BindPath[];
   /** a file path contains multiple bind paths, better use absolute path. The file format is src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive] line by line, if not provided, it will be found in OOCANA_BIND_PATH_FILE env variable */
   bindPathFile?: string;
   /** when spawn executor, oocana will only retain envs start with OOMOL_ by design. Other env variables need to be explicitly added in this parameters otherwise they will be ignored. */
@@ -149,14 +164,13 @@ function buildArgs({
   }
 
   if (bindPaths) {
-    const pathPattern =
-      /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
-
-    for (const path of bindPaths) {
-      if (!pathPattern.test(path)) {
-        throw new Error(
-          `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`
-        );
+    for (const bind of bindPaths) {
+      let path = `src=${bind.src},dst=${bind.dst}`;
+      if (bind.mode) {
+        path += `,${bind.mode}`;
+      }
+      if (bind.recursive !== undefined) {
+        path += `,${bind.recursive ? "recursive" : "nonrecursive"}`;
       }
       args.push("--bind-paths", path);
     }
