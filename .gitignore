@@ -1,5 +1,4 @@
-# oocana output
-last_input_values.json
+.claude/
 
 # executor inline block
 **.scriptlets**
