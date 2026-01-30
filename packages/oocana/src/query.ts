@@ -235,29 +235,20 @@ export async function queryNodesInputs(
   const tmp_file = join(tmpdir(), randomUUID() + ".json");
   args.push("--output", tmp_file);
 
-  return new Promise<{}>((resolve, reject) => {
-    const cli = new Cli(spawn(bin, [...args]));
+  const cli = new Cli(spawn(bin, args));
+  const { exitCode, stderr } = await cli.waitWithStderr();
 
-    let err = "";
-    cli.addLogListener("stderr", (data: string) => {
-      err += data;
-    });
-    cli.wait().then(code => {
-      if (code == 0) {
-        const fileContent = readFileSync(tmp_file, { encoding: "utf-8" });
-        let map: NodesInputsQueryResponse = {};
-        try {
-          map = JSON.parse(fileContent);
-          resolve(map);
-        } catch (error) {
-          console.error("Failed to parse JSON:", error);
-          reject(new Error("Failed to parse JSON from input query result"));
-        }
-      } else {
-        reject(err);
-      }
-    });
-  });
+  if (exitCode !== 0) {
+    throw new Error(stderr);
+  }
+
+  const fileContent = readFileSync(tmp_file, { encoding: "utf-8" });
+  try {
+    return JSON.parse(fileContent);
+  } catch (error) {
+    console.error("Failed to parse JSON:", error);
+    throw new Error("Failed to parse JSON from input query result");
+  }
 }
 
 export async function queryInputs(
@@ -273,27 +264,18 @@ export async function queryInputs(
   const tmp_file = join(tmpdir(), randomUUID() + ".json");
   args.push("--output", tmp_file);
 
-  return new Promise<InputsQueryResponse>((resolve, reject) => {
-    const cli = new Cli(spawn(bin, [...args]));
+  const cli = new Cli(spawn(bin, args));
+  const { exitCode, stderr } = await cli.waitWithStderr();
 
-    let err = "";
-    cli.addLogListener("stderr", (data: string) => {
-      err += data;
-    });
-    cli.wait().then(code => {
-      if (code == 0) {
-        const fileContent = readFileSync(tmp_file, { encoding: "utf-8" });
-        let map: InputsQueryResponse = {};
-        try {
-          map = JSON.parse(fileContent);
-          resolve(map);
-        } catch (error) {
-          console.error("Failed to parse JSON:", error);
-          reject(new Error("Failed to parse JSON from inputs query result"));
-        }
-      } else {
-        reject(err);
-      }
-    });
-  });
+  if (exitCode !== 0) {
+    throw new Error(stderr);
+  }
+
+  const fileContent = readFileSync(tmp_file, { encoding: "utf-8" });
+  try {
+    return JSON.parse(fileContent);
+  } catch (error) {
+    console.error("Failed to parse JSON:", error);
+    throw new Error("Failed to parse JSON from inputs query result");
+  }
 }
