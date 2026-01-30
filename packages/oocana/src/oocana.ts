@@ -61,6 +61,8 @@ interface RunConfig {
    * when oocana spawn. If not given oocana will search OOCANA_BIND_PATH_FILE to see if it has one.
    * */
   envFile?: string;
+  /** search paths for block packages */
+  searchPaths?: string[];
 }
 
 interface EnvConfig {
@@ -84,18 +86,12 @@ export interface BlockConfig {
   inputs?: {
     [handleId: string]: JSONValue;
   };
-  /** search package blocks's path */
-  searchPaths?: string[];
 }
 
 export interface FlowConfig {
   /** flow.yaml file path or directory path */
   flowPath: string;
-  /** comma separated paths for search block package */
-  searchPaths?: string;
 
-  /** address for mqtt */
-  address?: string;
   /** will use previous run's last input value, but only json value can be reused */
   useCache?: boolean;
 
@@ -131,6 +127,7 @@ function buildArgs({
   bindPathFile,
   envs,
   envFile,
+  searchPaths,
 }: RunConfig): string[] {
   const args: string[] = [];
   if (sessionId) {
@@ -180,6 +177,10 @@ function buildArgs({
     for (const key of Object.keys(envs)) {
       args.push("--retain-env-keys", key);
     }
+  }
+
+  if (searchPaths) {
+    args.push("--search-paths", searchPaths.join(","));
   }
 
   return args;
@@ -264,17 +265,13 @@ export class Oocana implements IDisposable, OocanaInterface {
     }
 
     const { sessionId, envs, oomolEnvs, spawnedEnvs } = blockConfig;
-    const { blockPath, inputs, searchPaths } = blockConfig;
+    const { blockPath, inputs } = blockConfig;
 
     const args = ["run", blockPath, "--reporter", "--broker", this.#address];
     args.push(...buildArgs(blockConfig));
 
     if (inputs) {
       args.push("--inputs", JSON.stringify(inputs));
-    }
-
-    if (searchPaths) {
-      args.push("--search-paths", searchPaths.join(","));
     }
 
     const executorEnvs = generateSpawnEnvs(envs, oomolEnvs, spawnedEnvs);
@@ -290,14 +287,10 @@ export class Oocana implements IDisposable, OocanaInterface {
     }
 
     const { sessionId, envs, oomolEnvs, spawnedEnvs } = flowConfig;
-    const { flowPath, searchPaths, nodesInputs, useCache, nodes } = flowConfig;
+    const { flowPath, nodesInputs, useCache, nodes } = flowConfig;
 
     const args = ["run", flowPath, "--reporter", "--broker", this.#address];
     args.push(...buildArgs(flowConfig));
-
-    if (searchPaths) {
-      args.push("--search-paths", searchPaths);
-    }
 
     if (nodes) {
       args.push("--nodes", nodes.join(","));
