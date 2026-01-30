@@ -115,7 +115,7 @@ export interface OocanaInterface {
   stop(sessionId: string): Promise<void>;
 }
 
-function buildArgs({
+function buildRunConfigArgs({
   sessionId,
   debug,
   projectData,
@@ -268,7 +268,7 @@ export class Oocana implements IDisposable, OocanaInterface {
     const { blockPath, inputs } = blockConfig;
 
     const args = ["run", blockPath, "--reporter", "--broker", this.#address];
-    args.push(...buildArgs(blockConfig));
+    args.push(...buildRunConfigArgs(blockConfig));
 
     if (inputs) {
       args.push("--inputs", JSON.stringify(inputs));
@@ -290,7 +290,7 @@ export class Oocana implements IDisposable, OocanaInterface {
     const { flowPath, nodesInputs, useCache, nodes } = flowConfig;
 
     const args = ["run", flowPath, "--reporter", "--broker", this.#address];
-    args.push(...buildArgs(flowConfig));
+    args.push(...buildRunConfigArgs(flowConfig));
 
     if (nodes) {
       args.push("--nodes", nodes.join(","));
