@@ -41,7 +41,6 @@
   },
   "devDependencies": {
     "@oomol/oocana-types": "workspace:*",
-    "tslib": "^2.6.2",
     "vitest": "^2.0.5"
   }
 }
