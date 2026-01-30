@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.24.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.36...@oomol/oocana-v0.24.0) (2026-01-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* **oocana:** Remove deprecated parameters from FlowConfig interface. Use `nodesInputs` instead of `inputValues`, and `nodes` instead of `toNode`.
+* **oocana:** replace bindPaths string[] with structured BindPath type ([#419](https://github.com/oomol/oocana-node/issues/419))
+
+### Bug Fixes
+
+* **query,layer:** use strict equality for exit code checks ([#415](https://github.com/oomol/oocana-node/issues/415)) ([b764f70](https://github.com/oomol/oocana-node/commit/b764f7006a4a99a3f19c543ebddba0575e26df52))
+
+
+### Code Refactoring
+
+* **cli:** add runAndParse and waitWithStderr methods ([#414](https://github.com/oomol/oocana-node/issues/414)) ([025f09d](https://github.com/oomol/oocana-node/commit/025f09d1fde821f88665da465e0e41427d54c215))
+* **oocana:** clean up FlowConfig and BlockConfig public API ([#420](https://github.com/oomol/oocana-node/issues/420)) ([93719d6](https://github.com/oomol/oocana-node/commit/93719d6b2ef567b9b6d3c9e0a49d1d7314a95ed9))
+* **oocana:** extract common execution logic from runBlock/runFlow ([#413](https://github.com/oomol/oocana-node/issues/413)) ([001b9c0](https://github.com/oomol/oocana-node/commit/001b9c0cd1f1a4d2fc62622ba50fc21f596104ef))
+* **oocana:** improve type safety for public APIs ([#416](https://github.com/oomol/oocana-node/issues/416)) ([59a98c9](https://github.com/oomol/oocana-node/commit/59a98c96f3c4d5852ff06784069dbf45dafcc4ec))
+* **oocana:** replace bindPaths string[] with structured BindPath type ([#419](https://github.com/oomol/oocana-node/issues/419)) ([405ac86](https://github.com/oomol/oocana-node/commit/405ac86c95b565e64e403d18b1d9df3f8bb5990f))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.30.34 ([#418](https://github.com/oomol/oocana-node/issues/418)) ([22b292a](https://github.com/oomol/oocana-node/commit/22b292a0d64c588fa634ad4c4d26741b466da435))
+
 ## [0.23.36](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.35...@oomol/oocana-v0.23.36) (2026-01-28)
 
 
