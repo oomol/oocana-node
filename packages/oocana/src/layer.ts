@@ -23,7 +23,7 @@ async function isPackageLayerEnable() {
   const cli = new Cli(spawn("which", ["ovmlayer"]));
   return cli
     .wait()
-    .then(code => code == 0)
+    .then(code => code === 0)
     .catch(() => false);
 }
 

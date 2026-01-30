@@ -1,6 +1,6 @@
 import type { MqttClient } from "mqtt";
 import mqtt from "mqtt";
-import { DEFAULT_PORT } from "./oocana";
+import { DEFAULT_PORT, type JSONValue } from "./oocana";
 
 export class Poster {
   public static connect(address = `127.0.0.1:${DEFAULT_PORT}`): Poster {
@@ -31,7 +31,7 @@ export class Poster {
     job_id: string;
     node_id: string;
     flow_path: string;
-    payload: any;
+    payload: JSONValue;
   }): void {
     this.mqtt.publish(
       `service/${session_id}`,
