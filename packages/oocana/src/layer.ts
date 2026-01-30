@@ -5,9 +5,7 @@ import { generateSpawnEnvs } from "./env";
 import { tmpdir } from "node:os";
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
-
-const bindPathPattern =
-  /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
+import type { BindPath } from "./oocana";
 
 type PackageOptions = {
   packagePath: string;
@@ -56,7 +54,7 @@ async function importPackageLayer(params: ImportParams) {
 }
 
 type CreateParams = {
-  bind_paths?: string[];
+  bindPaths?: BindPath[];
   bindPathFile?: string;
   envFile?: string;
   envs?: Record<string, string>;
@@ -65,7 +63,7 @@ type CreateParams = {
 async function createPackageLayer({
   bin,
   packagePath,
-  bind_paths,
+  bindPaths,
   bindPathFile,
   envFile,
   envs,
@@ -73,11 +71,14 @@ async function createPackageLayer({
   const oocanaPath = bin ?? join(__dirname, "..", "oocana");
 
   const args = ["package-layer", "create", packagePath];
-  for (const path of bind_paths ?? []) {
-    if (!bindPathPattern.test(path)) {
-      `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`;
+  for (const bind of bindPaths ?? []) {
+    let path = `src=${bind.src},dst=${bind.dst}`;
+    if (bind.mode) {
+      path += `,${bind.mode}`;
     }
-
+    if (bind.recursive !== undefined) {
+      path += `,${bind.recursive ? "recursive" : "nonrecursive"}`;
+    }
     args.push("--bind-paths", path);
   }
 

@@ -76,7 +76,7 @@ describe("Layer operations", () => {
 
         let cli = await createPackageLayer({
           ...params,
-          bind_paths: ["/tmp:/tmp/a"],
+          bindPaths: [{ src: "/tmp", dst: "/tmp/a" }],
         });
 
         cli.addLogListener("stdout", data => {
