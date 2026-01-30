@@ -101,19 +101,11 @@ export interface FlowConfig {
 
   /** only run these nodes */
   nodes?: string[];
-  /** @deprecated use nodesInputs instead */
-  inputValues?: {
-    [nodeId: string]: {
-      [inputHandle: string]: JSONValue;
-    };
-  };
   nodesInputs?: {
     [nodeId: string]: {
       [inputHandle: string]: JSONValue;
     };
   };
-  /** @deprecated use nodes parameter instead */
-  toNode?: string;
 }
 
 export const DEFAULT_PORT = 47688;
@@ -298,15 +290,7 @@ export class Oocana implements IDisposable, OocanaInterface {
     }
 
     const { sessionId, envs, oomolEnvs, spawnedEnvs } = flowConfig;
-    const {
-      flowPath,
-      searchPaths,
-      toNode,
-      nodesInputs,
-      inputValues,
-      useCache,
-    } = flowConfig;
-    let { nodes } = flowConfig;
+    const { flowPath, searchPaths, nodesInputs, useCache, nodes } = flowConfig;
 
     const args = ["run", flowPath, "--reporter", "--broker", this.#address];
     args.push(...buildArgs(flowConfig));
@@ -315,18 +299,12 @@ export class Oocana implements IDisposable, OocanaInterface {
       args.push("--search-paths", searchPaths);
     }
 
-    if (toNode) {
-      nodes = [...(nodes || []), toNode];
-    }
-
     if (nodes) {
       args.push("--nodes", nodes.join(","));
     }
 
     if (nodesInputs) {
       args.push("--nodes-inputs", JSON.stringify(nodesInputs));
-    } else if (inputValues) {
-      args.push("--nodes-inputs", JSON.stringify(inputValues));
     }
 
     if (useCache) {
