@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.24.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.24.0...@oomol/oocana-v0.24.1) (2026-01-30)
+
+
+### Code Refactoring
+
+* **layer:** use structured BindPath type instead of string[] ([#421](https://github.com/oomol/oocana-node/issues/421)) ([0870924](https://github.com/oomol/oocana-node/commit/0870924761026afc6ad0625cf47c6f241ec9f8fe))
+
 ## [0.24.0](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.23.36...@oomol/oocana-v0.24.0) (2026-01-30)
 
 
