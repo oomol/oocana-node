@@ -67,7 +67,7 @@ async function runBlock(
   const task = await cli.runBlock({
     blockPath,
     inputs,
-    bindPaths: [`src=${homedir()}/.oocana,dst=/root/.oocana`],
+    bindPaths: [{ src: `${homedir()}/.oocana`, dst: "/root/.oocana" }],
     bindPathFile: await bindFile(),
     searchPaths: [packages],
     excludePackages: [workspace],
