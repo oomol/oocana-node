@@ -162,7 +162,7 @@ function buildArgs({
   }
 
   if (envs) {
-    for (const [key, _] of Object.entries(envs)) {
+    for (const key of Object.keys(envs)) {
       args.push("--retain-env-keys", key);
     }
   }
@@ -258,12 +258,6 @@ export class Oocana implements IDisposable, OocanaInterface {
       args.push("--inputs", JSON.stringify(inputs));
     }
 
-    if (envs) {
-      for (const key of Object.keys(envs)) {
-        args.push("--retain-env-keys", key);
-      }
-    }
-
     if (searchPaths) {
       args.push("--search-paths", searchPaths.join(","));
     }
@@ -314,12 +308,6 @@ export class Oocana implements IDisposable, OocanaInterface {
 
     if (useCache) {
       args.push("--use-cache");
-    }
-
-    if (envs) {
-      for (const key of Object.keys(envs)) {
-        args.push("--retain-env-keys", key);
-      }
     }
 
     const executorEnvs = generateSpawnEnvs(envs, oomolEnvs, spawnedEnvs);
