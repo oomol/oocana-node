@@ -1,5 +1,6 @@
 import { spawn } from "node:child_process";
 import { join } from "node:path";
+import { randomUUID } from "node:crypto";
 import { Remitter } from "remitter";
 import type { OocanaEventConfig } from "@oomol/oocana-types";
 import { Reporter } from "./reporter";
@@ -7,6 +8,7 @@ import type { IDisposable } from "@wopjs/disposable";
 import { disposableStore } from "@wopjs/disposable";
 import { Cli } from "./cli";
 import { generateSpawnEnvs, SpawnedEnvs } from "./env";
+import { validateBindPaths } from "./validation";
 
 export type JobEvent = Remitter<OocanaEventConfig>;
 
@@ -77,19 +79,11 @@ export interface FlowConfig {
 
   /** only run these nodes */
   nodes?: string[];
-  /** @deprecated use nodesInputs instead */
-  inputValues?: {
-    [nodeId: string]: {
-      [inputHandle: string]: any;
-    };
-  };
   nodesInputs?: {
     [nodeId: string]: {
       [inputHandle: string]: any;
     };
   };
-  /** @deprecated use nodes parameter instead */
-  toNode?: string;
 }
 
 export const DEFAULT_PORT = 47688;
@@ -140,15 +134,8 @@ function buildArgs({
   }
 
   if (bindPaths) {
-    const pathPattern =
-      /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
-
+    validateBindPaths(bindPaths);
     for (const path of bindPaths) {
-      if (!pathPattern.test(path)) {
-        throw new Error(
-          `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`
-        );
-      }
       args.push("--bind-paths", path);
     }
   }
@@ -178,8 +165,8 @@ export class Oocana implements IDisposable, OocanaInterface {
   #bin: string;
   #address?: string;
 
-  #sessionTask: Record<string, Cli> = {};
-  #randTasks: Cli[] = [];
+  /** Unified task tracking - all tasks have a unique ID */
+  #tasks: Map<string, Cli> = new Map();
 
   public constructor(oocanaPath?: string) {
     this.events = new Remitter();
@@ -199,53 +186,25 @@ export class Oocana implements IDisposable, OocanaInterface {
     return this;
   }
 
-  public async runBlock(
-    blockConfig: BlockConfig & RunConfig & EnvConfig
-  ): Promise<Cli> {
-    if (!this.#address) {
-      throw new Error("Cannot run flow without connecting to a broker");
-    }
+  /**
+   * Spawns a task and tracks it.
+   * Handles: process creation, session tracking, log listeners, and cleanup.
+   */
+  #spawnAndTrack(
+    args: string[],
+    env: SpawnedEnvs,
+    sessionId: string | undefined,
+    logPath: string
+  ): Cli {
+    const taskId = sessionId ?? randomUUID();
 
-    const sessionId = blockConfig.sessionId;
-    const { blockPath, inputs, searchPaths } = blockConfig as BlockConfig;
-    const { envs, oomolEnvs, spawnedEnvs } = blockConfig as EnvConfig;
+    const spawnedProcess = spawn(this.#bin, args, { env });
+    const task = new Cli(spawnedProcess);
 
-    const args = ["run", blockPath, "--reporter", "--broker", this.#address];
-    const baseArgs = buildArgs(blockConfig);
-
-    args.push(...baseArgs);
-
-    if (inputs) {
-      args.push("--inputs", JSON.stringify(inputs));
-    }
-
-    const executorEnvs = generateSpawnEnvs(envs, oomolEnvs, spawnedEnvs);
-
-    if (envs) {
-      for (const [key, _] of Object.entries(envs)) {
-        args.push("--retain-env-keys", key);
-      }
-    }
-
-    if (searchPaths) {
-      args.push("--search-paths", searchPaths.join(","));
-    }
-
-    const spawnedProcess = spawn(this.#bin, args, {
-      env: executorEnvs,
+    this.#tasks.set(taskId, task);
+    task.wait().then(() => {
+      this.#tasks.delete(taskId);
     });
-    const flowTask = new Cli(spawnedProcess);
-    if (sessionId) {
-      this.#sessionTask[sessionId] = flowTask;
-      flowTask.wait().then(() => {
-        delete this.#sessionTask[sessionId];
-      });
-    } else {
-      this.#randTasks.push(flowTask);
-      flowTask.wait().then(() => {
-        this.#randTasks = this.#randTasks.filter(task => task !== flowTask);
-      });
-    }
 
     const sendOocanaLog = (
       data: string,
@@ -255,19 +214,52 @@ export class Oocana implements IDisposable, OocanaInterface {
         type: "OocanaLog",
         data: String(data),
         session_id: sessionId,
-        path: blockPath,
+        path: logPath,
         stdio,
       });
     };
 
-    const logStdout = (data: string): void => sendOocanaLog(data, "stdout");
-    const logStdErr = (error: string): void => sendOocanaLog(error, "stderr");
-    flowTask.addLogListener("stdout", logStdout);
-    flowTask.addLogListener("stderr", logStdErr);
+    task.addLogListener("stdout", (data: string) =>
+      sendOocanaLog(data, "stdout")
+    );
+    task.addLogListener("stderr", (error: string) =>
+      sendOocanaLog(error, "stderr")
+    );
 
-    this.dispose.add(flowTask);
+    this.dispose.add(task);
 
-    return flowTask;
+    return task;
+  }
+
+  public async runBlock(
+    blockConfig: BlockConfig & RunConfig & EnvConfig
+  ): Promise<Cli> {
+    if (!this.#address) {
+      throw new Error("Cannot run flow without connecting to a broker");
+    }
+
+    const { blockPath, inputs, searchPaths } = blockConfig as BlockConfig;
+    const { envs, oomolEnvs, spawnedEnvs } = blockConfig as EnvConfig;
+
+    const args = ["run", blockPath, "--reporter", "--broker", this.#address];
+    args.push(...buildArgs(blockConfig));
+
+    if (inputs) {
+      args.push("--inputs", JSON.stringify(inputs));
+    }
+
+    if (searchPaths) {
+      args.push("--search-paths", searchPaths.join(","));
+    }
+
+    const executorEnvs = generateSpawnEnvs(envs, oomolEnvs, spawnedEnvs);
+
+    return this.#spawnAndTrack(
+      args,
+      executorEnvs,
+      blockConfig.sessionId,
+      blockPath
+    );
   }
 
   public async runFlow(
@@ -277,28 +269,15 @@ export class Oocana implements IDisposable, OocanaInterface {
       throw new Error("Cannot run flow without connecting to a broker");
     }
 
-    let nodes = flowConfig.nodes;
-    const sessionId = flowConfig.sessionId;
-    const {
-      flowPath,
-      searchPaths,
-      toNode,
-      nodesInputs,
-      inputValues,
-      useCache,
-    } = flowConfig as FlowConfig;
+    const { flowPath, searchPaths, nodesInputs, useCache, nodes } =
+      flowConfig as FlowConfig;
     const { envs, oomolEnvs, spawnedEnvs } = flowConfig as EnvConfig;
 
     const args = ["run", flowPath, "--reporter", "--broker", this.#address];
-    const baseArgs = buildArgs(flowConfig);
-    args.push(...baseArgs);
+    args.push(...buildArgs(flowConfig));
 
     if (searchPaths) {
       args.push("--search-paths", searchPaths);
-    }
-
-    if (toNode) {
-      nodes = [...(nodes || []), toNode];
     }
 
     if (nodes) {
@@ -307,8 +286,6 @@ export class Oocana implements IDisposable, OocanaInterface {
 
     if (nodesInputs) {
       args.push("--nodes-inputs", JSON.stringify(nodesInputs));
-    } else if (inputValues) {
-      args.push("--nodes-inputs", JSON.stringify(inputValues));
     }
 
     if (useCache) {
@@ -317,67 +294,26 @@ export class Oocana implements IDisposable, OocanaInterface {
 
     const executorEnvs = generateSpawnEnvs(envs, oomolEnvs, spawnedEnvs);
 
-    if (envs) {
-      for (const [key, _] of Object.entries(envs)) {
-        args.push("--retain-env-keys", key);
-      }
-    }
-
-    const spawnedProcess = spawn(this.#bin, args, {
-      env: executorEnvs,
-    });
-    const flowTask = new Cli(spawnedProcess);
-    if (sessionId) {
-      this.#sessionTask[sessionId] = flowTask;
-      flowTask.wait().then(() => {
-        delete this.#sessionTask[sessionId];
-      });
-    } else {
-      this.#randTasks.push(flowTask);
-      flowTask.wait().then(() => {
-        this.#randTasks = this.#randTasks.filter(task => task !== flowTask);
-      });
-    }
-
-    const sendOocanaLog = (
-      data: string,
-      stdio: "stdout" | "stderr" = "stdout"
-    ): void => {
-      this.events.emit("OocanaLog", {
-        type: "OocanaLog",
-        data: String(data),
-        session_id: sessionId,
-        path: flowPath,
-        stdio,
-      });
-    };
-
-    const logStdout = (data: string): void => sendOocanaLog(data, "stdout");
-    const logStdErr = (error: string): void => sendOocanaLog(error, "stderr");
-    flowTask.addLogListener("stdout", logStdout);
-    flowTask.addLogListener("stderr", logStdErr);
-
-    this.dispose.add(flowTask);
-
-    return flowTask;
+    return this.#spawnAndTrack(
+      args,
+      executorEnvs,
+      flowConfig.sessionId,
+      flowPath
+    );
   }
 
   /** Stops the active flow task associated with the given session ID or all tasks if no ID is provided. */
   public async stop(sessionId?: string): Promise<void> {
     if (sessionId) {
-      const task = this.#sessionTask[sessionId];
+      const task = this.#tasks.get(sessionId);
       if (task) {
         task.kill();
       }
     } else {
-      for (const sessionId of Object.keys(this.#sessionTask)) {
-        const task = this.#sessionTask[sessionId];
+      for (const task of this.#tasks.values()) {
         task.kill();
       }
-      for (const task of this.#randTasks) {
-        task.kill();
-      }
-      this.#randTasks = [];
+      this.#tasks.clear();
     }
   }
 }
