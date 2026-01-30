@@ -23,16 +23,17 @@ export function generateSpawnEnvs(
   oomolEnvs?: Record<string, string>,
   defaultEnvs?: SpawnedEnvs
 ): SpawnedEnvs {
-  const spawnedEnvs: SpawnedEnvs = defaultEnvs || process.env;
-  const path = process.env.PATH || "";
+  const baseEnvs = defaultEnvs || process.env;
+  const spawnedEnvs: SpawnedEnvs = { ...baseEnvs };
+  const path = baseEnvs.PATH || "";
   spawnedEnvs.PATH = path;
 
-  for (const key of Object.keys(process.env)) {
+  for (const key of Object.keys(baseEnvs)) {
     if (
       (key.startsWith("OOCANA_") || key.startsWith("OOMOL_")) &&
-      !!process.env[key]
+      !!baseEnvs[key]
     ) {
-      spawnedEnvs[key] = process.env[key];
+      spawnedEnvs[key] = baseEnvs[key];
     }
   }
 
