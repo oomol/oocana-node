@@ -23,7 +23,7 @@ async function isPackageLayerEnable() {
   const cli = new Cli(spawn("which", ["ovmlayer"]));
   return cli
     .wait()
-    .then(code => code == 0)
+    .then(code => code === 0)
     .catch(() => false);
 }
 
@@ -204,7 +204,7 @@ async function scanPackages(
       err += data;
     });
     cli.wait().then(code => {
-      if (code == 0) {
+      if (code === 0) {
         const fileContent = readFileSync(tmp_file, { encoding: "utf-8" });
         let map: { [key: string]: "NotInStore" | "Exist" } = {};
         try {

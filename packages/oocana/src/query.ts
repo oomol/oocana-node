@@ -243,7 +243,7 @@ export async function queryNodesInputs(
       err += data;
     });
     cli.wait().then(code => {
-      if (code == 0) {
+      if (code === 0) {
         const fileContent = readFileSync(tmp_file, { encoding: "utf-8" });
         let map: NodesInputsQueryResponse = {};
         try {
@@ -281,7 +281,7 @@ export async function queryInputs(
       err += data;
     });
     cli.wait().then(code => {
-      if (code == 0) {
+      if (code === 0) {
         const fileContent = readFileSync(tmp_file, { encoding: "utf-8" });
         let map: InputsQueryResponse = {};
         try {
