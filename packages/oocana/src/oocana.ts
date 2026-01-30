@@ -10,6 +10,15 @@ import { generateSpawnEnvs, SpawnedEnvs } from "./env";
 
 export type JobEvent = Remitter<OocanaEventConfig>;
 
+/** JSON-compatible value type for inputs and payloads */
+export type JSONValue =
+  | string
+  | number
+  | boolean
+  | null
+  | JSONValue[]
+  | { [key: string]: JSONValue };
+
 interface RunConfig {
   /** optional session id, if not give, oocana will generate one */
   sessionId?: string;
@@ -58,7 +67,7 @@ export interface BlockConfig {
   /** block.yaml file path or directory path */
   blockPath: string;
   inputs?: {
-    [handleId: string]: any;
+    [handleId: string]: JSONValue;
   };
   /** search package blocks's path */
   searchPaths?: string[];
@@ -80,12 +89,12 @@ export interface FlowConfig {
   /** @deprecated use nodesInputs instead */
   inputValues?: {
     [nodeId: string]: {
-      [inputHandle: string]: any;
+      [inputHandle: string]: JSONValue;
     };
   };
   nodesInputs?: {
     [nodeId: string]: {
-      [inputHandle: string]: any;
+      [inputHandle: string]: JSONValue;
     };
   };
   /** @deprecated use nodes parameter instead */
