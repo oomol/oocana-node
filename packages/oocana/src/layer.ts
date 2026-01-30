@@ -130,28 +130,11 @@ async function checkPackageLayer({
 
   const cli = new Cli(spawn(oocanaPath, args));
 
-  return new Promise<boolean>((resolve, reject) => {
-    let resolved = false;
-    cli.addLogListener("stdout", (data: string) => {
-      const status = data.trim().split("\n").pop();
-      if (status === "Exist") {
-        resolved = true;
-        resolve(true);
-      } else if (status === "NotInStore") {
-        resolved = true;
-        resolve(false);
-      }
-    });
-
-    let err = "";
-    cli.addLogListener("stderr", (data: string) => {
-      err += data;
-    });
-    cli.wait().then(() => {
-      if (!resolved) {
-        reject("Failed to get layer status " + err);
-      }
-    });
+  return cli.runAndParse<boolean>(stdout => {
+    const status = stdout.trim().split("\n").pop();
+    if (status === "Exist") return true;
+    if (status === "NotInStore") return false;
+    return null;
   });
 }
 
@@ -196,28 +179,20 @@ async function scanPackages(
   const tmp_file = join(tmpdir(), randomUUID() + ".json");
   paths.push("--output", tmp_file);
 
-  return new Promise<{}>((resolve, reject) => {
-    const cli = new Cli(spawn(bin, ["package-layer", "scan", ...paths]));
+  const cli = new Cli(spawn(bin, ["package-layer", "scan", ...paths]));
+  const { exitCode, stderr } = await cli.waitWithStderr();
 
-    let err = "";
-    cli.addLogListener("stderr", (data: string) => {
-      err += data;
-    });
-    cli.wait().then(code => {
-      if (code === 0) {
-        const fileContent = readFileSync(tmp_file, { encoding: "utf-8" });
-        let map: { [key: string]: "NotInStore" | "Exist" } = {};
-        try {
-          map = JSON.parse(fileContent);
-        } catch (error) {
-          console.error("Failed to parse JSON:", error);
-        }
-        resolve(map);
-      } else {
-        reject(err);
-      }
-    });
-  });
+  if (exitCode !== 0) {
+    throw new Error(stderr);
+  }
+
+  const fileContent = readFileSync(tmp_file, { encoding: "utf-8" });
+  try {
+    return JSON.parse(fileContent);
+  } catch (error) {
+    console.error("Failed to parse JSON:", error);
+    return {};
+  }
 }
 
 export {

@@ -66,4 +66,54 @@ export class Cli implements IDisposable {
       });
     });
   };
+
+  /**
+   * Wait for process to complete while collecting stderr.
+   * Useful for commands that write results to files.
+   */
+  public waitWithStderr = async (): Promise<{
+    exitCode: number;
+    stderr: string;
+  }> => {
+    let stderr = "";
+    this.addLogListener("stderr", data => {
+      stderr += data;
+    });
+    const exitCode = await this.wait();
+    return { exitCode, stderr };
+  };
+
+  /**
+   * Parse stdout stream until parser returns a non-null result.
+   * Resolves immediately when parser finds a result.
+   * Rejects if process exits without parser finding a result.
+   */
+  public runAndParse = <T>(parser: (stdout: string) => T | null): Promise<T> => {
+    return new Promise((resolve, reject) => {
+      let result: T | null = null;
+      let stderr = "";
+
+      this.addLogListener("stdout", data => {
+        if (result !== null) return;
+
+        const parsed = parser(data);
+        if (parsed !== null) {
+          result = parsed;
+          resolve(parsed);
+        }
+      });
+
+      this.addLogListener("stderr", data => {
+        stderr += data;
+      });
+
+      this.wait().then(exitCode => {
+        if (result === null) {
+          const errorMsg =
+            stderr || `Process exited with code ${exitCode} without result`;
+          reject(new Error(errorMsg));
+        }
+      });
+    });
+  };
 }
