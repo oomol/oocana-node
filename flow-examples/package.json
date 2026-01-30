@@ -2,7 +2,7 @@
   "name": "@oomol/oocana-test",
   "private": true,
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "ts-check": "tsc --noEmit",
     "test": "pnpm run block && pnpm run query && pnpm run flow && pnpm run concurrency && pnpm run cache && pnpm run subflow && pnpm run slot",
     "block": "vitest run test/block.test.ts --bail 1",
     "cache": "vitest run test/cache.test.ts --bail 1",
