@@ -28,12 +28,13 @@ export function generateSpawnEnvs(
   const path = baseEnvs.PATH || "";
   spawnedEnvs.PATH = path;
 
-  for (const key of Object.keys(baseEnvs)) {
+  // OOCANA_/OOMOL_ vars always come from process.env (runtime config)
+  for (const key of Object.keys(process.env)) {
     if (
       (key.startsWith("OOCANA_") || key.startsWith("OOMOL_")) &&
-      !!baseEnvs[key]
+      !!process.env[key]
     ) {
-      spawnedEnvs[key] = baseEnvs[key];
+      spawnedEnvs[key] = process.env[key];
     }
   }
 

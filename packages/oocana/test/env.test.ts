@@ -68,30 +68,52 @@ describe("generateSpawnEnvs", () => {
   });
 
   describe("OOCANA_ and OOMOL_ prefix handling", () => {
-    it("should copy OOCANA_ prefixed vars from base environment", () => {
+    it("should always copy OOCANA_ prefixed vars from process.env, not defaultEnvs", () => {
+      // Set in process.env (runtime config)
+      process.env.OOCANA_DEBUG = "from_process";
+      process.env.OOCANA_CONFIG = "/process/config";
+
+      // Different values in defaultEnvs
       const defaultEnvs: SpawnedEnvs = {
         PATH: "/path",
-        OOCANA_DEBUG: "true",
-        OOCANA_CONFIG: "/config",
+        OOCANA_DEBUG: "from_default",
+        OOCANA_CONFIG: "/default/config",
       };
 
       const result = generateSpawnEnvs({}, undefined, defaultEnvs);
 
-      expect(result.OOCANA_DEBUG).toBe("true");
-      expect(result.OOCANA_CONFIG).toBe("/config");
+      // Should use process.env values, not defaultEnvs
+      expect(result.OOCANA_DEBUG).toBe("from_process");
+      expect(result.OOCANA_CONFIG).toBe("/process/config");
     });
 
-    it("should copy OOMOL_ prefixed vars from base environment", () => {
+    it("should always copy OOMOL_ prefixed vars from process.env, not defaultEnvs", () => {
+      // Set in process.env (runtime config)
+      process.env.OOMOL_TOKEN = "process_secret";
+      process.env.OOMOL_ENV = "process_env";
+
+      // Different values in defaultEnvs
       const defaultEnvs: SpawnedEnvs = {
         PATH: "/path",
-        OOMOL_TOKEN: "secret",
-        OOMOL_ENV: "production",
+        OOMOL_TOKEN: "default_secret",
+        OOMOL_ENV: "default_env",
       };
 
       const result = generateSpawnEnvs({}, undefined, defaultEnvs);
 
-      expect(result.OOMOL_TOKEN).toBe("secret");
-      expect(result.OOMOL_ENV).toBe("production");
+      // Should use process.env values, not defaultEnvs
+      expect(result.OOMOL_TOKEN).toBe("process_secret");
+      expect(result.OOMOL_ENV).toBe("process_env");
+    });
+
+    it("should include OOCANA_/OOMOL_ vars from process.env even when defaultEnvs is provided", () => {
+      process.env.OOCANA_RUNTIME = "runtime_value";
+
+      const defaultEnvs: SpawnedEnvs = { PATH: "/custom" };
+      const result = generateSpawnEnvs({}, undefined, defaultEnvs);
+
+      expect(result.OOCANA_RUNTIME).toBe("runtime_value");
+      expect(result.PATH).toBe("/custom");
     });
 
     it("should not copy vars without OOCANA_/OOMOL_ prefix from base", () => {
