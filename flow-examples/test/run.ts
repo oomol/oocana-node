@@ -40,7 +40,7 @@ export async function runFlow(
 
   const task = await cli.runFlow({
     flowPath: path.join(workspace, "flows", flow, "flow.oo.yaml"),
-    searchPaths: [packages].join(","),
+    searchPaths: [packages],
     bindPaths: [{ src: `${homedir()}/.oocana`, dst: "/root/.oocana" }],
     bindPathFile: await bindFile(),
     tempRoot: tmpdir(),
