@@ -5,9 +5,7 @@ import { generateSpawnEnvs } from "./env";
 import { tmpdir } from "node:os";
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
-
-const bindPathPattern =
-  /^src=([^,]+),dst=([^,]+)(?:,(?:ro|rw))?(?:,(?:nonrecursive|recursive))?$/;
+import { validateBindPath } from "./validation";
 
 type PackageOptions = {
   packagePath: string;
@@ -74,10 +72,7 @@ async function createPackageLayer({
 
   const args = ["package-layer", "create", packagePath];
   for (const path of bind_paths ?? []) {
-    if (!bindPathPattern.test(path)) {
-      `Invalid bind path format: ${path}. Expected format: src=<source>,dst=<destination>,[ro|rw],[nonrecursive|recursive]`;
-    }
-
+    validateBindPath(path);
     args.push("--bind-paths", path);
   }
 
