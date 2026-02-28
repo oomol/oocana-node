@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.24.2](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.24.1...@oomol/oocana-v0.24.2) (2026-02-28)
+
+
+### Features
+
+* **oocana:** add --remote-block-url and --remote-block-timeout CLI args ([#426](https://github.com/oomol/oocana-node/issues/426)) ([ad1d03a](https://github.com/oomol/oocana-node/commit/ad1d03a774b91710cc3b1933b3641eee3143687c))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.30.36 ([#424](https://github.com/oomol/oocana-node/issues/424)) ([9374858](https://github.com/oomol/oocana-node/commit/93748589a7dbcb457ef81c76f572363197540f3b))
+
 ## [0.24.1](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.24.0...@oomol/oocana-v0.24.1) (2026-01-30)
 
 
