@@ -29,10 +29,10 @@
     "test": "vitest run"
   },
   "optionalDependencies": {
-    "@oomol/oocana-cli-aarch64-apple-darwin": "0.30.34",
-    "@oomol/oocana-cli-aarch64-unknown-linux-gnu": "0.30.34",
-    "@oomol/oocana-cli-x86_64-apple-darwin": "0.30.34",
-    "@oomol/oocana-cli-x86_64-unknown-linux-gnu": "0.30.34"
+    "@oomol/oocana-cli-aarch64-apple-darwin": "0.30.36",
+    "@oomol/oocana-cli-aarch64-unknown-linux-gnu": "0.30.36",
+    "@oomol/oocana-cli-x86_64-apple-darwin": "0.30.36",
+    "@oomol/oocana-cli-x86_64-unknown-linux-gnu": "0.30.36"
   },
   "dependencies": {
     "@wopjs/disposable": "^0.1.11",
