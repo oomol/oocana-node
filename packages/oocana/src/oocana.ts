@@ -63,6 +63,10 @@ interface RunConfig {
   envFile?: string;
   /** search paths for block packages */
   searchPaths?: string[];
+  /** Remote block API base URL. Overrides OOCANA_REMOTE_BLOCK_URL env var. */
+  remoteBlockUrl?: string;
+  /** Timeout in seconds for remote block execution. Overrides OOCANA_REMOTE_BLOCK_TIMEOUT env var. Default is 1800 (30 minutes). Use 0 to disable timeout and poll indefinitely. */
+  remoteBlockTimeout?: number;
 }
 
 interface EnvConfig {
@@ -128,6 +132,8 @@ function buildRunConfigArgs({
   envs,
   envFile,
   searchPaths,
+  remoteBlockUrl,
+  remoteBlockTimeout,
 }: RunConfig): string[] {
   const args: string[] = [];
   if (sessionId) {
@@ -181,6 +187,13 @@ function buildRunConfigArgs({
 
   if (searchPaths) {
     args.push("--search-paths", searchPaths.join(","));
+  }
+
+  if (remoteBlockUrl) {
+    args.push("--remote-block-url", remoteBlockUrl);
+  }
+  if (remoteBlockTimeout !== undefined) {
+    args.push("--remote-block-timeout", String(remoteBlockTimeout));
   }
 
   return args;
