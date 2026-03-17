@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.8](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.7...@oomol/oocana-types-v0.23.8) (2026-03-17)
+
+
+### Features
+
+* expose oomol fusion api url ([#432](https://github.com/oomol/oocana-node/issues/432)) ([11017b2](https://github.com/oomol/oocana-node/commit/11017b2abca297913294299bd3fc17b3e3c475c4))
+
 ## [0.23.7](https://github.com/oomol/oocana-node/compare/@oomol/oocana-types-v0.23.6...@oomol/oocana-types-v0.23.7) (2025-11-07)
 
 
