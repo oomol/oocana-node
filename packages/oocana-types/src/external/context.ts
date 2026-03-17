@@ -160,7 +160,7 @@ export interface Context<
   getOomolToken: () => Promise<string>;
 
   /** Get OOMOL Fusion API URL from context. */
-  get oomolFusionApiUrl(): string;
+  readonly oomolFusionApiUrl: string;
 
   readonly output: {
     /**
