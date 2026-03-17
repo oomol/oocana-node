@@ -72,7 +72,7 @@ export type OOMOL_LLM_ENV = {
   readonly baseUrl: string;
   /** {basUrl}/v1 openai compatible endpoint */
   readonly baseUrlV1: string;
-  readonly fusionUrl: string;
+  readonly fusionApiUrl: string;
   readonly oomolEnv: string;
   readonly apiKey: string;
   readonly models: string[];
