@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.22.9](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.22.8...@oomol/oocana-sdk-v0.22.9) (2026-03-17)
+
+
+### Features
+
+* expose oomol fusion api url ([#432](https://github.com/oomol/oocana-node/issues/432)) ([11017b2](https://github.com/oomol/oocana-node/commit/11017b2abca297913294299bd3fc17b3e3c475c4))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @oomol/oocana-types bumped to 0.23.8
+
 ## [0.22.8](https://github.com/oomol/oocana-node/compare/@oomol/oocana-sdk-v0.22.7...@oomol/oocana-sdk-v0.22.8) (2025-11-07)
 
 
