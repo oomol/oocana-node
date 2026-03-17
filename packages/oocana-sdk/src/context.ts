@@ -124,6 +124,10 @@ export class ContextImpl implements Context {
     return token;
   }
 
+  get oomolFusionApiUrl(): string {
+    return process.env.OOMOL_FUSION_API_URL || "";
+  }
+
   get OOMOL_LLM_ENV(): OOMOL_LLM_ENV {
     const env = Object.freeze({
       baseUrl: process.env.OOMOL_LLM_BASE_URL || "",
