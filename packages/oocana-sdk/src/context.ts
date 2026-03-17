@@ -129,9 +129,11 @@ export class ContextImpl implements Context {
       baseUrl: process.env.OOMOL_LLM_BASE_URL || "",
       baseUrlV1: process.env.OOMOL_LLM_BASE_URL_V1 || "",
       apiKey: process.env.OOMOL_LLM_API_KEY || "",
+      fusionApiUrl: process.env.OOMOL_FUSION_API_URL || "",
       models: process.env.OOMOL_LLM_MODELS
         ? process.env.OOMOL_LLM_MODELS.split(",")
         : [],
+      oomolEnv: process.env.OOMOL_ENV || "prod",
     });
 
     if (!this.#envWarningsShown) {
