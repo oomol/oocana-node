@@ -38,6 +38,7 @@ export class ContextImpl implements Context {
   #variableStore: { [index: string]: any };
   #envWarningsShown = false;
   #tokenWarningShown = false;
+  #fusionApiUrlWarningShown = false;
   static readonly keepAlive = Symbol("keepAlive");
   keepAlive = ContextImpl.keepAlive;
   readonly flowNodeStore: { [index: string]: any };
@@ -125,7 +126,14 @@ export class ContextImpl implements Context {
   }
 
   get oomolFusionApiUrl(): string {
-    return process.env.OOMOL_FUSION_API_URL || "";
+    const url = process.env.OOMOL_FUSION_API_URL || "";
+    if (!url && !this.#fusionApiUrlWarningShown) {
+      this.warning(
+        "OOMOL_FUSION_API_URL environment variable is not set, features depending on the Fusion API may not work properly."
+      );
+      this.#fusionApiUrlWarningShown = true;
+    }
+    return url;
   }
 
   get OOMOL_LLM_ENV(): OOMOL_LLM_ENV {
