@@ -21,6 +21,7 @@ jobs:
     env:
       OVMLAYER_LOG: /tmp/ovmlayer.log
       OVMLAYER_REPOSITORY: ${{ vars.OVMLAYER_REPOSITORY || 'ovmlayer-next' }}
+      OVMLAYER_USE_RUNTIME_SETUP: "true"
     steps:
       - uses: actions/checkout@v4
       - name: Generate GitHub App Token for oomol/${{ env.OVMLAYER_REPOSITORY }}
@@ -36,6 +37,7 @@ jobs:
           repository: ${{ env.OVMLAYER_REPOSITORY }}
           rootfs: https://github.com/oomol/ovmlayer-rootfs/releases/download/base-rootfs%400.3.0/amd64-rootfs.tar
           token: ${{ steps.app-token.outputs.token }}
+          use-runtime-setup: ${{ env.OVMLAYER_USE_RUNTIME_SETUP }}
       - name: setup oocana-node action without layer
         uses: ./.github/actions/oocana-node
         with:
