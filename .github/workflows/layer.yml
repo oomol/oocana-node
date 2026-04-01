@@ -54,7 +54,7 @@ jobs:
           private-key: ${{ secrets.OOMOL_DOWNLOADER_APP_PRIVATE_KEY }}
           owner: oomol
           repositories: ${{ env.OVMLAYER_REPOSITORY }}
-      - uses: ./.github/actions/ovmlayer
+      - uses: oomol/oocana-rust/.github/actions/ovmlayer@6c365c646efde55d6c4636b5921e237020ea2838
         with:
           repository: ${{ env.OVMLAYER_REPOSITORY }}
           rootfs: https://github.com/oomol/ovmlayer-rootfs/releases/download/base-rootfs%400.4.0/${{steps.rootfs.outputs.architecture}}-rootfs.tar
