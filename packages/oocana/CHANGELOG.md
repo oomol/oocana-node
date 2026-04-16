@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.24.9](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.24.8...@oomol/oocana-v0.24.9) (2026-04-16)
+
+
+### Features
+
+* **oocana:** add connector base url api ([#446](https://github.com/oomol/oocana-node/issues/446)) ([2a564f4](https://github.com/oomol/oocana-node/commit/2a564f432a24e895bcee627721d494952e667493))
+
+
+### Update dependencies
+
+* **deps:** update [@oomol](https://github.com/oomol) packages to v0.30.49 ([#444](https://github.com/oomol/oocana-node/issues/444)) ([3138372](https://github.com/oomol/oocana-node/commit/3138372d841382920347b97d0ef6587cea5b2308))
+
 ## [0.24.8](https://github.com/oomol/oocana-node/compare/@oomol/oocana-v0.24.7...@oomol/oocana-v0.24.8) (2026-04-15)
 
 
