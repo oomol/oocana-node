@@ -30,7 +30,7 @@ jobs:
   layer-test:
     strategy:
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm]
+        os: [ubuntu-latest, blacksmith-4vcpu-ubuntu-2404-arm]
     runs-on: ${{ matrix.os }}
     needs: [skip]
     if: ${{ needs.skip.outputs.should_skip != 'true' }}
@@ -100,7 +100,7 @@ jobs:
           retention-days: 1
         if: failure()
   layer-check:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     needs: [layer-test]
     if: ${{ always() }}
     steps:

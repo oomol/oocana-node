@@ -12,7 +12,7 @@ jobs:
       - run: |
           echo '${{toJson(github.event.workflow_run)}}'
   install-check:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2404
     if: startsWith(github.event.workflow_run.head_branch, '@oomol/oocana-v')
     strategy:
       matrix:

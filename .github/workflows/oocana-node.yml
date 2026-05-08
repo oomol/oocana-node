@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   action-test:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     env:
       OVMLAYER_LOG: /tmp/ovmlayer.log
       OVMLAYER_REPOSITORY: ${{ vars.OVMLAYER_REPOSITORY || 'ovmlayer-next' }}
