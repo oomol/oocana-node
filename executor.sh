@@ -6,6 +6,7 @@ echo $DIR
 cd $DIR
 
 mp=m
+package_manager=$(node -p "require('./package.json').packageManager")
 
 sudo ovmlayer create executor
 corepack enable
@@ -13,7 +14,7 @@ corepack enable
 pnpm install && pnpm build
 tarball=$(cd packages/executor && pnpm pack --pack-destination /tmp/executor)
 tar -zxvf $tarball -C /tmp/executor
-(cd /tmp/executor/package && npm pkg delete devDependencies && pnpm install)
+(cd /tmp/executor/package && npm pkg delete devDependencies && npm pkg set "packageManager=$package_manager" && pnpm install)
 (cd /tmp/executor/package/dist && chmod +x nodejs-executor)
 
 mv /tmp/executor/package /tmp/executor/executor
