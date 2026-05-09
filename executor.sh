@@ -13,7 +13,7 @@ corepack enable
 
 pnpm install && pnpm build
 tarball=$(cd packages/executor && pnpm pack --pack-destination /tmp/executor)
-tar -zxvf $tarball -C /tmp/executor
+tar -zxvf "$tarball" -C /tmp/executor
 (cd /tmp/executor/package && npm pkg delete devDependencies && npm pkg set "packageManager=$package_manager" && pnpm install)
 (cd /tmp/executor/package/dist && chmod +x nodejs-executor)
 
