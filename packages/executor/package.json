@@ -32,5 +32,6 @@
     "@hyrious/esbuild-dev": "^0.10.10",
     "minimist": "^1.2.7",
     "remitter": "^0.5.1"
-  }
+  },
+  "packageManager": "pnpm@9.12.3"
 }
