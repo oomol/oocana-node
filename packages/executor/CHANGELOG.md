@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.46](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.45...@oomol/executor-v0.20.46) (2026-05-09)
+
+
+### Bug Fixes
+
+* **executor:** pin pnpm for packed installer ([#452](https://github.com/oomol/oocana-node/issues/452)) ([ddc02af](https://github.com/oomol/oocana-node/commit/ddc02aff2a3c511be5935c83dbc1a71be06f4759))
+
 ## [0.20.45](https://github.com/oomol/oocana-node/compare/@oomol/executor-v0.20.44...@oomol/executor-v0.20.45) (2026-03-17)
 
 
